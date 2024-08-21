@@ -12,16 +12,36 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
+import Home from "./pages/home.jsx";
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<Layout />}>
-      <Route path="/" element={<App />} />
-      <Route path="/signup" element={<SignUp />} />
-      <Route path="/login" element={<Login />} />
-    </Route>
-  )
-);
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/signup",
+        element: <SignUp />,
+      },
+    ],
+  },
+]);
+
+// createRoutesFromElements(
+//   <Route path="/" element={<Layout />}>
+//     <Route path="/" element={<App />} />
+//     <Route path="/signup" element={<SignUp />} />
+//     <Route path="/login" element={<Login />} />
+//   </Route>
+// )
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

@@ -1,11 +1,29 @@
+import React, { useEffect, useState } from "react";
+import { Outlet } from "react-router-dom";
+import { Header, Footer } from "./components";
+import { useDispatch } from "react-redux";
+import loadingimg from './assets/loading-logo.gif'
 
 function App() {
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
-  return (
+  useEffect(() => {
+    //call get current user api
+  }, []);
+  return !loading ? (
     <>
-      <h1 className='bg-orange-400 text-3xl p-4 text-center'>Stylo Resume Maker</h1>
+      <Header />
+      <main>
+        <Outlet />
+      </main>
+      <Footer />
     </>
-  )
+  ) : (
+    <div className="h-screen w-full flex justify-center items-center bg-purple-400 text-center">
+      <img className="size-[200px]" src={loadingimg} alt="" />
+    </div>
+  );
 }
 
-export default App
+export default App;

@@ -1,9 +1,10 @@
 import React from "react"
+import HomeCompo from "../components/Home"
 
 function Home() {
   return (
     <>
-      <h1>|Home|</h1>
+      <HomeCompo />
     </>
   )
 }

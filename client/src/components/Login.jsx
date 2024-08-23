@@ -1,10 +1,25 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { login } from "../features/authslice";
+import { useDispatch } from "react-redux";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    dispatch(
+      // sample dummy data
+      // login({
+      //   username: "johndoe",
+      //   password: "Password1234",
+      // })
+    );
+    console.log("login");
+  };
 
   return (
     <div className="w-full min-h-screen flex justify-center items-center">
@@ -52,6 +67,7 @@ function Login() {
           <div className="flex justify-center mt-4">
             <button
               type="submit"
+              onClick={handleLogin}
               className="px-16 py-2 bg-purple-600 text-white font-semibold text-base rounded-full hover:bg-purple-700 max-sm:px-12"
             >
               Login

@@ -24,7 +24,7 @@ function Profile() {
           {({ open }) => (
             <>
               <Popover.Button
-                className={`block text-2xl font-semibold text-white h-[50px] w-[50px] rounded-full bg-orange-700`}
+                className={`block text-xl font-semibold text-white h-[40px] w-[40px] rounded-full bg-orange-700`}
               >
                 <div>{profileWord}</div>
               </Popover.Button>

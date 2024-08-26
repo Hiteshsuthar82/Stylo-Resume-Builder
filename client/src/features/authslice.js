@@ -11,16 +11,17 @@ const initialState = {
 export const login = createAsyncThunk(
   "auth/login",
   async (credentials, { rejectWithValue }) => {
-    try {
+    try {     
       const response = await axios.post(
         "http://localhost:8000/api/v1/user/login",
-        credentials
+        credentials,
+        { withCredentials: true }
       );
 
       return response.data;
     } catch (error) {
+      console.log("Appwrite Service :: login :: error ", error);
       return rejectWithValue(error.response.data);
-      // console.log("Appwrite Service :: login :: error ", error);
     }
   }
 );
@@ -30,7 +31,7 @@ export const signup = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/v1/user/login",
+        "http://localhost:8000/api/v1/user/register",
         credentials
       );
       return response.data;
@@ -42,10 +43,15 @@ export const signup = createAsyncThunk(
 
 export const logout = createAsyncThunk(
   "auth/logout",
-  async ({ rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      await axios.post("http://localhost:8000/api/v1/user/logout");
+      await axios.post(
+        "http://localhost:8000/api/v1/user/logout",
+        {},
+        { withCredentials: true }
+      );
       console.log("loged out successfully");
+      return true;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -54,13 +60,15 @@ export const logout = createAsyncThunk(
 
 export const getCurrentUser = createAsyncThunk(
   "auth/getCurrentUser",
-  async ({ rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/v1/user/get-current-user"
+        "http://localhost:8000/api/v1/user/get-current-user",
+        { withCredentials: true }
       );
+      
       return response.data;
-    } catch (error) {
+    } catch (error) {      
       return rejectWithValue(error.response.data);
     }
   }
@@ -92,8 +100,6 @@ export const authSlice = createSlice({
         state.error = null;
       })
       .addCase(login.fulfilled, (state, actions) => {
-        console.log(actions.payload);
-
         state.loading = false;
         state.status = true;
         state.user = actions.payload.data.user;
@@ -145,11 +151,11 @@ export const authSlice = createSlice({
         state.status = true;
         state.user = actions.payload.data;
       })
-      .addCase(getCurrentUser.rejected, (state) => {
+      .addCase(getCurrentUser.rejected, (state, actions) => {
         state.loading = false;
         state.error = actions?.payload;
         state.status = false;
-        state.userData = null;
+        state.user = null;
       });
 
     // changePassword

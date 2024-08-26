@@ -1,46 +1,61 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { login } from "../features/authslice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
+import buttonLoader from "./../assets/button-loader.gif";
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const dispatch = useDispatch();
+  const { register, handleSubmit } = useForm();
+  const { loading, error } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    dispatch(
-      // sample dummy data
-      // login({
-      //   username: "johndoe",
-      //   password: "Password1234",
-      // })
-    );
+  const handleLogin = async (data) => {
+    // e.preventDefault();
+    // dispatch();
+    // sample dummy data
+    // login({
+    //   username: "johndoe",
+    //   password: "Password1234",
+    // })
     console.log("login");
+
+    try {
+      console.log(data);
+      const session = await dispatch(login(data)).unwrap();
+      if (session) {
+        console.log(session);
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <div className="w-full min-h-screen flex justify-center items-center">
       <div className="bg-white border-2 rounded-lg flex flex-col w-full max-w-md min-h-[440px] shadow-2xl max-sm:w-[312px]">
-        <form>
+        <form onSubmit={handleSubmit(handleLogin)}>
           <div className="flex flex-col items-center mt-10 mx-auto my-6">
             <h2 className="font-poppins text-[35px] font-semibold text-purple-700 max-sm:text-3xl">
               Login
             </h2>
             <div className="w-[80px] border-2 border-purple-700 mt-2 max-sm:w-14"></div>
           </div>
+          {error && (
+            <p className="text-red-600 mt-8 text-center">{error.message}</p>
+          )}
           <div className="flex flex-col items-center">
             <div className="flex items-center w-[70%] border-2 border-gray-400 rounded-full my-2 px-2">
               <img src="src/assets/mail1.svg" alt="" />
               <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Username"
+                {...register("username", {
+                  required: true,
+                })}
                 className="w-full pl-2 py-2 text-base font-semibold outline-none bg-transparent"
-                required
               />
             </div>
             <div className="flex items-center w-[70%] border-2 border-gray-400 rounded-full my-2 px-2">
@@ -48,10 +63,8 @@ function Login() {
               <input
                 type="password"
                 placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                {...register("password", { required: true })}
                 className="w-full p-2 text-base font-semibold outline-none bg-transparent"
-                required
               />
             </div>
           </div>
@@ -67,10 +80,13 @@ function Login() {
           <div className="flex justify-center mt-4">
             <button
               type="submit"
-              onClick={handleLogin}
-              className="px-16 py-2 bg-purple-600 text-white font-semibold text-base rounded-full hover:bg-purple-700 max-sm:px-12"
+              className="h-10 w-44 px-16 py-2 bg-purple-600 text-white font-semibold text-base rounded-full hover:bg-purple-700 max-sm:px-12 flex justify-center items-center"
             >
-              Login
+              {loading ? (
+                <img src={buttonLoader} alt="Loading.." className="w-7 h-5" />
+              ) : (
+                "Login"
+              )}
             </button>
           </div>
           <div className=" w-auto flex justify-evenly items-start my-9 ">

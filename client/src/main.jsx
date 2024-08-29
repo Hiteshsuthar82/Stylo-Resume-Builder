@@ -4,7 +4,7 @@ import App from "./App.jsx";
 import "./index.css";
 import { Provider } from "react-redux";
 import { store } from "./store/store.js";
-import { SignUp, Login } from "./components/index.js";
+import { SignUp, Login, Home } from "./components/index.js";
 import Layout from "../Layout.jsx";
 import {
   createBrowserRouter,
@@ -12,7 +12,8 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import Home from "./pages/home.jsx";
+// import Home from "./pages/home.jsx";
+
 
 const router = createBrowserRouter([
   {

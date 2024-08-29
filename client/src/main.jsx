@@ -41,10 +41,10 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/signup",
+        path: "/userProfile",
         element: (
-          <AuthLayout authentication={false}>
-            <SignUp />
+          <AuthLayout authentication>
+            <UserProfile />
           </AuthLayout>
         ),
       },

@@ -42,7 +42,7 @@ function Profile() {
                   <div className="py-3">
                     <Link
                       className="block rounded-lg py-2 px-3 transition hover:bg-white/10"
-                      to="#"
+                      to="/userProfile"
                     >
                       <p className="font-semibold text-white">Profile</p>
                     </Link>

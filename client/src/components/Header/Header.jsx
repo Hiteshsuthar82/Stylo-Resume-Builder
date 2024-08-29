@@ -8,7 +8,6 @@ import { isAction } from "@reduxjs/toolkit";
 function Header() {
   const navigate = useNavigate();
   const authstatus = useSelector((state) => state.auth.status);
-  console.log(authstatus);
 
   const navitems = [
     {
@@ -28,12 +27,12 @@ function Header() {
     },
     {
       name: "All templates",
-      slug: "/viewall",
+      slug: "/allTemplates",
       active: authstatus,
     },
     {
-      name: "create templates",
-      slug: "/createone",
+      name: "My Details",
+      slug: "/myDetails",
       active: authstatus,
     },
   ];
@@ -65,9 +64,9 @@ function Header() {
             {authstatus ? (
               <Profile />
             ) : (
-              <button className="px-4 py-2 bg-white text-[#9333ea] rounded-full font-semibold" onClick={() => navigate("getStarted")}>
+              <Link to='/allTemplates' className="px-4 py-2 bg-white text-[#9333ea] rounded-full font-semibold" onClick={() => navigate("getStarted")}>
                 Get Started
-              </button>
+              </Link>
             )}
           </div>
         </nav>

@@ -2,7 +2,7 @@ import { Popover } from "@headlessui/react";
 import { Transition } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/authslice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Profile() {
   const dispatch = useDispatch();
@@ -40,24 +40,23 @@ function Profile() {
               >
                 <Popover.Panel className="absolute right-[-20px] z-10 mt-3 w-40 transform rounded-lg bg-black p-3 shadow-lg">
                   <div className="py-3">
-                    <a
+                    <Link
                       className="block rounded-lg py-2 px-3 transition hover:bg-white/10"
-                      href="#"
+                      to="#"
                     >
                       <p className="font-semibold text-white">Profile</p>
-                    </a>
-                    <a
+                    </Link>
+                    <Link
                       className="block rounded-lg py-2 px-3 transition hover:bg-white/10"
-                      href="#"
+                      to="/myResumes"
                     >
                       <p className="font-semibold text-white">My Resumes</p>
-                    </a>
-                    <a
+                    </Link>
+                    <Link
                       className="block rounded-lg py-2 px-3 transition hover:bg-white/10"
-                      href="#"
                     >
                       <p className="font-semibold text-white" onClick={handleLogout}>Logout</p>
-                    </a>
+                    </Link>
                   </div>
                 </Popover.Panel>
               </Transition>

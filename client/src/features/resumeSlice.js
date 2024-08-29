@@ -5,6 +5,28 @@ const initialState = {
   loading: false,
   status: false,
   data: null,
+  allTemplates: [
+    {
+      src: "https://d.novoresume.com/images/doc/skill-based-resume-template.png",
+      id: "t1",
+    },
+    {
+      src: "https://cdn.create.microsoft.com/catalog-assets/en-us/ce343500-4aff-4dfa-b337-57c78459c6ee/thumbnails/616/modern-nursing-resume-orange-modern-geometric-1-1-1dc2d11a00d6.webp",
+      id: "t2",
+    },
+    {
+      src: "https://d25zcttzf44i59.cloudfront.net/official-resume-template.png",
+      id: "t3",
+    },
+    {
+      src: "https://d.novoresume.com/images/doc/general-resume-template.png",
+      id: "t4",
+    },
+    {
+      src: "https://marketplace.canva.com/EAFBL8KRmSA/1/0/1131w/canva-white-simple-student-cv-resume-NXs7xSf0K8I.jpg",
+      id: "t5",
+    },
+  ],
 };
 
 const creteResume = createAsyncThunk(
@@ -69,7 +91,7 @@ const getResumeData = createAsyncThunk(
 );
 
 const deleteResume = createAsyncThunk(
-  "resume/getResumeData",
+  "resume/deleteResume",
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.delete(
@@ -77,7 +99,7 @@ const deleteResume = createAsyncThunk(
         { withCredentials: true }
       );
       console.log(response.data);
-      
+
       return true;
     } catch (error) {
       console.log("selected resume deleted successfully.");

@@ -4,7 +4,7 @@ import App from "./App.jsx";
 import "./index.css";
 import { Provider } from "react-redux";
 import { store } from "./store/store.js";
-import { SignUp, Login } from "./components/index.js";
+import { SignUp, Login, AuthLayout, AllTemplates, MyResumes, ResumeView, UserProfile } from "./components/index.js";
 import Layout from "../Layout.jsx";
 import {
   createBrowserRouter,
@@ -25,11 +25,51 @@ const router = createBrowserRouter([
       },
       {
         path: "/login",
-        element: <Login />,
+        element: (
+          <AuthLayout authentication={false}>
+            <Login />
+          </AuthLayout>
+        ),
       },
       {
         path: "/signup",
-        element: <SignUp />,
+        element: (
+          <AuthLayout authentication={false}>
+            <SignUp />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/signup",
+        element: (
+          <AuthLayout authentication={false}>
+            <SignUp />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/allTemplates",
+        element: (
+          <AuthLayout authentication>
+            <AllTemplates />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/myResumes",
+        element: (
+          <AuthLayout authentication>
+            <MyResumes />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/resumeView/:resumeId",
+        element: (
+          <AuthLayout authentication>
+            <ResumeView />
+          </AuthLayout>
+        ),
       },
     ],
   },

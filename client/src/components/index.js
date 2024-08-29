@@ -5,5 +5,27 @@ import Login from "./Login";
 import Profile from "./Header/Profile";
 import Container from "./container/Container";
 import Logo from "./logo";
+import AuthLayout from "./AuthLayout";
+import Template from "./Template";
+import AllTemplates from "./AllTemplates/AllTemplates";
+import MyResumes from "./MyResumes/MyResumes";
+import ShowImagePopup from "./ShowImagePopup";
+import ResumeView from "./ResumeView";
+import UserProfile from "./UserProfile";
 
-export { Header, Footer, Logo, SignUp, Login, Profile, Container };
+export {
+  Header,
+  Footer,
+  Logo,
+  AuthLayout,
+  SignUp,
+  Login,
+  Profile,
+  Container,
+  Template,
+  ShowImagePopup,
+  AllTemplates,
+  MyResumes,
+  ResumeView,
+  UserProfile
+};

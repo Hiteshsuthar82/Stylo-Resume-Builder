@@ -2,6 +2,7 @@ import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
 import SignUp from "./SignUp";
 import Login from "./Login";
+import Home from "./Home";
 import Profile from "./Header/Profile";
 import Container from "./container/Container";
 import Logo from "./logo";
@@ -16,6 +17,7 @@ import UserProfile from "./UserProfile";
 export {
   Header,
   Footer,
+  Home,
   Logo,
   AuthLayout,
   SignUp,

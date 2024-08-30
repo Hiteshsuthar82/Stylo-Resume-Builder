@@ -110,7 +110,13 @@ const resumeSchema = new mongoose.Schema({
     owner: {
         type: Schema.Types.ObjectId,
         ref: "User"
-    }
+    },
+    templeteId: {
+        type: String,
+    },
+    filldata:{
+        type: Boolean,
+    },
 }, { timestamps: true });
 
 export const Resume = mongoose.model('Resume', resumeSchema);

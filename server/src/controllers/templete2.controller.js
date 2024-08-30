@@ -13,8 +13,9 @@ const insertDummyData = asyncHandler(async (req, res, next) => {
   try {
     const dummyResume = {
       name: "Jake Ryan",
-      image:
-        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fconstructingexcellence.org.uk%2Fdummy-member%2F&psig=AOvVaw0MK1-isonIeKyHplT_z_VX&ust=1723723747150000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCOCbqbe59IcDFQAAAAAdAAAAABAE",
+      templeteId:101,
+      filldata:false,
+      image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSn2NgTLaAhwax8ADJoioSGTcwDMAJFKF3leg&s",
       contact: {
         phone: "123-456-7890",
         email: "jake@uni.edu",
@@ -187,11 +188,14 @@ const updateResumeByResumeId = asyncHandler(async (req, res, next) => {
     }
 });
 
+// 😊workking fine ----
+
 const updateUserAvatar = asyncHandler(async (req, res, next) => {
-    try {
-      const userId = req.user._id;
+  try {
+    const userId = req.user._id;
       const { resumeId } = req.params; // Extract resumeId from URL
       console.log("resumeka is",resumeId)
+      console.log("user ka id",userId)
   
       if (!userId) {
         throw new ApiError(401, "Unauthorized to update avatar");
@@ -243,55 +247,14 @@ const updateUserAvatar = asyncHandler(async (req, res, next) => {
     }
   });
   
-
-// const updateUserAvatar = asyncHandler(async (req, res, next) => {
-//     try {
-//       const userId = req.user._id;
-//       const avatarLocalPath = req.file?.path;
-  
-//       if (!avatarLocalPath) {
-//         throw new ApiError(400, "File required");
-//       }
-  
-//       const avatarImg = await uploadOnCloudinary(avatarLocalPath);
-  
-//       if (!avatarImg) {
-//         throw new ApiError(500, "Error occurred while uploading file");
-//       }
-  
-//       // Find the resume associated with the user
-//       let resume = await Resume.findOne({ owner: userId });
-//       console.log("userka resume", resume);
-  
-//       if (!resume) {
-//         throw new ApiError(404, "Resume not found for this user");
-//       }
-  
-//       // Update the resume's image field
-//       resume.image = avatarImg.secure_url;
-  
-//       // Save the updated resume
-//       await resume.save();
-  
-//       return res
-//         .status(200)
-//         .json(
-//           new ApiResponse(
-//             200,
-//             resume,
-//             "Avatar updated and resume image updated successfully"
-//           )
-//         );
-//     } catch (error) {
-//       next(new ApiError(500, "Error updating avatar: " + error.message));
-//     }
-//   });
-
-
-
+// 😊workking fine ----
 const getResumesByUserId = asyncHandler(async (req, res, next) => {
   try {
     const userId = req.user._id; // User ID from request
+
+    if (!userId) {
+      throw new ApiError(401, "Unauthorized to fetch resumes");
+    }
     
     if (!userId) {
       throw new ApiError(401, "Unauthorized to fetch resumes");
@@ -318,6 +281,10 @@ const getResumeById = asyncHandler(async (req, res, next) => {
   try {
     const { resumeId } = req.params; // Resume ID from URL parameters
     console.log("Fetching resume with ID:", resumeId);
+
+    if (!resumeId) {
+     throw new ApiError(400, "Resume ID is required")
+    }
 
     // Find the resume by its ID
     const resume = await Resume.findById(resumeId);
@@ -357,6 +324,8 @@ const deleteResumeById = asyncHandler(async (req, res, next) => {
 }
 });
 
+
+// 😊workking fine ----
 const deleteAllResumesByUserId = asyncHandler(async (req, res, next) => {
     try {
     const userId = req.user._id; // User ID from request

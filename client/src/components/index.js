@@ -13,6 +13,8 @@ import MyResumes from "./MyResumes/MyResumes";
 import ShowImagePopup from "./ShowImagePopup";
 import ResumeView from "./ResumeView";
 import UserProfile from "./UserProfile";
+import StepsPage from "./StepsPage";
+import InputForm from "./InputForm";
 
 export {
   Header,
@@ -29,5 +31,7 @@ export {
   AllTemplates,
   MyResumes,
   ResumeView,
-  UserProfile
+  UserProfile,
+  StepsPage,
+  InputForm
 };

@@ -4,7 +4,18 @@ import App from "./App.jsx";
 import "./index.css";
 import { Provider } from "react-redux";
 import { store } from "./store/store.js";
-import { SignUp, Login, Home, AuthLayout, AllTemplates, MyResumes, ResumeView, UserProfile } from "./components/index.js";
+import {
+  SignUp,
+  Login,
+  Home,
+  AuthLayout,
+  AllTemplates,
+  InputForm,
+  MyResumes,
+  ResumeView,
+  UserProfile,
+  StepsPage,
+} from "./components/index.js";
 import Layout from "../Layout.jsx";
 import {
   createBrowserRouter,
@@ -12,8 +23,8 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
+// import StepsPage from "./components/StepsPage.jsx";
 // import Home from "./pages/home.jsx";
-
 
 const router = createBrowserRouter([
   {
@@ -49,10 +60,26 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "/steps",
+        element: (
+          <AuthLayout authentication>
+            <StepsPage />
+          </AuthLayout>
+        ),
+      },
+      {
         path: "/allTemplates",
         element: (
           <AuthLayout authentication>
             <AllTemplates />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/inputForm",
+        element: (
+          <AuthLayout authentication>
+            <InputForm />
           </AuthLayout>
         ),
       },

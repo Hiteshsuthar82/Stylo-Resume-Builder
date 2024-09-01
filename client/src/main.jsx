@@ -7,24 +7,17 @@ import { store } from "./store/store.js";
 import {
   SignUp,
   Login,
-  Home,
   AuthLayout,
   AllTemplates,
-  InputForm,
+  inputForm,
   MyResumes,
   ResumeView,
   UserProfile,
   StepsPage,
 } from "./components/index.js";
-import Layout from "../Layout.jsx";
-import {
-  createBrowserRouter,
-  createRoutesFromElements,
-  Route,
-  RouterProvider,
-} from "react-router-dom";
-// import StepsPage from "./components/StepsPage.jsx";
-// import Home from "./pages/home.jsx";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+import Home from "./pages/Home.jsx";
 
 const router = createBrowserRouter([
   {

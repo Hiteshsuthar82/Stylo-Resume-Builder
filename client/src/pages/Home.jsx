@@ -5,7 +5,6 @@ function Home() {
   return (
     <>
       <HomeCompo />
-      <h1>jbsedf</h1>
     </>
   )
 }

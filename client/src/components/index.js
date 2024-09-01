@@ -12,9 +12,11 @@ import AllTemplates from "./AllTemplates/AllTemplates";
 import MyResumes from "./MyResumes/MyResumes";
 import ShowImagePopup from "./ShowImagePopup";
 import ResumeView from "./ResumeView";
-import UserProfile from "./UserProfile";
 import StepsPage from "./StepsPage";
 import InputForm from "./InputForm";
+import UserDetailCard from "./UserProfile/UserDetailCard";
+import UserDetailListItem from "./UserProfile/UserDetailListItem";
+import UserProfile from "./UserProfile/UserProfile";
 
 export {
   Header,
@@ -31,7 +33,9 @@ export {
   AllTemplates,
   MyResumes,
   ResumeView,
-  UserProfile,
   StepsPage,
   InputForm
+  UserDetailListItem,
+  UserDetailCard,
+  UserProfile,
 };

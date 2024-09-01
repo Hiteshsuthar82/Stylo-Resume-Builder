@@ -113,8 +113,9 @@ const resumeSchema = new mongoose.Schema({
     },
     templeteId: {
         type: String,
+        required: true,
     },
-    filldata:{
+    permanentdata:{
         type: Boolean,
     },
 }, { timestamps: true });

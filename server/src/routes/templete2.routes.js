@@ -20,15 +20,17 @@ router.route("/edit-resume").post(verifyJWT,editResume);
 router.route("/resume-edit/:resumeId").patch(verifyJWT,updateResumeByResumeId);
 
 router
-.route("/resume/:resumeId/avatar")
+.route("/image/:resumeId")
 .patch(verifyJWT, upload.single("image"), updateUserAvatar);
 
 // /resume/:resumeId/avatar
 
-router.route("/resume/:userId").get(verifyJWT,getResumesByUserId);
+router.route("/Allresume").get(verifyJWT,getResumesByUserId);
+router.route("/delete-Allresume").delete(verifyJWT,deleteAllResumesByUserId);
+
+
 router.route("/resume-data/:resumeId").get(verifyJWT,getResumeById);
 router.route("/delete/resume/:resumeId").delete(verifyJWT,deleteResumeById);
-router.route("/delete/resume-data/:userId").delete(verifyJWT,deleteAllResumesByUserId);
 
 
 

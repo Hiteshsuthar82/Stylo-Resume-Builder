@@ -13,8 +13,9 @@ const insertDummyData = asyncHandler(async (req, res, next) => {
   try {
     const dummyResume = {
       name: "Jake Ryan",
-      image:
-        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fconstructingexcellence.org.uk%2Fdummy-member%2F&psig=AOvVaw0MK1-isonIeKyHplT_z_VX&ust=1723723747150000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCOCbqbe59IcDFQAAAAAdAAAAABAE",
+      templeteId:101,
+      permanentdata:false,
+      image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSn2NgTLaAhwax8ADJoioSGTcwDMAJFKF3leg&s",
       contact: {
         phone: "123-456-7890",
         email: "jake@uni.edu",
@@ -112,12 +113,13 @@ const insertDummyData = asyncHandler(async (req, res, next) => {
         );
     }
   } catch (error) {
-    next(new ApiError(500, "Error inserting or fetching dummy data"));
-  }
+      next(new ApiError(500, "Error inserting or fetching dummy data"));
+    }
 });
 
 // Function to edit resume for logged-in user
 
+// 😊workking fine ----
 const editResume = asyncHandler(async (req, res, next) => {
   try {
     const userId = req.user._id;
@@ -128,7 +130,16 @@ const editResume = asyncHandler(async (req, res, next) => {
 
     const updateData = req.body;
 
-    // Naya resume document create karo har modification ke liye
+    // Check if there's any existing resume with permanentdata set to true
+    const existingResume = await Resume.findOne({ owner: userId, permanentdata: true });
+
+    if (existingResume) {
+      // Update the permanentdata field to false for the existing resume
+      existingResume.permanentdata = false;
+      await existingResume.save();
+    }
+
+    // Create a new resume document
     const newResume = new Resume({
       owner: userId,
       ...updateData,
@@ -149,95 +160,105 @@ const editResume = asyncHandler(async (req, res, next) => {
   }
 });
 
+
 const updateResumeByResumeId = asyncHandler(async (req, res, next) => {
-  try {
-    const userId = req.user._id;
-    const { resumeId } = req.params; // Extract resumeId from URL
-
-    if (!userId) {
-      throw new ApiError(401, "Unauthorized to edit resume");
+    try {
+      const userId = req.user._id;
+      const { resumeId } = req.params; // Extract resumeId from URL
+      
+      if (!userId) {
+        throw new ApiError(401, "Unauthorized to edit resume");
     }
-
+  
     if (!resumeId) {
-      return res
+        return res
         .status(400)
-        .json(new ApiResponse(400, null, "Resume ID is required"));
-    }
-
-    const updateData = req.body;
-
-    // Find the existing resume
-    const resume = await Resume.findOne({ _id: resumeId, owner: userId });
-
-    if (!resume) {
+          .json(new ApiResponse(400, null, "Resume ID is required"));
+        }
+        
+        const updateData = req.body;
+  
+        // Find the existing resume
+        const resume = await Resume.findOne({ _id: resumeId, owner: userId });
+        
+      if (!resume) {
+          return res
+          .status(404)
+          .json(new ApiResponse(404, null, "Resume not found for the given ID"));
+        }
+  
+      // Update existing resume without creating a new document
+      Object.assign(resume, updateData);
+      await resume.save();
+      
       return res
-        .status(404)
-        .json(new ApiResponse(404, null, "Resume not found for the given ID"));
-    }
-
-    // Update existing resume without creating a new document
-    Object.assign(resume, updateData);
-    await resume.save();
-
-    return res
       .status(200)
       .json(new ApiResponse(200, resume, "Resume updated successfully"));
-  } catch (error) {
-    next(new ApiError(500, "Error updating resume: " + error.message));
-  }
+    } catch (error) {
+      next(new ApiError(500, "Error updating resume: " + error.message));
+    }
 });
+
+// 😊workking fine ----
 
 const updateUserAvatar = asyncHandler(async (req, res, next) => {
   try {
     const userId = req.user._id;
-
-    const { resumeId } = req.params; // Extract resumeId from URL
-    console.log("resumeka is", resumeId);
-
-    if (!userId) {
-      throw new ApiError(401, "Unauthorized to update avatar");
+      const { resumeId } = req.params; // Extract resumeId from URL
+      console.log("resumeka is",resumeId)
+      console.log("user ka id",userId)
+  
+      if (!userId) {
+        throw new ApiError(401, "Unauthorized to update avatar");
+      }
+  
+    //   if (!resumeId || !mongoose.Types.ObjectId.isValid(resumeId)) {
+    //     return res
+    //       .status(400)
+    //       .json(new ApiResponse(400, null, "Invalid Resume ID"));
+    //   }
+  
+      const avatarLocalPath = req.file?.path;
+  
+      if (!avatarLocalPath) {
+        throw new ApiError(400, "File required");
+      }
+  
+      const avatarImg = await uploadOnCloudinary(avatarLocalPath);
+  
+      if (!avatarImg) {
+        throw new ApiError(500, "Error occurred while uploading file");
+      }
+  
+      // Find the specific resume associated with the user and resumeId
+      let resume = await Resume.findOne({ _id: resumeId, owner: userId });
+      console.log("User's resume", resume);
+  
+      if (!resume) {
+        throw new ApiError(404, "Resume not found for this user");
+      }
+  
+      // Update the resume's image field
+      resume.image = avatarImg.secure_url;
+  
+      // Save the updated resume
+      await resume.save();
+  
+      return res
+        .status(200)
+        .json(
+          new ApiResponse(
+            200,
+            resume,
+            "Avatar updated and resume image updated successfully"
+          )
+        );
+    } catch (error) {
+      next(new ApiError(500, "Error updating avatar: " + error.message));
     }
-
-    const avatarLocalPath = req.file?.path;
-
-    if (!avatarLocalPath) {
-      throw new ApiError(400, "File required");
-    }
-
-    const avatarImg = await uploadOnCloudinary(avatarLocalPath);
-
-    if (!avatarImg) {
-      throw new ApiError(500, "Error occurred while uploading file");
-    }
-
-    // Find the specific resume associated with the user and resumeId
-    let resume = await Resume.findOne({ _id: resumeId, owner: userId });
-    console.log("User's resume", resume);
-
-    if (!resume) {
-      throw new ApiError(404, "Resume not found for this user");
-    }
-
-    // Update the resume's image field
-    resume.image = avatarImg.secure_url;
-
-    // Save the updated resume
-    await resume.save();
-
-    return res
-      .status(200)
-      .json(
-        new ApiResponse(
-          200,
-          resume,
-          "Avatar updated and resume image updated successfully"
-        )
-      );
-  } catch (error) {
-    next(new ApiError(500, "Error updating avatar: " + error.message));
-  }
-});
-
+  });
+  
+// 😊workking fine ----
 const getResumesByUserId = asyncHandler(async (req, res, next) => {
   try {
     const userId = req.user._id; // User ID from request
@@ -245,10 +266,14 @@ const getResumesByUserId = asyncHandler(async (req, res, next) => {
     if (!userId) {
       throw new ApiError(401, "Unauthorized to fetch resumes");
     }
+    
+    if (!userId) {
+      throw new ApiError(401, "Unauthorized to fetch resumes");
+    }
 
     // Find all resumes belonging to the user
     const resumes = await Resume.find({ owner: userId });
-
+    
     if (resumes.length === 0) {
       return res
         .status(404)
@@ -256,9 +281,9 @@ const getResumesByUserId = asyncHandler(async (req, res, next) => {
     }
 
     return res
-      .status(200)
-      .json(new ApiResponse(200, resumes, "Resumes fetched successfully"));
-  } catch (error) {
+    .status(200)
+    .json(new ApiResponse(200, resumes, "Resumes fetched successfully"));
+} catch (error) {
     next(new ApiError(500, "Error fetching resumes: " + error.message));
   }
 });
@@ -268,12 +293,16 @@ const getResumeById = asyncHandler(async (req, res, next) => {
     const { resumeId } = req.params; // Resume ID from URL parameters
     console.log("Fetching resume with ID:", resumeId);
 
+    if (!resumeId) {
+     throw new ApiError(400, "Resume ID is required")
+    }
+
     // Find the resume by its ID
     const resume = await Resume.findById(resumeId);
-
+    
     if (!resume) {
       return res
-        .status(404)
+      .status(404)
         .json(new ApiResponse(404, null, "Resume not found"));
     }
 
@@ -281,55 +310,59 @@ const getResumeById = asyncHandler(async (req, res, next) => {
       .status(200)
       .json(new ApiResponse(200, resume, "Resume fetched successfully"));
   } catch (error) {
-    next(new ApiError(500, "Error fetching resume: " + error.message));
-  }
+      next(new ApiError(500, "Error fetching resume: " + error.message));
+    }
 });
 
 const deleteResumeById = asyncHandler(async (req, res, next) => {
-  try {
+    try {
     const { resumeId } = req.params; // Resume ID from URL parameters
-
+    
     // Delete the resume by its ID
     const result = await Resume.findByIdAndDelete(resumeId);
-
+    
     if (!result) {
-      return res
+        return res
         .status(404)
         .json(new ApiResponse(404, null, "Resume not found"));
     }
-
+    
     return res
-      .status(200)
-      .json(new ApiResponse(200, null, "Resume deleted successfully"));
-  } catch (error) {
+    .status(200)
+    .json(new ApiResponse(200, null, "Resume deleted successfully"));
+} catch (error) {
     next(new ApiError(500, "Error deleting resume: " + error.message));
-  }
+}
 });
 
-const deleteAllResumesByUserId = asyncHandler(async (req, res, next) => {
-  try {
-    const userId = req.user._id; // User ID from request
 
+// 😊workking fine ----
+const deleteAllResumesByUserId = asyncHandler(async (req, res, next) => {
+    try {
+    const userId = req.user._id; // User ID from request
+    
     if (!userId) {
-      throw new ApiError(401, "Unauthorized to delete resumes");
+        throw new ApiError(401, "Unauthorized to delete resumes");
     }
 
     // Delete all resumes associated with the user
     const result = await Resume.deleteMany({ owner: userId });
-
+    
     return res
-      .status(200)
-      .json(
+    .status(200)
+    .json(
         new ApiResponse(
           200,
           null,
           `${result.deletedCount} resumes deleted successfully`
         )
-      );
+    );
   } catch (error) {
     next(new ApiError(500, "Error deleting resumes: " + error.message));
-  }
+}
 });
+
+
 
 export {
   insertDummyData,
@@ -339,7 +372,76 @@ export {
   getResumeById,
   deleteResumeById,
   deleteAllResumesByUserId,
-  updateResumeByResumeId,
+  updateResumeByResumeId
 };
 
-
+// {
+//     "name": "Priya Sharma",
+//     "contact": {
+//       "phone": "987-654-3210",
+//       "email": "priya.sharma@email.com",
+//       "linkedin": "linkedin.com/in/priyasharma",
+//       "github": "github.com/priyasharma-dev"
+//     },
+//     "education": [
+//       {
+//         "institution": "Delhi University",
+//         "degree": "Bachelor of Technology in Computer Science",
+//         "location": "New Delhi, India",
+//         "duration": "July 2018 - May 2022"
+//       }
+//     ],
+//     "experience": [
+//       {
+//         "title": "Senior Frontend Developer",
+//         "company": "TechSolutions India Pvt Ltd",
+//         "location": "Bengaluru, India",
+//         "duration": "June 2023 - Present",
+//         "responsibilities": [
+//           "Lead the development of responsive web applications using React and Next.js",
+//           "Implemented state management using Redux and Context API",
+//           "Optimized website performance, achieving a 40% improvement in load times",
+//           "Mentored junior developers and conducted code reviews"
+//         ]
+//       },
+//       {
+//         "title": "Frontend Developer",
+//         "company": "StartUp Innovators",
+//         "location": "Mumbai, India",
+//         "duration": "July 2022 - May 2023",
+//         "responsibilities": [
+//           "Developed user interfaces for e-commerce platforms using React and Styled Components",
+//           "Integrated RESTful APIs and implemented real-time features using WebSockets",
+//           "Collaborated with UX designers to implement pixel-perfect designs"
+//         ]
+//       }
+//     ],
+//     "projects": [
+//       {
+//         "title": "E-learning Platform",
+//         "technologies": "React, Redux, Node.js, MongoDB",
+//         "duration": "Jan 2023 - April 2023",
+//         "description": [
+//           "Developed a responsive e-learning platform with video streaming capabilities",
+//           "Implemented user authentication and course progress tracking features",
+//           "Integrated payment gateway for course purchases"
+//         ]
+//       },
+//       {
+//         "title": "Weather Forecast App",
+//         "technologies": "React Native, Expo, OpenWeatherMap API",
+//         "duration": "Nov 2022 - Dec 2022",
+//         "description": [
+//           "Built a cross-platform mobile app for real-time weather forecasts",
+//           "Implemented geolocation services for automatic location detection",
+//           "Designed an intuitive UI with animated weather icons"
+//         ]
+//       }
+//     ],
+//     "skills": {
+//       "languages": "JavaScript, TypeScript, HTML5, CSS3, Python",
+//       "frameworks": "React, Next.js, Vue.js, Angular, Express.js",
+//       "developerTools": "Git, Webpack, Babel, npm, Yarn, Docker",
+//       "libraries": "Redux, React Router, Axios, Styled Components, Material-UI, Bootstrap"
+//     }
+//   }

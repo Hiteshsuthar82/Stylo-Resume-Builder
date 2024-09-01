@@ -2,15 +2,29 @@ import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Header, Footer } from "./components";
 import { useDispatch } from "react-redux";
-import loadingimg from './assets/loading-logo.gif'
+import loadingimg from "./assets/loading-logo.gif";
+import { getCurrentUser, login, logout } from "./features/authslice";
 
 function App() {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    //call get current user api
-  }, []);
+    // Call get current user API
+    const fetchUser = async () => {
+      try {
+        const resultAction = await dispatch(getCurrentUser());
+      } catch (error) {
+        console.error("Failed to fetch user:", error);
+        dispatch(logout());
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, [dispatch]);
+
   return !loading ? (
     <>
       <Header />

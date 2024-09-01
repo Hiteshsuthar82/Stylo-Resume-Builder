@@ -4,7 +4,18 @@ import App from "./App.jsx";
 import "./index.css";
 import { Provider } from "react-redux";
 import { store } from "./store/store.js";
-import { SignUp, Login } from "./components/index.js";
+import {
+  SignUp,
+  Login,
+  Home,
+  AuthLayout,
+  AllTemplates,
+  InputForm,
+  MyResumes,
+  ResumeView,
+  UserProfile,
+  StepsPage,
+} from "./components/index.js";
 import Layout from "../Layout.jsx";
 import {
   createBrowserRouter,
@@ -12,7 +23,8 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import Home from "./pages/home.jsx";
+// import StepsPage from "./components/StepsPage.jsx";
+// import Home from "./pages/home.jsx";
 
 const router = createBrowserRouter([
   {
@@ -25,11 +37,67 @@ const router = createBrowserRouter([
       },
       {
         path: "/login",
-        element: <Login />,
+        element: (
+          <AuthLayout authentication={false}>
+            <Login />
+          </AuthLayout>
+        ),
       },
       {
         path: "/signup",
-        element: <SignUp />,
+        element: (
+          <AuthLayout authentication={false}>
+            <SignUp />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/userProfile",
+        element: (
+          <AuthLayout authentication>
+            <UserProfile />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/steps",
+        element: (
+          <AuthLayout authentication>
+            <StepsPage />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/allTemplates",
+        element: (
+          <AuthLayout authentication>
+            <AllTemplates />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/inputForm",
+        element: (
+          <AuthLayout authentication>
+            <InputForm />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/myResumes",
+        element: (
+          <AuthLayout authentication>
+            <MyResumes />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/resumeView/:resumeId",
+        element: (
+          <AuthLayout authentication>
+            <ResumeView />
+          </AuthLayout>
+        ),
       },
     ],
   },

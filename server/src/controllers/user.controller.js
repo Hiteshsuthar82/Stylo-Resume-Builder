@@ -46,15 +46,15 @@ import {
   
 
   
-    if (!avatarLocalPath) {
-      throw new ApiError(400, "avatar Image is Required");
-    }
+    // if (!avatarLocalPath) {
+    //   throw new ApiError(400, "avatar Image is Required");
+    // }
   
     // uploading on cloudinary
   
     let avatarRes = await uploadOnCloudinary(avatarLocalPath);
-    if (!avatarRes)
-      throw new ApiError(500, "Internal Server Error!!! Files Unable to Upload");
+    // if (!avatarRes)
+    //   throw new ApiError(500, "Internal Server Error!!! Files Unable to Upload");
   
  
   

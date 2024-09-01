@@ -1,8 +1,10 @@
 import { useState } from "react";
-import axios from "axios";
+import { useDispatch } from "react-redux";
+import { creteResume } from "./resumeSlice"; // Your slice file
 
 function ResumeForm() {
   const [image, setImage] = useState(null);
+  const dispatch = useDispatch();
 
   // Dummy form data
   const formData = {
@@ -52,24 +54,15 @@ function ResumeForm() {
     setImage(e.target.files[0]);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     const data = new FormData();
     data.append("image", image); // Append image file
     data.append("data", JSON.stringify(formData)); // Append custom form data
 
-    try {
-      const response = await axios.post("/api/resume/edit", data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      console.log("Resume successfully submitted:", response.data);
-    } catch (error) {
-      console.error("Error submitting resume:", error);
-    }
+    // Dispatch the action
+    dispatch(creteResume(data)); // Dispatch form data to slice
   };
 
   return (
@@ -85,3 +78,28 @@ function ResumeForm() {
 }
 
 export default ResumeForm;
+
+
+
+
+
+const creteResume = createAsyncThunk(
+  "resume/create",
+  async (credentials, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/v1/temp/edit-resume",
+        credentials, // FormData object containing image and data
+        { withCredentials: true }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.log("resume create successfully.");
+      return rejectWithValue(
+        "Appwrite Service :: creteResume :: error ",
+        error.response.data
+      );
+    }
+  }
+);

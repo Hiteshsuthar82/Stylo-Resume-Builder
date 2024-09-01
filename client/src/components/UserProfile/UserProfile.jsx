@@ -169,7 +169,7 @@ const UserProfile = () => {
               <div key={key} className="mb-6 mx-3 py-3 rounded-lg shadow-md bg-white">
                 <h1 className="font-bold mb-3 text-xl px-3">{key}</h1>
                 {Object.entries(value).map(([subKey, subValue]) => (
-                  <div className="px-3">
+                  <div className="px-3"key={subKey}>
                     <UserDetailListItem
                       key={subKey}
                       lable={subKey.charAt(0).toUpperCase() + subKey.slice(1)}

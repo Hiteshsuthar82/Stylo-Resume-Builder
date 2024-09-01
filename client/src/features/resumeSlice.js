@@ -29,7 +29,7 @@ const initialState = {
   ],
 };
 
-const creteResume = createAsyncThunk(
+export const createResume = createAsyncThunk(
   "resume/create",
   async (credentials, { rejectWithValue }) => {
     try {
@@ -43,14 +43,14 @@ const creteResume = createAsyncThunk(
     } catch (error) {
       console.log("resume create successfully.");
       return rejectWithValue(
-        "Appwrite Service :: creteResume :: error ",
+        "Appwrite Service :: createResume :: error ",
         error.response.data
       );
     }
   }
 );
 
-const getAllResumes = createAsyncThunk(
+export const getAllResumes = createAsyncThunk(
   "resume/getAllResumes",
   async (_, { rejectWithValue }) => {
     try {
@@ -70,7 +70,7 @@ const getAllResumes = createAsyncThunk(
   }
 );
 
-const getResumeData = createAsyncThunk(
+export const getResumeData = createAsyncThunk(
   "resume/getResumeData",
   async (_, { rejectWithValue }) => {
     try {
@@ -90,7 +90,7 @@ const getResumeData = createAsyncThunk(
   }
 );
 
-const deleteResume = createAsyncThunk(
+export const deleteResume = createAsyncThunk(
   "resume/deleteResume",
   async (_, { rejectWithValue }) => {
     try {
@@ -111,7 +111,7 @@ const deleteResume = createAsyncThunk(
   }
 );
 
-const editResume = createAsyncThunk(
+export const editResume = createAsyncThunk(
   "resume/edit",
   async (credentials, { rejectWithValue }) => {
     try {
@@ -138,15 +138,15 @@ export const resumeSlice = createSlice({
   extraReducers: (builder) => {
     // create resume
     builder
-      .addCase(creteResume.pending, (state) => {
+      .addCase(createResume.pending, (state) => {
         state.loading = true;
       })
-      .addCase(creteResume.fulfilled, (state, actions) => {
+      .addCase(createResume.fulfilled, (state, actions) => {
         state.loading = false;
         state.status = true;
         state.data = actions.payload;
       })
-      .addCase(creteResume.rejected, (state) => {
+      .addCase(createResume.rejected, (state) => {
         state.loading = false;
         state.status = false;
       });

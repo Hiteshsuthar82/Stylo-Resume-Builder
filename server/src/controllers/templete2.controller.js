@@ -14,7 +14,7 @@ const insertDummyData = asyncHandler(async (req, res, next) => {
     const dummyResume = {
       name: "Jake Ryan",
       templeteId:101,
-      filldata:false,
+      permanentdata:false,
       image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSn2NgTLaAhwax8ADJoioSGTcwDMAJFKF3leg&s",
       contact: {
         phone: "123-456-7890",
@@ -119,8 +119,9 @@ const insertDummyData = asyncHandler(async (req, res, next) => {
 
 // Function to edit resume for logged-in user
 
+// 😊workking fine ----
 const editResume = asyncHandler(async (req, res, next) => {
-    try {
+  try {
     const userId = req.user._id;
 
     if (!userId) {
@@ -129,16 +130,25 @@ const editResume = asyncHandler(async (req, res, next) => {
 
     const updateData = req.body;
 
-    // Naya resume document create karo har modification ke liye
+    // Check if there's any existing resume with permanentdata set to true
+    const existingResume = await Resume.findOne({ owner: userId, permanentdata: true });
+
+    if (existingResume) {
+      // Update the permanentdata field to false for the existing resume
+      existingResume.permanentdata = false;
+      await existingResume.save();
+    }
+
+    // Create a new resume document
     const newResume = new Resume({
       owner: userId,
       ...updateData,
     });
     await newResume.save();
-    
+
     return res
-    .status(201)
-    .json(
+      .status(201)
+      .json(
         new ApiResponse(
           201,
           newResume,
@@ -146,9 +156,10 @@ const editResume = asyncHandler(async (req, res, next) => {
         )
       );
   } catch (error) {
-      next(new ApiError(500, "Error creating resume template: " + error.message));
+    next(new ApiError(500, "Error creating resume template: " + error.message));
   }
 });
+
 
 const updateResumeByResumeId = asyncHandler(async (req, res, next) => {
     try {

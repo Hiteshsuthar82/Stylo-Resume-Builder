@@ -198,12 +198,6 @@ const updateUserAvatar = asyncHandler(async (req, res, next) => {
       throw new ApiError(401, "Unauthorized to update avatar");
     }
 
-    //   if (!resumeId || !mongoose.Types.ObjectId.isValid(resumeId)) {
-    //     return res
-    //       .status(400)
-    //       .json(new ApiResponse(400, null, "Invalid Resume ID"));
-    //   }
-
     const avatarLocalPath = req.file?.path;
 
     if (!avatarLocalPath) {
@@ -348,73 +342,4 @@ export {
   updateResumeByResumeId,
 };
 
-// {
-//     "name": "Priya Sharma",
-//     "contact": {
-//       "phone": "987-654-3210",
-//       "email": "priya.sharma@email.com",
-//       "linkedin": "linkedin.com/in/priyasharma",
-//       "github": "github.com/priyasharma-dev"
-//     },
-//     "education": [
-//       {
-//         "institution": "Delhi University",
-//         "degree": "Bachelor of Technology in Computer Science",
-//         "location": "New Delhi, India",
-//         "duration": "July 2018 - May 2022"
-//       }
-//     ],
-//     "experience": [
-//       {
-//         "title": "Senior Frontend Developer",
-//         "company": "TechSolutions India Pvt Ltd",
-//         "location": "Bengaluru, India",
-//         "duration": "June 2023 - Present",
-//         "responsibilities": [
-//           "Lead the development of responsive web applications using React and Next.js",
-//           "Implemented state management using Redux and Context API",
-//           "Optimized website performance, achieving a 40% improvement in load times",
-//           "Mentored junior developers and conducted code reviews"
-//         ]
-//       },
-//       {
-//         "title": "Frontend Developer",
-//         "company": "StartUp Innovators",
-//         "location": "Mumbai, India",
-//         "duration": "July 2022 - May 2023",
-//         "responsibilities": [
-//           "Developed user interfaces for e-commerce platforms using React and Styled Components",
-//           "Integrated RESTful APIs and implemented real-time features using WebSockets",
-//           "Collaborated with UX designers to implement pixel-perfect designs"
-//         ]
-//       }
-//     ],
-//     "projects": [
-//       {
-//         "title": "E-learning Platform",
-//         "technologies": "React, Redux, Node.js, MongoDB",
-//         "duration": "Jan 2023 - April 2023",
-//         "description": [
-//           "Developed a responsive e-learning platform with video streaming capabilities",
-//           "Implemented user authentication and course progress tracking features",
-//           "Integrated payment gateway for course purchases"
-//         ]
-//       },
-//       {
-//         "title": "Weather Forecast App",
-//         "technologies": "React Native, Expo, OpenWeatherMap API",
-//         "duration": "Nov 2022 - Dec 2022",
-//         "description": [
-//           "Built a cross-platform mobile app for real-time weather forecasts",
-//           "Implemented geolocation services for automatic location detection",
-//           "Designed an intuitive UI with animated weather icons"
-//         ]
-//       }
-//     ],
-//     "skills": {
-//       "languages": "JavaScript, TypeScript, HTML5, CSS3, Python",
-//       "frameworks": "React, Next.js, Vue.js, Angular, Express.js",
-//       "developerTools": "Git, Webpack, Babel, npm, Yarn, Docker",
-//       "libraries": "Redux, React Router, Axios, Styled Components, Material-UI, Bootstrap"
-//     }
-//   }
+

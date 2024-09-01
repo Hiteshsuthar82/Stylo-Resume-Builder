@@ -112,14 +112,14 @@ const insertDummyData = asyncHandler(async (req, res, next) => {
         );
     }
   } catch (error) {
-      next(new ApiError(500, "Error inserting or fetching dummy data"));
-    }
+    next(new ApiError(500, "Error inserting or fetching dummy data"));
+  }
 });
 
 // Function to edit resume for logged-in user
 
 const editResume = asyncHandler(async (req, res, next) => {
-    try {
+  try {
     const userId = req.user._id;
 
     if (!userId) {
@@ -134,10 +134,10 @@ const editResume = asyncHandler(async (req, res, next) => {
       ...updateData,
     });
     await newResume.save();
-    
+
     return res
-    .status(201)
-    .json(
+      .status(201)
+      .json(
         new ApiResponse(
           201,
           newResume,
@@ -145,161 +145,116 @@ const editResume = asyncHandler(async (req, res, next) => {
         )
       );
   } catch (error) {
-      next(new ApiError(500, "Error creating resume template: " + error.message));
+    next(new ApiError(500, "Error creating resume template: " + error.message));
   }
 });
 
 const updateResumeByResumeId = asyncHandler(async (req, res, next) => {
-    try {
-      const userId = req.user._id;
-      const { resumeId } = req.params; // Extract resumeId from URL
-      
-      if (!userId) {
-        throw new ApiError(401, "Unauthorized to edit resume");
+  try {
+    const userId = req.user._id;
+    const { resumeId } = req.params; // Extract resumeId from URL
+
+    if (!userId) {
+      throw new ApiError(401, "Unauthorized to edit resume");
     }
-  
+
     if (!resumeId) {
-        return res
-        .status(400)
-          .json(new ApiResponse(400, null, "Resume ID is required"));
-        }
-        
-        const updateData = req.body;
-  
-        // Find the existing resume
-        const resume = await Resume.findOne({ _id: resumeId, owner: userId });
-        
-      if (!resume) {
-          return res
-          .status(404)
-          .json(new ApiResponse(404, null, "Resume not found for the given ID"));
-        }
-  
-      // Update existing resume without creating a new document
-      Object.assign(resume, updateData);
-      await resume.save();
-      
       return res
+        .status(400)
+        .json(new ApiResponse(400, null, "Resume ID is required"));
+    }
+
+    const updateData = req.body;
+
+    // Find the existing resume
+    const resume = await Resume.findOne({ _id: resumeId, owner: userId });
+
+    if (!resume) {
+      return res
+        .status(404)
+        .json(new ApiResponse(404, null, "Resume not found for the given ID"));
+    }
+
+    // Update existing resume without creating a new document
+    Object.assign(resume, updateData);
+    await resume.save();
+
+    return res
       .status(200)
       .json(new ApiResponse(200, resume, "Resume updated successfully"));
-    } catch (error) {
-      next(new ApiError(500, "Error updating resume: " + error.message));
-    }
+  } catch (error) {
+    next(new ApiError(500, "Error updating resume: " + error.message));
+  }
 });
 
 const updateUserAvatar = asyncHandler(async (req, res, next) => {
-    try {
-      const userId = req.user._id;
-      const { resumeId } = req.params; // Extract resumeId from URL
-      console.log("resumeka is",resumeId)
-  
-      if (!userId) {
-        throw new ApiError(401, "Unauthorized to update avatar");
-      }
-  
+  try {
+    const userId = req.user._id;
+
+    const { resumeId } = req.params; // Extract resumeId from URL
+    console.log("resumeka is", resumeId);
+
+    if (!userId) {
+      throw new ApiError(401, "Unauthorized to update avatar");
+    }
+
     //   if (!resumeId || !mongoose.Types.ObjectId.isValid(resumeId)) {
     //     return res
     //       .status(400)
     //       .json(new ApiResponse(400, null, "Invalid Resume ID"));
     //   }
-  
-      const avatarLocalPath = req.file?.path;
-  
-      if (!avatarLocalPath) {
-        throw new ApiError(400, "File required");
-      }
-  
-      const avatarImg = await uploadOnCloudinary(avatarLocalPath);
-  
-      if (!avatarImg) {
-        throw new ApiError(500, "Error occurred while uploading file");
-      }
-  
-      // Find the specific resume associated with the user and resumeId
-      let resume = await Resume.findOne({ _id: resumeId, owner: userId });
-      console.log("User's resume", resume);
-  
-      if (!resume) {
-        throw new ApiError(404, "Resume not found for this user");
-      }
-  
-      // Update the resume's image field
-      resume.image = avatarImg.secure_url;
-  
-      // Save the updated resume
-      await resume.save();
-  
-      return res
-        .status(200)
-        .json(
-          new ApiResponse(
-            200,
-            resume,
-            "Avatar updated and resume image updated successfully"
-          )
-        );
-    } catch (error) {
-      next(new ApiError(500, "Error updating avatar: " + error.message));
+
+    const avatarLocalPath = req.file?.path;
+
+    if (!avatarLocalPath) {
+      throw new ApiError(400, "File required");
     }
-  });
-  
 
-// const updateUserAvatar = asyncHandler(async (req, res, next) => {
-//     try {
-//       const userId = req.user._id;
-//       const avatarLocalPath = req.file?.path;
-  
-//       if (!avatarLocalPath) {
-//         throw new ApiError(400, "File required");
-//       }
-  
-//       const avatarImg = await uploadOnCloudinary(avatarLocalPath);
-  
-//       if (!avatarImg) {
-//         throw new ApiError(500, "Error occurred while uploading file");
-//       }
-  
-//       // Find the resume associated with the user
-//       let resume = await Resume.findOne({ owner: userId });
-//       console.log("userka resume", resume);
-  
-//       if (!resume) {
-//         throw new ApiError(404, "Resume not found for this user");
-//       }
-  
-//       // Update the resume's image field
-//       resume.image = avatarImg.secure_url;
-  
-//       // Save the updated resume
-//       await resume.save();
-  
-//       return res
-//         .status(200)
-//         .json(
-//           new ApiResponse(
-//             200,
-//             resume,
-//             "Avatar updated and resume image updated successfully"
-//           )
-//         );
-//     } catch (error) {
-//       next(new ApiError(500, "Error updating avatar: " + error.message));
-//     }
-//   });
+    const avatarImg = await uploadOnCloudinary(avatarLocalPath);
 
+    if (!avatarImg) {
+      throw new ApiError(500, "Error occurred while uploading file");
+    }
 
+    // Find the specific resume associated with the user and resumeId
+    let resume = await Resume.findOne({ _id: resumeId, owner: userId });
+    console.log("User's resume", resume);
+
+    if (!resume) {
+      throw new ApiError(404, "Resume not found for this user");
+    }
+
+    // Update the resume's image field
+    resume.image = avatarImg.secure_url;
+
+    // Save the updated resume
+    await resume.save();
+
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(
+          200,
+          resume,
+          "Avatar updated and resume image updated successfully"
+        )
+      );
+  } catch (error) {
+    next(new ApiError(500, "Error updating avatar: " + error.message));
+  }
+});
 
 const getResumesByUserId = asyncHandler(async (req, res, next) => {
   try {
     const userId = req.user._id; // User ID from request
-    
+
     if (!userId) {
       throw new ApiError(401, "Unauthorized to fetch resumes");
     }
 
     // Find all resumes belonging to the user
     const resumes = await Resume.find({ owner: userId });
-    
+
     if (resumes.length === 0) {
       return res
         .status(404)
@@ -307,9 +262,9 @@ const getResumesByUserId = asyncHandler(async (req, res, next) => {
     }
 
     return res
-    .status(200)
-    .json(new ApiResponse(200, resumes, "Resumes fetched successfully"));
-} catch (error) {
+      .status(200)
+      .json(new ApiResponse(200, resumes, "Resumes fetched successfully"));
+  } catch (error) {
     next(new ApiError(500, "Error fetching resumes: " + error.message));
   }
 });
@@ -321,10 +276,10 @@ const getResumeById = asyncHandler(async (req, res, next) => {
 
     // Find the resume by its ID
     const resume = await Resume.findById(resumeId);
-    
+
     if (!resume) {
       return res
-      .status(404)
+        .status(404)
         .json(new ApiResponse(404, null, "Resume not found"));
     }
 
@@ -332,57 +287,55 @@ const getResumeById = asyncHandler(async (req, res, next) => {
       .status(200)
       .json(new ApiResponse(200, resume, "Resume fetched successfully"));
   } catch (error) {
-      next(new ApiError(500, "Error fetching resume: " + error.message));
-    }
+    next(new ApiError(500, "Error fetching resume: " + error.message));
+  }
 });
 
 const deleteResumeById = asyncHandler(async (req, res, next) => {
-    try {
+  try {
     const { resumeId } = req.params; // Resume ID from URL parameters
-    
+
     // Delete the resume by its ID
     const result = await Resume.findByIdAndDelete(resumeId);
-    
+
     if (!result) {
-        return res
+      return res
         .status(404)
         .json(new ApiResponse(404, null, "Resume not found"));
     }
-    
+
     return res
-    .status(200)
-    .json(new ApiResponse(200, null, "Resume deleted successfully"));
-} catch (error) {
+      .status(200)
+      .json(new ApiResponse(200, null, "Resume deleted successfully"));
+  } catch (error) {
     next(new ApiError(500, "Error deleting resume: " + error.message));
-}
+  }
 });
 
 const deleteAllResumesByUserId = asyncHandler(async (req, res, next) => {
-    try {
+  try {
     const userId = req.user._id; // User ID from request
-    
+
     if (!userId) {
-        throw new ApiError(401, "Unauthorized to delete resumes");
+      throw new ApiError(401, "Unauthorized to delete resumes");
     }
 
     // Delete all resumes associated with the user
     const result = await Resume.deleteMany({ owner: userId });
-    
+
     return res
-    .status(200)
-    .json(
+      .status(200)
+      .json(
         new ApiResponse(
           200,
           null,
           `${result.deletedCount} resumes deleted successfully`
         )
-    );
+      );
   } catch (error) {
     next(new ApiError(500, "Error deleting resumes: " + error.message));
-}
+  }
 });
-
-
 
 export {
   insertDummyData,
@@ -392,7 +345,7 @@ export {
   getResumeById,
   deleteResumeById,
   deleteAllResumesByUserId,
-  updateResumeByResumeId
+  updateResumeByResumeId,
 };
 
 // {

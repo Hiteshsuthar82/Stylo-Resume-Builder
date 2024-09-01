@@ -34,7 +34,7 @@ export {
   MyResumes,
   ResumeView,
   StepsPage,
-  InputForm
+  InputForm,
   UserDetailListItem,
   UserDetailCard,
   UserProfile,

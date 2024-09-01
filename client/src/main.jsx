@@ -9,7 +9,7 @@ import {
   Login,
   AuthLayout,
   AllTemplates,
-  inputForm,
+  InputForm,
   MyResumes,
   ResumeView,
   UserProfile,

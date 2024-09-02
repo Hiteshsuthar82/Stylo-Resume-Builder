@@ -15,6 +15,7 @@ import {
   ResumeView,
   UserProfile,
   StepsPage,
+  ResumeTemplate
 } from "./components/index.js";
 import Layout from "../Layout.jsx";
 import {
@@ -64,6 +65,14 @@ const router = createBrowserRouter([
         element: (
           <AuthLayout authentication>
             <StepsPage />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/template1",
+        element: (
+          <AuthLayout authentication>
+            <ResumeTemplate />
           </AuthLayout>
         ),
       },

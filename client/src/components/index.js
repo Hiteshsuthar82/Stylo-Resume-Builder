@@ -15,6 +15,7 @@ import ResumeView from "./ResumeView";
 import UserProfile from "./UserProfile";
 import StepsPage from "./StepsPage";
 import InputForm from "./InputForm";
+import ResumeTemplate from "./ResumeTemplate1";
 
 export {
   Header,
@@ -33,5 +34,6 @@ export {
   ResumeView,
   UserProfile,
   StepsPage,
-  InputForm
+  InputForm,
+  ResumeTemplate
 };

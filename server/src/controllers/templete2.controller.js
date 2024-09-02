@@ -13,7 +13,7 @@ const insertDummyData = asyncHandler(async (req, res, next) => {
   try {
     const dummyResume = {
       name: "Jake Ryan",
-      templeteId:101,
+      templateId:101,
       permanentdata:false,
       image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSn2NgTLaAhwax8ADJoioSGTcwDMAJFKF3leg&s",
       contact: {
@@ -130,20 +130,21 @@ const editResume = asyncHandler(async (req, res, next) => {
 
     const updateData = req.body;
     
+    
     // Check if an image file was uploaded
-    const avatarLocalPath = req.file?.path;
-    let avatarImg;
+    // const avatarLocalPath = req.file?.path;
+    // let avatarImg;
 
-    if (avatarLocalPath) {
-      avatarImg = await uploadOnCloudinary(avatarLocalPath);
+    // if (avatarLocalPath) {
+    //   avatarImg = await uploadOnCloudinary(avatarLocalPath);
 
-      if (!avatarImg) {
-        throw new ApiError(500, "Error occurred while uploading file");
-      }
+    //   if (!avatarImg) {
+    //     throw new ApiError(500, "Error occurred while uploading file");
+    //   }
 
-      // Add the image URL to the update data
-      updateData.image = avatarImg.secure_url;
-    }
+    //   // Add the image URL to the update data
+    //   updateData.image = avatarImg.secure_url;
+    // }
 
     // Check if there's any existing resume with permanentdata set to true
     const existingResume = await Resume.findOne({ owner: userId, permanentdata: true });

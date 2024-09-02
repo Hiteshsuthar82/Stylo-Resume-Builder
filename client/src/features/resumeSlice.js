@@ -39,12 +39,11 @@ export const createResume = createAsyncThunk(
         { withCredentials: true }
       );
 
+      console.log("resume create successfully.");
       return response.data;
     } catch (error) {
-      console.log("resume create successfully.");
       return rejectWithValue(
-        "Appwrite Service :: createResume :: error ",
-        error.response.data
+        "createResume :: error ", error.payload
       );
     }
   }
@@ -52,18 +51,19 @@ export const createResume = createAsyncThunk(
 
 export const getAllResumes = createAsyncThunk(
   "resume/getAllResumes",
-  async (_, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {   
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/temp/resume/${credentials?.userId}`,
+        `http://localhost:8000/api/v1/temp/Allresume`,
         { withCredentials: true }
       );
 
+      console.log("all resume's data fetched successfully.");
       return response.data;
     } catch (error) {
-      console.log("all resume's data fetched successfully.");
+      console.log("error occur in getAllResumes : ", error.response);
       return rejectWithValue(
-        "Appwrite Service :: getAllResumes :: error ",
+        "getAllResumes :: error ",
         error.response.data
       );
     }
@@ -72,18 +72,24 @@ export const getAllResumes = createAsyncThunk(
 
 export const getResumeData = createAsyncThunk(
   "resume/getResumeData",
-  async (_, { rejectWithValue }) => {
+  async (credentials, { rejectWithValue }) => {
+    console.log(credentials);
     try {
       const response = await axios.get(
         `http://localhost:8000/api/v1/temp/resume-data/${credentials?.resumeId}`,
         { withCredentials: true }
       );
 
-      return response.data;
+      if(response){
+        console.log("selected resume's data fetched successfully.");
+        return response.data;
+      }else{
+        console.log("some error occured in getting resume's data");
+      }
     } catch (error) {
-      console.log("selected resume's data fetched successfully.");
+      console.log('error occured in getResumeData', error.response);
       return rejectWithValue(
-        "Appwrite Service :: getResumeData :: error ",
+        "getResumeData :: error ",
         error.response.data
       );
     }
@@ -92,7 +98,7 @@ export const getResumeData = createAsyncThunk(
 
 export const deleteResume = createAsyncThunk(
   "resume/deleteResume",
-  async (_, { rejectWithValue }) => {
+  async (credentials, { rejectWithValue }) => {
     try {
       const response = await axios.delete(
         `http://localhost:8000/api/v1/temp/delete/resume/${credentials?.resumeId}`,
@@ -104,7 +110,7 @@ export const deleteResume = createAsyncThunk(
     } catch (error) {
       console.log("selected resume deleted successfully.");
       return rejectWithValue(
-        "Appwrite Service :: deleteResume :: error ",
+        "deleteResume :: error ",
         error.response.data
       );
     }
@@ -117,16 +123,15 @@ export const editResume = createAsyncThunk(
     try {
       const response = await axios.patch(
         `http://localhost:8000/api/v1/temp/resume-edit/${credentials?.resumeId}`,
-        credentials,
+        credentials?.formData,
         { withCredentials: true }
       );
-
+      console.log("resume edited successfully.");
       return response.data;
     } catch (error) {
-      console.log("resume edited successfully.");
       return rejectWithValue(
-        "Appwrite Service :: editResume :: error ",
-        error.response.data
+        "editResume :: error ",
+        error.response
       );
     }
   }
@@ -140,6 +145,8 @@ export const resumeSlice = createSlice({
     builder
       .addCase(createResume.pending, (state) => {
         state.loading = true;
+        state.status = false;
+        state.data = null;
       })
       .addCase(createResume.fulfilled, (state, actions) => {
         state.loading = false;
@@ -174,7 +181,7 @@ export const resumeSlice = createSlice({
       .addCase(getAllResumes.fulfilled, (state, actions) => {
         state.loading = false;
         state.status = true;
-        state.data = actions.payload;
+        state.data = actions.payload.data;
       })
       .addCase(getAllResumes.rejected, (state) => {
         state.loading = false;

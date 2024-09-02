@@ -26,6 +26,7 @@ router
 // /resume/:resumeId/avatar
 
 router.route("/Allresume").get(verifyJWT,getResumesByUserId);
+// router.route("/usersPermanentDetais").get(verifyJWT,);
 router.route("/delete-Allresume").delete(verifyJWT,deleteAllResumesByUserId);
 
 

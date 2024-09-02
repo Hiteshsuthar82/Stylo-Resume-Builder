@@ -1,27 +1,69 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Container, Template } from "./../index";
+import { Container, Template, DeleteConfirmationDialog } from "./../index";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getAllResumes, deleteResume } from "../../features/resumeSlice";
 
 function MyResumes() {
+  const [selectedTemplateId, setSelectedTemplateId] = useState(null);
+  const [selectedResumeId, setSelectedResumeId] = useState(null);
+  const [deleting, setDeleting] = useState(false);
+  const [isdeleteConfirmationDialog, setDeleteConfirmationDialog] =
+    useState(false);
   const templates = useSelector((state) => state.resume.allTemplates);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userId = useSelector((state) => state.auth.user._id);
+  const [myResumes, setMyResumes] = useState([]);
 
-  const myResumes = [
-    {
-      templateId: "t2",
-    },
-    {
-      templateId: "t5",
-    },
-    {
-      templateId: "t3",
-    },
-  ];
+  const handleEditClick = async () => {
+    navigate(`/editResume/${selectedResumeId}`)
+  };
 
-  const openResumeView = (resumeId) => {
-    navigate(`/resumeView/${resumeId}`)
-  }
+  const handleDeleteClick = () => {
+    setDeleteConfirmationDialog(true);
+  };
+
+  const handleCancelDeleteClick = () => {
+    setDeleteConfirmationDialog(false);
+  };
+
+  const handleConfirmDeleteClick = async () => {
+    setDeleting(true);
+    try {
+      const session = await dispatch(
+        deleteResume({ resumeId: selectedResumeId })
+      );
+      if (session) {
+        setDeleting(false);
+        setDeleteConfirmationDialog(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onTemplateSelect = (templateId, resumeId) => {
+    setSelectedTemplateId(templateId);
+    setSelectedResumeId(resumeId);
+  };
+
+  const openResumeView = () => {
+    navigate(`/resumeView/${selectedTemplateId}/${selectedResumeId}`);
+  };
+
+  useEffect(() => {
+    dispatch(getAllResumes(userId)).then((response) => {
+      if (response) {
+        console.log("all resumes fetched successfully..");
+        setMyResumes(response.payload.data);
+      } else {
+        // write code if there are note any resume for current user
+        console.log("no resumes found");
+      }
+    });
+  }, [deleting]);
 
   return (
     <Container>
@@ -37,50 +79,36 @@ function MyResumes() {
                 <Template
                   key={index}
                   templateData={template}
-                  onClick={openResumeView}
-                  // isSelected={selectedTemplateId === template.id}
-                  // onSearchClick={handleSearchClick}
+                  onClick={onTemplateSelect}
+                  isSelected={selectedResumeId === resume._id}
+                  resumeId={resume._id}
+                  onEditClick={handleEditClick}
+                  onDeleteClick={handleDeleteClick}
                 />
               );
             }
           })}
       </div>
 
-      {/* {selectedTemplateId && (
-        <button
-          onClick={() => alert(`You selected template ${selectedTemplateId}`)}
-          className="mt-5 px-10 py-3 fixed bottom-5 right-5 sm:bottom-8 sm:right-8 lg:bottom-9 lg:right-11 bg-purple-600 text-white font-semibold rounded-full hover:bg-purple-700 transition-all"
-        >
-          Next
-        </button>
-      )} */}
+      {/* delete confirmation dialog */}
+      {isdeleteConfirmationDialog && (
+        <DeleteConfirmationDialog
+        deleting={deleting}
+          onCancelClick={handleCancelDeleteClick}
+          onDeleteClick={handleConfirmDeleteClick}
+        />
+      )}
 
-      {/* {enlargedImageSrc && (
-        <div
-          className={`fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-20 transition-opacity duration-300 ${
-            isPopupVisible ? "opacity-100" : "opacity-0"
-          }`}
-          onClick={closePopup}
+      {selectedResumeId && (
+        <button
+          onClick={openResumeView}
+          className="mt-5 px-10 py-3 fixed bottom-5 right-[50%] sm:bottom-8 lg:bottom-9 bg-purple-600 text-white font-semibold rounded-full hover:bg-purple-700 transition-all"
         >
-          <div
-            className={`relative transform transition-transform duration-300 ${
-              isImageVisible ? "scale-100" : "scale-y-0"
-            }`}
-          >
-            <img
-              src={enlargedImageSrc}
-              alt="Enlarged Template"
-              className="max-h-[80vh] max-w-[90vw] rounded-lg shadow-lg"
-            />
-            <button
-              onClick={closePopup}
-              className="absolute top-2 right-2 bg-white text-black rounded-full p-2 h-10 w-10"
-            >
-              ✕
-            </button>
-          </div>
-        </div>
-      )} */}
+          Open
+        </button>
+      )}
+
+      
     </Container>
   );
 }

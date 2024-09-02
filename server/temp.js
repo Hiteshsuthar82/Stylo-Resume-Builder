@@ -46,7 +46,7 @@ function ResumeForm() {
       developerTools: "VS Code, Git",
       libraries: "Redux, Express"
     },
-    templeteId: "template_001",  // Required field
+    templateId: "template_001",  // Required field
     permanentdata: false  // Optional boolean field
   };
 

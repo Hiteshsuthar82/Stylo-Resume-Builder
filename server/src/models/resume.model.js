@@ -4,7 +4,6 @@ import mongoose, { Schema } from 'mongoose';
 const projectSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true
     },
     technologies: {
         type: String
@@ -39,11 +38,9 @@ const skillSchema = new mongoose.Schema({
 const educationSchema = new mongoose.Schema({
     institution: {
         type: String,
-        required: true
     },
     degree: {
         type: String,
-        required: true
     },
     location: {
         type: String
@@ -57,11 +54,9 @@ const educationSchema = new mongoose.Schema({
 const experienceSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true
     },
     company: {
         type: String,
-        required: true
     },
     location: {
         type: String
@@ -81,7 +76,6 @@ const resumeSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        unique: true,
         lowercase: true,
         trim: true,
         index: true,
@@ -111,7 +105,7 @@ const resumeSchema = new mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: "User"
     },
-    templeteId: {
+    templateId: {
         type: String,
         required: true,
     },

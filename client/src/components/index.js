@@ -13,10 +13,11 @@ import MyResumes from "./MyResumes/MyResumes";
 import ShowImagePopup from "./ShowImagePopup";
 import ResumeView from "./ResumeView";
 import StepsPage from "./StepsPage";
-import InputForm from "./InputForm";
+import CreateResume from "./CreateResume";
 import UserDetailCard from "./UserProfile/UserDetailCard";
 import UserDetailListItem from "./UserProfile/UserDetailListItem";
 import UserProfile from "./UserProfile/UserProfile";
+import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
 
 export {
   Header,
@@ -34,8 +35,9 @@ export {
   MyResumes,
   ResumeView,
   StepsPage,
-  InputForm,
+  CreateResume,
   UserDetailListItem,
   UserDetailCard,
   UserProfile,
+  DeleteConfirmationDialog
 };

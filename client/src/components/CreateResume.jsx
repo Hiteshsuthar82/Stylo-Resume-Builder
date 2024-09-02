@@ -7,17 +7,19 @@ import linkedin from "../assets/linkedin.svg";
 import git from "../assets/github.svg";
 import dgt from "../assets/doubleRight.png";
 import { useDispatch } from "react-redux";
-import {createResume} from '../features/resumeSlice'
+import { createResume } from "../features/resumeSlice";
+import { useNavigate, useParams } from "react-router-dom";
 
-function InputForm() {
+function CreateResume() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { templateId } = useParams();
+
+  const [selectedImage, setSelectedImage] = React.useState(null);
   const { register, handleSubmit, control } = useForm({
     defaultValues: {
       name: "",
-      phone: "",
-      mail: "",
-      git: "",
-      linkedin: "",
+      contact: { phone: "", email: "", github: "", linkedin: "" },
       experience: [],
       projects: [],
       education: [{ institution: "", degree: "", location: "", duration: "" }],
@@ -52,8 +54,6 @@ function InputForm() {
     name: "education",
   });
 
-  const [selectedImage, setSelectedImage] = React.useState(null);
-
   const removeExerience = (index) => {
     removeExerienceField(index);
   };
@@ -66,14 +66,28 @@ function InputForm() {
     removeEducationField(index);
   };
 
-  const onSubmit = (data) => {
-    console.log("Submitted Data:", data);
-  };
-
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       setSelectedImage(URL.createObjectURL(file));
+    }
+  };
+
+  const onSubmit = async (formData) => {
+    try {
+      formData.templateId = templateId;
+
+      const response = await dispatch(createResume(formData));
+
+      if (response && response.payload && response.payload.data) {
+        const data = response.payload.data
+        alert("redirecting to temlpate view page");
+        navigate(`/resumeView/${templateId}/${data._id}`)
+      } else {
+        console.log("No data in response or response structure is different");
+      }
+    } catch (error) {
+      console.log("Error occurred:", error.message || error);
     }
   };
 
@@ -141,7 +155,7 @@ function InputForm() {
                   <img src={phone} alt="phone-icon" className="mb-2" />
                   <input
                     type="text"
-                    {...register("phone")}
+                    {...register("contact.phone")}
                     placeholder="+91 12345 67890"
                     className="border border-gray-400 rounded-sm w-[270px] mb-2 mx-8 mt-1 h-8 px-3 py-1"
                   />
@@ -150,7 +164,7 @@ function InputForm() {
                   <img src={mail} alt="mail-icon" className="mb-2" />
                   <input
                     type="text"
-                    {...register("mail")}
+                    {...register("contact.email")}
                     placeholder="kamleshsuthar12@example.com"
                     className="border border-gray-400 rounded-sm w-[270px] mb-2 mx-8 mt-1 h-8 px-3 py-1"
                   />
@@ -161,7 +175,7 @@ function InputForm() {
                   <img src={linkedin} alt="linkedin-icon" className="mb-2" />
                   <input
                     type="text"
-                    {...register("linkedin")}
+                    {...register("contact.linkedin")}
                     placeholder="linkedin.com/in/kamlesh"
                     className="border border-gray-400 rounded-sm w-[270px] mb-2 mx-8 mt-1 h-8 px-3 py-1"
                   />
@@ -170,7 +184,7 @@ function InputForm() {
                   <img src={git} alt="git-icon" className="mb-2" />
                   <input
                     type="text"
-                    {...register("git")}
+                    {...register("contact.github")}
                     placeholder="github.com/kamlesh"
                     className="border border-gray-400 rounded-sm w-[270px] mb-2 mx-8 mt-1 h-8 px-3 py-1"
                   />
@@ -178,7 +192,7 @@ function InputForm() {
               </div>
             </div>
 
-              {/* Education Fields */}
+            {/* Education Fields */}
             <div className="mb-10">
               {educationFields.map((education, index) => (
                 <div key={education.id} className="ml-3">
@@ -256,7 +270,7 @@ function InputForm() {
               </button>
             </div>
 
-              {/* Project Fields */}
+            {/* Project Fields */}
             <div className="mb-10">
               {projectFields.map((project, index) => (
                 <div key={project.id} className="ml-3">
@@ -331,7 +345,7 @@ function InputForm() {
               </button>
             </div>
 
-              {/* Experience Fields */}
+            {/* Experience Fields */}
             <div className="mb-10">
               {experienceFields.map((experience, index) => (
                 <div key={experience.id} className="ml-3">
@@ -466,7 +480,7 @@ function InputForm() {
                 type="submit"
                 className="px-12 lg:px-16 my-9 py-3 bg-purple-600 text-white font-bold text-base rounded-full hover:bg-purple-700"
               >
-                Submit
+                Create
               </button>
             </div>
           </div>
@@ -476,4 +490,4 @@ function InputForm() {
   );
 }
 
-export default InputForm;
+export default CreateResume;

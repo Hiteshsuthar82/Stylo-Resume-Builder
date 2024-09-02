@@ -9,7 +9,7 @@ import {
   Login,
   AuthLayout,
   AllTemplates,
-  InputForm,
+  CreateResume,
   MyResumes,
   ResumeView,
   UserProfile,
@@ -18,6 +18,7 @@ import {
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import Home from "./pages/Home.jsx";
+import EditResume from "./components/EditResume.jsx";
 
 const router = createBrowserRouter([
   {
@@ -69,10 +70,18 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/inputForm",
+        path: "/createResume/:templateId",
         element: (
           <AuthLayout authentication>
-            <InputForm />
+            <CreateResume />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/editResume/:resumeId",
+        element: (
+          <AuthLayout authentication>
+            <EditResume />
           </AuthLayout>
         ),
       },
@@ -85,7 +94,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/resumeView/:resumeId",
+        path: "/resumeView/:templateId/:resumeId",
         element: (
           <AuthLayout authentication>
             <ResumeView />

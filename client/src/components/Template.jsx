@@ -1,10 +1,12 @@
 import React from "react";
 import searchIcon from "./../assets/search.svg";
+import editIcon from "./../assets/edit-icon.svg";
+import deleteIcon from "./../assets/delete-icon.svg";
 
-function Template({ templateData, isSelected, onClick, onSearchClick }) {
+function Template({ templateData, isSelected, onClick, onSearchClick, resumeId=null, onEditClick, onDeleteClick }) {  
   return (
     <div
-      onClick={() => onClick && onClick(templateData.id)}
+      onClick={() => onClick && onClick(templateData.id, resumeId)}
       className={`relative mx-auto p-1 rounded-lg cursor-pointer transition-all duration-300 border-4 w-fit group ${
         isSelected
           ? "border-4 border-purple-600"
@@ -17,6 +19,7 @@ function Template({ templateData, isSelected, onClick, onSearchClick }) {
         alt={`template ${templateData.id}`}
         tabIndex={0}
       />
+
       {/* Icon to be displayed on hover/focus */}
       {onSearchClick && (
         <div
@@ -26,6 +29,26 @@ function Template({ templateData, isSelected, onClick, onSearchClick }) {
           }}
         >
           <img src={searchIcon} alt="" />
+        </div>
+      )}
+      {onEditClick && (
+        <div
+          className="absolute top-4 right-16 w-10 h-10 bg-purple-600 p-2 rounded-full flex items-center justify-center opacity-0 transition-opacity group-focus-within:opacity-100"
+          onClick={(e) => {
+            onEditClick(resumeId);
+          }}
+        >
+          <img src={editIcon} alt="" />
+        </div>
+      )}
+      {onDeleteClick && (
+        <div
+          className="absolute top-4 right-4 w-10 h-10 bg-orange-300 p-2 rounded-full flex items-center justify-center opacity-0 transition-opacity group-focus-within:opacity-100"
+          onClick={(e) => {
+            onDeleteClick(resumeId);
+          }}
+        >
+          <img src={deleteIcon} alt="" />
         </div>
       )}
     </div>

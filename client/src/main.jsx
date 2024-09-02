@@ -69,14 +69,6 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/template1",
-        element: (
-          <AuthLayout authentication>
-            <ResumeTemplate />
-          </AuthLayout>
-        ),
-      },
-      {
         path: "/allTemplates",
         element: (
           <AuthLayout authentication>

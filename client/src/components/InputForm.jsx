@@ -130,7 +130,7 @@ function InputForm() {
                     </div>
                   </div>
               </div>
-                        {/* name og about */}
+                        {/* name of about */}
               <div className='flex flex-col lg:items-center lg:gap-10 lg:flex-row my-7'>
                 <label className='font-medium'> Name: </label>
                 <input type="text" 

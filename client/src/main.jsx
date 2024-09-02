@@ -15,6 +15,7 @@ import {
   ResumeView,
   UserProfile,
   StepsPage,
+  ResumeTemplate
 } from "./components/index.js";
 import Layout from "../Layout.jsx";
 import {

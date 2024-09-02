@@ -113,8 +113,8 @@ const insertDummyData = asyncHandler(async (req, res, next) => {
         );
     }
   } catch (error) {
-      next(new ApiError(500, "Error inserting or fetching dummy data"));
-    }
+    next(new ApiError(500, "Error inserting or fetching dummy data"));
+  }
 });
 
 // Function to edit resume for logged-in user
@@ -148,6 +148,9 @@ const editResume = asyncHandler(async (req, res, next) => {
     // Check if there's any existing resume with permanentdata set to true
     const existingResume = await Resume.findOne({ owner: userId, permanentdata: true });
 
+    // Check if there's any existing resume with permanentdata set to true
+    const existingResume = await Resume.findOne({ owner: userId, permanentdata: true });
+
     if (existingResume) {
       // Update the permanentdata field to false for the existing resume
       existingResume.permanentdata = false;
@@ -177,41 +180,41 @@ const editResume = asyncHandler(async (req, res, next) => {
 
 
 const updateResumeByResumeId = asyncHandler(async (req, res, next) => {
-    try {
-      const userId = req.user._id;
-      const { resumeId } = req.params; // Extract resumeId from URL
-      
-      if (!userId) {
-        throw new ApiError(401, "Unauthorized to edit resume");
+  try {
+    const userId = req.user._id;
+    const { resumeId } = req.params; // Extract resumeId from URL
+
+    if (!userId) {
+      throw new ApiError(401, "Unauthorized to edit resume");
     }
-  
+
     if (!resumeId) {
-        return res
-        .status(400)
-          .json(new ApiResponse(400, null, "Resume ID is required"));
-        }
-        
-        const updateData = req.body;
-  
-        // Find the existing resume
-        const resume = await Resume.findOne({ _id: resumeId, owner: userId });
-        
-      if (!resume) {
-          return res
-          .status(404)
-          .json(new ApiResponse(404, null, "Resume not found for the given ID"));
-        }
-  
-      // Update existing resume without creating a new document
-      Object.assign(resume, updateData);
-      await resume.save();
-      
       return res
+        .status(400)
+        .json(new ApiResponse(400, null, "Resume ID is required"));
+    }
+
+    const updateData = req.body;
+
+    // Find the existing resume
+    const resume = await Resume.findOne({ _id: resumeId, owner: userId });
+
+    if (!resume) {
+      return res
+        .status(404)
+        .json(new ApiResponse(404, null, "Resume not found for the given ID"));
+    }
+
+    // Update existing resume without creating a new document
+    Object.assign(resume, updateData);
+    await resume.save();
+
+    return res
       .status(200)
       .json(new ApiResponse(200, resume, "Resume updated successfully"));
-    } catch (error) {
-      next(new ApiError(500, "Error updating resume: " + error.message));
-    }
+  } catch (error) {
+    next(new ApiError(500, "Error updating resume: " + error.message));
+  }
 });
 
 // 😊workking fine ----
@@ -281,14 +284,10 @@ const getResumesByUserId = asyncHandler(async (req, res, next) => {
     if (!userId) {
       throw new ApiError(401, "Unauthorized to fetch resumes");
     }
-    
-    if (!userId) {
-      throw new ApiError(401, "Unauthorized to fetch resumes");
-    }
 
     // Find all resumes belonging to the user
     const resumes = await Resume.find({ owner: userId });
-    
+
     if (resumes.length === 0) {
       return res
         .status(404)
@@ -296,9 +295,9 @@ const getResumesByUserId = asyncHandler(async (req, res, next) => {
     }
 
     return res
-    .status(200)
-    .json(new ApiResponse(200, resumes, "Resumes fetched successfully"));
-} catch (error) {
+      .status(200)
+      .json(new ApiResponse(200, resumes, "Resumes fetched successfully"));
+  } catch (error) {
     next(new ApiError(500, "Error fetching resumes: " + error.message));
   }
 });
@@ -314,10 +313,10 @@ const getResumeById = asyncHandler(async (req, res, next) => {
 
     // Find the resume by its ID
     const resume = await Resume.findById(resumeId);
-    
+
     if (!resume) {
       return res
-      .status(404)
+        .status(404)
         .json(new ApiResponse(404, null, "Resume not found"));
     }
 
@@ -325,59 +324,57 @@ const getResumeById = asyncHandler(async (req, res, next) => {
       .status(200)
       .json(new ApiResponse(200, resume, "Resume fetched successfully"));
   } catch (error) {
-      next(new ApiError(500, "Error fetching resume: " + error.message));
-    }
+    next(new ApiError(500, "Error fetching resume: " + error.message));
+  }
 });
 
 const deleteResumeById = asyncHandler(async (req, res, next) => {
-    try {
+  try {
     const { resumeId } = req.params; // Resume ID from URL parameters
-    
+
     // Delete the resume by its ID
     const result = await Resume.findByIdAndDelete(resumeId);
-    
+
     if (!result) {
-        return res
+      return res
         .status(404)
         .json(new ApiResponse(404, null, "Resume not found"));
     }
-    
+
     return res
-    .status(200)
-    .json(new ApiResponse(200, null, "Resume deleted successfully"));
-} catch (error) {
+      .status(200)
+      .json(new ApiResponse(200, null, "Resume deleted successfully"));
+  } catch (error) {
     next(new ApiError(500, "Error deleting resume: " + error.message));
-}
+  }
 });
 
 
 // 😊workking fine ----
 const deleteAllResumesByUserId = asyncHandler(async (req, res, next) => {
-    try {
+  try {
     const userId = req.user._id; // User ID from request
-    
+
     if (!userId) {
-        throw new ApiError(401, "Unauthorized to delete resumes");
+      throw new ApiError(401, "Unauthorized to delete resumes");
     }
 
     // Delete all resumes associated with the user
     const result = await Resume.deleteMany({ owner: userId });
-    
+
     return res
-    .status(200)
-    .json(
+      .status(200)
+      .json(
         new ApiResponse(
           200,
           null,
           `${result.deletedCount} resumes deleted successfully`
         )
-    );
+      );
   } catch (error) {
     next(new ApiError(500, "Error deleting resumes: " + error.message));
-}
+  }
 });
-
-
 
 export {
   insertDummyData,
@@ -387,7 +384,7 @@ export {
   getResumeById,
   deleteResumeById,
   deleteAllResumesByUserId,
-  updateResumeByResumeId
+  updateResumeByResumeId,
 };
 
 // {

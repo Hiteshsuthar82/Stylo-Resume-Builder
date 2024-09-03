@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Container } from "./index";
+import person from "../assets/person.svg";
 import mail from "../assets/envelop.svg";
 import phone from "../assets/phone.svg";
 import linkedin from "../assets/linkedin.svg";
@@ -80,9 +81,9 @@ function CreateResume() {
       const response = await dispatch(createResume(formData));
 
       if (response && response.payload && response.payload.data) {
-        const data = response.payload.data
+        const data = response.payload.data;
         alert("redirecting to temlpate view page");
-        navigate(`/resumeView/${templateId}/${data._id}`)
+        navigate(`/resumeView/${templateId}/${data._id}`);
       } else {
         console.log("No data in response or response structure is different");
       }
@@ -98,10 +99,10 @@ function CreateResume() {
           <h2 className="text-center text-3xl lg:text-5xl my-8 font-bold">
             Career Profile Form
           </h2>
-          <p className="text-lg lg:text-xl mx-auto mt-10 lg:mx-24">
+          <p className="hidden sm:block text-lg lg:text-xl mx-14 mt-10 lg:mx-24">
             Enter your information below to build a strong resume.
           </p>
-          <div className="lg:mx-28 mt-10 mb-20 mx-10">
+          <div className="lg:mx-28 mt-10 mb-20 sm:mx-10 mr-2 ml-4">
             {/* Presnol information fields */}
             <div className="ml-3 mb-10">
               {/* Personal Information */}
@@ -141,8 +142,9 @@ function CreateResume() {
               </div>
 
               {/* Form Fields */}
-              <div className="flex flex-col lg:items-center lg:gap-10 lg:flex-row my-7">
-                <label className="font-medium"> Name: </label>
+              <div className="flex lg:items-center gap-6 flex-row my-7">
+                {/* <label className="font-medium"> Name: </label> */}
+                <img src={person} alt="phone-icon" className="mb-2 h-9" />
                 <input
                   type="text"
                   {...register("name")}
@@ -208,7 +210,7 @@ function CreateResume() {
                       <button
                         type="button"
                         onClick={() => removeEducation(index)}
-                        className="ml-12 border border-red-300 rounded-full px-4 py-1 text-red-500 bg-purple-50 hover:bg-purple-200"
+                        className="ml-0 lg:ml-12 border border-red-300 rounded-full px-4 py-1 text-red-500 bg-purple-50 hover:bg-purple-200"
                       >
                         remove
                       </button>
@@ -284,7 +286,7 @@ function CreateResume() {
                     <button
                       type="button"
                       onClick={() => removeProject(index)}
-                      className="ml-20 border border-red-300 rounded-full px-4 py-1 text-red-500 bg-purple-50 hover:bg-purple-200"
+                      className="ml-0 lg:ml-12 border border-red-300 rounded-full px-4 py-1 text-red-500 bg-purple-50 hover:bg-purple-200"
                     >
                       remove
                     </button>
@@ -453,7 +455,7 @@ function CreateResume() {
                 />
               </div>
               <div className="flex flex-col lg:items-center lg:gap-10 lg:flex-row mb-7">
-                <label className=" font-medium w-[20%]">
+                <label className=" font-medium w-[40%] sm:w-[20%]">
                   {" "}
                   Developer Tools:{" "}
                 </label>

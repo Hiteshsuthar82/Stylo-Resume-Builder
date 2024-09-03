@@ -2,8 +2,10 @@ import React from "react";
 import template_img from "../assets/template.svg"
 import res_design from "../assets/resume_design.svg"
 import ready_res from "../assets/ready_resume.svg"
+import { useNavigate } from "react-router-dom";
 
 function StepsPage() {
+  const navigate = useNavigate()
   return (
     <div className="contain mx-20">
       <h2 className="text-center text-4xl my-10 font-bold">
@@ -24,7 +26,7 @@ function StepsPage() {
           </div>
           <div className="w-80 h-20 text-center m-2">
             <p className="text-lg">
-              Explore our curated templates and step-by-step guidance to create
+              Explore our created templates and step-by-step guidance to create
               a standout resume quickly.
             </p>
           </div>
@@ -61,6 +63,7 @@ function StepsPage() {
       <div className="flex items-center justify-center">
         <button
           type="submit"
+          onClick={() =>navigate('/allTemplates')}
           className="px-16 lg:px-20 my-9 py-3 bg-purple-600 text-white font-bold text-base rounded-full hover:bg-purple-700"
         >
           Continue

@@ -4,10 +4,12 @@ import { Container, Template, DeleteConfirmationDialog } from "./../index";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getAllResumes, deleteResume } from "../../features/resumeSlice";
+import loader from "../../assets/page-loader.gif";
 
 function MyResumes() {
   const [selectedTemplateId, setSelectedTemplateId] = useState(null);
   const [selectedResumeId, setSelectedResumeId] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(false);
   const [isdeleteConfirmationDialog, setDeleteConfirmationDialog] =
     useState(false);
@@ -18,7 +20,7 @@ function MyResumes() {
   const [myResumes, setMyResumes] = useState([]);
 
   const handleEditClick = async () => {
-    navigate(`/editResume/${selectedResumeId}`)
+    navigate(`/editResume/${selectedResumeId}`);
   };
 
   const handleDeleteClick = () => {
@@ -58,14 +60,20 @@ function MyResumes() {
       if (response) {
         console.log("all resumes fetched successfully..");
         setMyResumes(response.payload.data);
+        setLoading(false);
       } else {
         // write code if there are note any resume for current user
         console.log("no resumes found");
+        setLoading(false);
       }
     });
   }, [deleting]);
 
-  return (
+  return loading ? (
+    <div className="h-[75vh] w-full flex items-center justify-center">
+      <img src={loader} alt="Loading.." className="h-40" />
+    </div>
+  ) : (
     <Container>
       <div className="pt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mx-3 gap-16 flex-wrap justify-center">
         {templates &&
@@ -93,7 +101,7 @@ function MyResumes() {
       {/* delete confirmation dialog */}
       {isdeleteConfirmationDialog && (
         <DeleteConfirmationDialog
-        deleting={deleting}
+          deleting={deleting}
           onCancelClick={handleCancelDeleteClick}
           onDeleteClick={handleConfirmDeleteClick}
         />
@@ -107,8 +115,6 @@ function MyResumes() {
           Open
         </button>
       )}
-
-      
     </Container>
   );
 }

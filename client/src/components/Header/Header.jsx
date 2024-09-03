@@ -26,8 +26,8 @@ function Header() {
       active: !authstatus,
     },
     {
-      name: "All templates",
-      slug: "/allTemplates",
+      name: "Create Resume",
+      slug: "/steps",
       active: authstatus,
     },
     {

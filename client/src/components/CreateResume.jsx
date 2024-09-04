@@ -8,7 +8,7 @@ import linkedin from "../assets/linkedin.svg";
 import git from "../assets/github.svg";
 import dgt from "../assets/doubleRight.png";
 import { useDispatch } from "react-redux";
-import { createResume } from "../features/resumeSlice";
+import { createResume, uploadImage } from "../features/resumeSlice";
 import { useNavigate, useParams } from "react-router-dom";
 
 function CreateResume() {
@@ -17,6 +17,7 @@ function CreateResume() {
   const { templateId } = useParams();
 
   const [selectedImage, setSelectedImage] = React.useState(null);
+  const [imagePreview, setImagePreview] = React.useState(null);
   const { register, handleSubmit, control } = useForm({
     defaultValues: {
       name: "",
@@ -25,6 +26,7 @@ function CreateResume() {
       projects: [],
       education: [{ institution: "", degree: "", location: "", duration: "" }],
       skills: {},
+      permanentdata: null,
     },
   });
 
@@ -70,25 +72,50 @@ function CreateResume() {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setSelectedImage(URL.createObjectURL(file));
+      setSelectedImage(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
   const onSubmit = async (formData) => {
-    try {
-      formData.templateId = templateId;
+    if (selectedImage) {
+      const data = new FormData();
+      data.append("image", selectedImage);
 
-      const response = await dispatch(createResume(formData));
+      try {
+        const image = await dispatch(uploadImage(data));
+        if (image) {
+          try {
+            const imageUrl = image.payload.imageUrl;
+            formData.templateId = templateId;
+            formData.image = imageUrl;
 
-      if (response && response.payload && response.payload.data) {
-        const data = response.payload.data;
-        alert("redirecting to temlpate view page");
-        navigate(`/resumeView/${templateId}/${data._id}`);
-      } else {
-        console.log("No data in response or response structure is different");
+            const response = await dispatch(createResume(formData));
+
+            if (response && response.payload && response.payload.data) {
+              const data = response.payload.data;
+              alert("redirecting to temlpate view page");
+              navigate(`/resumeView/${templateId}/${data._id}`);
+            } else {
+              console.log(
+                "No data in response or response structure is different"
+              );
+            }
+          } catch (error) {
+            console.log("Error occurred:", error.message || error);
+          }
+        } else {
+          console.log("image is not propely uploaded.");
+        }
+      } catch (error) {
+        console.error("Image upload failed:", error);
       }
-    } catch (error) {
-      console.log("Error occurred:", error.message || error);
+    } else {
+      console.log("No image selected");
     }
   };
 
@@ -115,10 +142,10 @@ function CreateResume() {
               <div className="flex flex-col lg:flex-row">
                 <div className="h-32 w-32 border border-purple-400 flex items-center justify-center rounded">
                   {/* Image Box */}
-                  {selectedImage && (
+                  {imagePreview && (
                     <div>
                       <img
-                        src={selectedImage}
+                        src={imagePreview}
                         alt="Selected"
                         className="h-32 w-32 object-cover rounded"
                       />
@@ -474,6 +501,20 @@ function CreateResume() {
                   {...register("skills.libraries")}
                   className="border border-gray-400 rounded-sm w-2/4 max-sm:w-[80%] md:w-2/5 h-8 px-3 py-1"
                 />
+              </div>
+            </div>
+            <div className="">
+              <div className="form-control">
+                <label className="label cursor-pointer">
+                  <input
+                    type="checkbox"
+                    {...register("permanentdata")}
+                    className="checkbox checkbox-primary"
+                  />
+                  <span className="label-text ml-4">
+                    It is your Permanent Detail Or Not
+                  </span>
+                </label>
               </div>
             </div>
 

@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import UserDetailCard from "./UserDetailCard";
 import UserDetailListItem from "./UserDetailListItem";
+import { getUsersPermanentsDetail } from "../../features/resumeSlice";
+import { useDispatch } from "react-redux";
 
 const UserProfile = () => {
+  const [myResumes, setMyResumes] = useState([]);
+  const dispatch = useDispatch();
+
   const user = {
     name: "Jake Ryan",
     image:
@@ -132,7 +137,22 @@ const UserProfile = () => {
     },
   };
 
-  return (
+  useEffect(() => {
+    dispatch(getUsersPermanentsDetail()).then((response) => {
+      if (response) {
+        console.log("all resumes fetched successfully..");
+        setMyResumes(response.payload.data);
+      } else {
+        // write code if there are note any resume for current user
+        console.log("no resumes found");
+      }
+    });
+  }, []);
+
+  console.log(myResumes);
+  
+
+  return ( myResumes && 
     <div className="max-w-4xl mx-auto p-6 bg-[#f8f9fe] rounded-lg shadow-md">
       <div className="relative flex flex-col flex-auto min-w-0 p-4 overflow-hidden break-words border-0 shadow-sm rounded-2xl bg-white/80 bg-clip-border mb-4">
         <div className="flex flex-wrap -mx-3">
@@ -140,7 +160,7 @@ const UserProfile = () => {
             <div className="text-base ease-soft-in-out h-16 w-16 relative inline-flex items-center justify-center rounded-xl text-white transition-all duration-200">
               <img
                 src={
-                  dummyData.image ||
+                  myResumes.image ||
                   "https://demos.creative-tim.com/soft-ui-dashboard-tailwind/assets/img/bruce-mars.jpg"
                 }
                 alt="profile_image"
@@ -150,7 +170,7 @@ const UserProfile = () => {
           </div>
           <div className="flex-none w-auto max-w-full px-3 my-auto">
             <div className="h-full">
-              <h5 className="mb-1">{dummyData.name}</h5>
+              <h5 className="mb-1">{myResumes.name}</h5>
               <p className="mb-0 font-semibold leading-normal text-sm">
                 Account Owener
               </p>
@@ -161,7 +181,7 @@ const UserProfile = () => {
       </div>
 
       <div>
-        {Object.entries(dummyData).map(([key, value]) => {
+        {Object.entries(myResumes).map(([key, value]) => {
           if (Array.isArray(value)) {
             return null;
           } else if (typeof value === "object" && value !== null) {
@@ -190,7 +210,7 @@ const UserProfile = () => {
 
       <div className="w-full pb-6 mx-auto removable">
         <div className="grid grid-cols-3">
-          {Object.entries(dummyData).map(([key, value]) => {
+          {Object.entries(myResumes).map(([key, value]) => {
             if (Array.isArray(value)) {
               // Render arrays using UserDetailCard
               return (

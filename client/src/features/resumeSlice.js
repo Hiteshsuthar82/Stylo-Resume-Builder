@@ -29,6 +29,30 @@ const initialState = {
   ],
 };
 
+export const uploadImage = createAsyncThunk(
+  "resume/uploadImage",
+  async (credentials, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:8000/api/v1/temp/upload-image`,
+        credentials,
+        {
+          withCredentials: true ,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log("image uploaded successfully.");
+      return response.data;
+    } catch (error) {
+      console.log("error in uploading image.", error.payload);
+      return rejectWithValue("uploadImage :: error ", error.payload);
+    }
+  }
+);
+
 export const createResume = createAsyncThunk(
   "resume/create",
   async (credentials, { rejectWithValue }) => {
@@ -42,16 +66,14 @@ export const createResume = createAsyncThunk(
       console.log("resume create successfully.");
       return response.data;
     } catch (error) {
-      return rejectWithValue(
-        "createResume :: error ", error.payload
-      );
+      return rejectWithValue("createResume :: error ", error.payload);
     }
   }
 );
 
 export const getAllResumes = createAsyncThunk(
   "resume/getAllResumes",
-  async (_, { rejectWithValue }) => {   
+  async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
         `http://localhost:8000/api/v1/temp/Allresume`,
@@ -62,9 +84,27 @@ export const getAllResumes = createAsyncThunk(
       return response.data;
     } catch (error) {
       console.log("error occur in getAllResumes : ", error.response);
+      return rejectWithValue("getAllResumes :: error ", error.response.data);
+    }
+  }
+);
+
+export const getUsersPermanentsDetail = createAsyncThunk(
+  "resume/getUsersPermanentsDetail",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/v1/temp/usersPermanentDetais`,
+        { withCredentials: true }
+      );
+
+      console.log("user's Permanent resume's data fetched successfully.");
+      return response.data;
+    } catch (error) {
+      console.log("error occur in getUsersPermanentsDetail : ", error.response);
       return rejectWithValue(
-        "getAllResumes :: error ",
-        error.response.data
+        "getUsersPermanentsDetail :: error ",
+        error.response
       );
     }
   }
@@ -80,18 +120,15 @@ export const getResumeData = createAsyncThunk(
         { withCredentials: true }
       );
 
-      if(response){
+      if (response) {
         console.log("selected resume's data fetched successfully.");
         return response.data;
-      }else{
+      } else {
         console.log("some error occured in getting resume's data");
       }
     } catch (error) {
-      console.log('error occured in getResumeData', error.response);
-      return rejectWithValue(
-        "getResumeData :: error ",
-        error.response.data
-      );
+      console.log("error occured in getResumeData", error.response);
+      return rejectWithValue("getResumeData :: error ", error.response.data);
     }
   }
 );
@@ -109,10 +146,7 @@ export const deleteResume = createAsyncThunk(
       return true;
     } catch (error) {
       console.log("selected resume deleted successfully.");
-      return rejectWithValue(
-        "deleteResume :: error ",
-        error.response.data
-      );
+      return rejectWithValue("deleteResume :: error ", error.response.data);
     }
   }
 );
@@ -129,18 +163,32 @@ export const editResume = createAsyncThunk(
       console.log("resume edited successfully.");
       return response.data;
     } catch (error) {
-      return rejectWithValue(
-        "editResume :: error ",
-        error.response
-      );
+      return rejectWithValue("editResume :: error ", error.response);
     }
   }
 );
 
 export const resumeSlice = createSlice({
-  name: "resume",
+  name: "resume/uploadImage",
   initialState,
   extraReducers: (builder) => {
+    // create resume
+    builder
+      .addCase(uploadImage.pending, (state) => {
+        state.loading = true;
+        state.status = false;
+        state.data = null;
+      })
+      .addCase(uploadImage.fulfilled, (state, actions) => {
+        state.loading = false;
+        state.status = true;
+        state.data = actions.payload;
+      })
+      .addCase(uploadImage.rejected, (state) => {
+        state.loading = false;
+        state.status = false;
+      });
+
     // create resume
     builder
       .addCase(createResume.pending, (state) => {
@@ -184,6 +232,21 @@ export const resumeSlice = createSlice({
         state.data = actions.payload.data;
       })
       .addCase(getAllResumes.rejected, (state) => {
+        state.loading = false;
+        state.status = false;
+      });
+
+    // getting permanent resumes data
+    builder
+      .addCase(getUsersPermanentsDetail.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getUsersPermanentsDetail.fulfilled, (state, actions) => {
+        state.loading = false;
+        state.status = true;
+        state.data = actions.payload.data;
+      })
+      .addCase(getUsersPermanentsDetail.rejected, (state) => {
         state.loading = false;
         state.status = false;
       });

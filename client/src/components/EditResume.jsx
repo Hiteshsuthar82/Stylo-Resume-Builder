@@ -9,7 +9,7 @@ import linkedin from "../assets/linkedin.svg";
 import git from "../assets/github.svg";
 import dgt from "../assets/doubleRight.png";
 import { useDispatch } from "react-redux";
-import { getResumeData, editResume } from "../features/resumeSlice";
+import { getResumeData, editResume, uploadImage } from "../features/resumeSlice";
 import { useNavigate, useParams } from "react-router-dom";
 
 function EditResume() {
@@ -19,6 +19,7 @@ function EditResume() {
 
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [imagePreview, setImagePreview] = React.useState(null);
   const [resumeData, setResumeData] = useState(null);
   const { register, handleSubmit, control, reset } = useForm({
     defaultValues: {
@@ -78,25 +79,62 @@ function EditResume() {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setSelectedImage(URL.createObjectURL(file));
+      setSelectedImage(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
   const onSubmit = async (formData) => {
-    try {
-      const response = await dispatch(editResume({ formData, resumeId }));
+    if (selectedImage) {
+      const data = new FormData();
+      data.append("image", selectedImage);
 
-      if (response && response.payload && response.payload.data) {
-        const data = response.payload.data;
-        alert("redirect to edited temlpate view page");
-        navigate(`/resumeView/${data.templateId}/${resumeId}`);
-        // navigate('/allTemplates')
-      } else {
-        console.log("No data in response or response structure is different");
+      try {
+        const image = await dispatch(uploadImage(data));
+        if (image) {
+          try {
+            const imageUrl = image.payload.imageUrl;
+            formData.image = imageUrl;
+
+            const response = await dispatch(editResume({ formData, resumeId }));
+      
+            if (response && response.payload && response.payload.data) {
+              const data = response.payload.data;
+              alert("redirect to edited temlpate view page");
+              navigate(`/resumeView/${data.templateId}/${resumeId}`);
+              // navigate('/allTemplates')
+            } else {
+              console.log("No data in response or response structure is different");
+            }
+          } catch (error) {
+            console.log("Error occurred:", error.message || error);
+          }
+        }
+      } catch (error) {
+        console.error("Image upload failed:", error);
       }
-    } catch (error) {
-      console.log("Error occurred:", error.message || error);
+    } else {
+      console.log("No image selected");
+      try {
+        const response = await dispatch(editResume({ formData, resumeId }));
+  
+        if (response && response.payload && response.payload.data) {
+          const data = response.payload.data;
+          alert("redirect to edited temlpate view page");
+          navigate(`/resumeView/${data.templateId}/${resumeId}`);
+          // navigate('/allTemplates')
+        } else {
+          console.log("No data in response or response structure is different");
+        }
+      } catch (error) {
+        console.log("Error occurred:", error.message || error);
+      }
     }
+    
   };
 
   useEffect(() => {
@@ -104,6 +142,9 @@ function EditResume() {
       dispatch(getResumeData({ resumeId: resumeId })).then((response) => {
         if (response) {
           const data = response.payload.data;
+          console.log(data);
+          
+          setImagePreview(data.image);
           setResumeData(response.payload.data);
           reset({
             name: data.name,
@@ -112,9 +153,9 @@ function EditResume() {
             projects: data.projects,
             education: data.education,
             skills: data.skills,
+            permanentdata: data.permanentdata
           });
           setLoading(false);
-          console.log("edit page opened");
         } else {
           console.log("getting error");
         }
@@ -152,10 +193,10 @@ function EditResume() {
               <div className="flex flex-col lg:flex-row">
                 <div className="h-32 w-32 border border-purple-400 flex items-center justify-center rounded">
                   {/* Image Box */}
-                  {selectedImage && (
+                  {imagePreview && (
                     <div>
                       <img
-                        src={selectedImage}
+                        src={imagePreview}
                         alt="Selected"
                         className="h-32 w-32 object-cover rounded"
                       />
@@ -514,6 +555,20 @@ function EditResume() {
               </div>
             </div>
 
+            <div className="">
+              <div className="form-control">
+                <label className="label cursor-pointer">
+                  <input
+                    type="checkbox"
+                    {...register("permanentdata")}
+                    className="checkbox checkbox-primary"
+                  />
+                  <span className="label-text ml-4">
+                    It is your Permanent Detail Or Not
+                  </span>
+                </label>
+              </div>
+            </div>
             <div className="flex justify-center">
               <button
                 type="submit"

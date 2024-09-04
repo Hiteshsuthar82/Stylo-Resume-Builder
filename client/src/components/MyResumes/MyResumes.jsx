@@ -56,7 +56,7 @@ function MyResumes() {
   };
 
   useEffect(() => {
-    dispatch(getAllResumes(userId)).then((response) => {
+    dispatch(getAllResumes()).then((response) => {
       if (response) {
         console.log("all resumes fetched successfully..");
         setMyResumes(response.payload.data);

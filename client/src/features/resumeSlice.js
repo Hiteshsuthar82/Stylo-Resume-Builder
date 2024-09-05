@@ -83,6 +83,8 @@ export const updateImage = createAsyncThunk(
 export const createResume = createAsyncThunk(
   "resume/create",
   async (credentials, { rejectWithValue }) => {
+    console.log(credentials);
+    
     try {
       const response = await axios.post(
         "http://localhost:8000/api/v1/temp/edit-resume",

@@ -18,6 +18,8 @@ import UserDetailCard from "./UserProfile/UserDetailCard";
 import UserDetailListItem from "./UserProfile/UserDetailListItem";
 import UserProfile from "./UserProfile/UserProfile";
 import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
+import PermanentDetailConfirmationDialog from "./PermanentDetailConfirmationDialog";
+import DangerAlert from "./DangerAlert";
 
 export {
   Header,
@@ -39,5 +41,7 @@ export {
   UserDetailListItem,
   UserDetailCard,
   UserProfile,
-  DeleteConfirmationDialog
+  DeleteConfirmationDialog,
+  PermanentDetailConfirmationDialog,
+  DangerAlert,
 };

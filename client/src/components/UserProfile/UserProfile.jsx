@@ -141,7 +141,6 @@ const UserProfile = () => {
   useEffect(() => {
     dispatch(getUsersPermanentsDetail()).then((response) => {
       if (response && response?.meta?.status !== 404) {
-        console.log(response);
 
         console.log("all resumes fetched successfully..");
         setMyResumes(response.payload.data);
@@ -152,8 +151,6 @@ const UserProfile = () => {
       }
     });
   }, []);
-
-  console.log(userDetail);
 
   return !myResumes ? (
     <div className="h-[70vh]">

@@ -163,15 +163,17 @@ const editResume = asyncHandler(async (req, res, next) => {
     console.log(updateData);
 
     // Check if there's any existing resume with permanentdata set to true
-    const existingResume = await Resume.findOne({
-      owner: userId,
-      permanentdata: true,
-    });
+    if (updateData?.permanentdata) {
+      const existingResume = await Resume.findOne({
+        owner: userId,
+        permanentdata: true,
+      });
 
-    if (existingResume) {
-      // Update the permanentdata field to false for the existing resume
-      existingResume.permanentdata = false;
-      await existingResume.save();
+      if (existingResume) {
+        // Update the permanentdata field to false for the existing resume
+        existingResume.permanentdata = false;
+        await existingResume.save();
+      }
     }
 
     // Get the stored image URL from the user's document
@@ -182,7 +184,7 @@ const editResume = asyncHandler(async (req, res, next) => {
     const newResume = new Resume({
       owner: userId,
       ...updateData,
-      image: storedImageUrl, // Add the stored image URL to the resume
+      // image: storedImageUrl, // Add the stored image URL to the resume
     });
     await newResume.save();
 
@@ -203,7 +205,6 @@ const editResume = asyncHandler(async (req, res, next) => {
   }
 });
 
-
 // 😊workking fine ---- perment resume data fetch
 
 const getPermanentResume = asyncHandler(async (req, res, next) => {
@@ -221,22 +222,26 @@ const getPermanentResume = asyncHandler(async (req, res, next) => {
     });
 
     if (!permanentResume) {
-      return res.status(404).json(new ApiResponse(404, null, "No permanent resume found"));
+      return res
+        .status(404)
+        .json(new ApiResponse(404, null, "No permanent resume found"));
     }
 
-    return res.status(200).json(
-      new ApiResponse(
-        200,
-        permanentResume,
-        "Permanent resume fetched successfully"
-      )
-    );
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(
+          200,
+          permanentResume,
+          "Permanent resume fetched successfully"
+        )
+      );
   } catch (error) {
-    next(new ApiError(500, "Error fetching permanent resume: " + error.message));
+    next(
+      new ApiError(500, "Error fetching permanent resume: " + error.message)
+    );
   }
 });
-
-
 
 const updateResumeByResumeId = asyncHandler(async (req, res, next) => {
   try {

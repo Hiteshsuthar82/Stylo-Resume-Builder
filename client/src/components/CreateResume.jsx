@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
-import { Container } from "./index";
+import {
+  Container,
+  PermanentDetailConfirmationDialog,
+  DangerAlert,
+} from "./index";
 import person from "../assets/person.svg";
 import mail from "../assets/envelop.svg";
 import phone from "../assets/phone.svg";
@@ -8,7 +12,11 @@ import linkedin from "../assets/linkedin.svg";
 import git from "../assets/github.svg";
 import dgt from "../assets/doubleRight.png";
 import { useDispatch } from "react-redux";
-import { createResume, uploadImage } from "../features/resumeSlice";
+import {
+  createResume,
+  getUsersPermanentsDetail,
+  uploadImage,
+} from "../features/resumeSlice";
 import { useNavigate, useParams } from "react-router-dom";
 
 function CreateResume() {
@@ -17,9 +25,13 @@ function CreateResume() {
   const { templateId } = useParams();
 
   const [submiting, setSubmiting] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [showError, setShowError] = useState(false);
+  const [isPermanentConfirmation, setIsPermanentConfirmation] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
-  const { register, handleSubmit, control } = useForm({
+  const { register, handleSubmit, control, reset } = useForm({
     defaultValues: {
       name: "",
       contact: { phone: "", email: "", github: "", linkedin: "" },
@@ -68,6 +80,49 @@ function CreateResume() {
 
   const removeEducation = (index) => {
     removeEducationField(index);
+  };
+
+  const handleCancelDeleteClick = () => {
+    setIsPermanentConfirmation(false);
+  };
+
+  const handleConfirmClick = async () => {
+    setDeleting(true);
+    console.log("detail confirmed");
+    setDeleting(false);
+    fetchPermanentDetails();
+  };
+
+  const fetchPermanentDetails = () => {
+    try {
+      dispatch(getUsersPermanentsDetail()).then((response) => {
+        if (response.payload.data) {
+          const data = response.payload.data;
+          console.log(data);
+
+          setImagePreview(data.image);
+          reset({
+            name: data.name,
+            contact: data.contact,
+            experience: data.experience,
+            projects: data.projects,
+            education: data.education,
+            skills: data.skills,
+          });
+          setLoading(false);
+        } else {
+          setShowError(true);
+          setTimeout(() => {
+            setShowError(false);
+          }, 5000);
+          console.log("no permanent detail found");
+        }
+      });
+    } catch (error) {
+      console.log("resume's data not found");
+      setLoading(false);
+    }
+    setIsPermanentConfirmation(false);
   };
 
   const handleImageChange = (event) => {
@@ -119,6 +174,13 @@ function CreateResume() {
       console.log("No image selected");
       try {
         formData.templateId = templateId;
+        if (imagePreview) {
+          formData.image = imagePreview;
+          console.log('image is set');
+          
+        }
+        console.log(formData);
+        
 
         const response = await dispatch(createResume(formData));
 
@@ -134,9 +196,25 @@ function CreateResume() {
     }
     setSubmiting(false);
   };
+  console.log(imagePreview);
 
   return (
     <Container>
+      {/* delete confirmation dialog */}
+      {isPermanentConfirmation && (
+        <PermanentDetailConfirmationDialog
+          deleting={deleting}
+          onCancelClick={handleCancelDeleteClick}
+          onConfirmClick={handleConfirmClick}
+        />
+      )}
+
+      {/* No Permanent Detail Error Alert */}
+      <DangerAlert
+        showAlert={showError}
+        setShowAlert={(val) => setShowError(val)}
+      />
+
       <div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <h2 className="text-center text-3xl lg:text-5xl my-8 font-bold">

@@ -7,4 +7,13 @@ export const store = configureStore({
     auth: authReducer,
     resume: resumeReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        // Ignore specific action types
+        ignoredActions: ["resume/getUsersPermanentsDetail/rejected"],
+        // Ignore specific paths in the state or action
+        ignoredPaths: ["meta.headers"],
+      },
+    }),
 });

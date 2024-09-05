@@ -64,7 +64,7 @@ import {
       password,
       email,
       fullName,
-      avatar: avatarRes.url,
+      // avatar: avatarRes.url,
     });
   
     // checking if user is created successfully

@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import UserDetailCard from "./UserDetailCard";
 import UserDetailListItem from "./UserDetailListItem";
 import { getUsersPermanentsDetail } from "../../features/resumeSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const UserProfile = () => {
   const [myResumes, setMyResumes] = useState([]);
+  const userDetail = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
 
   const user = {
@@ -139,20 +140,53 @@ const UserProfile = () => {
 
   useEffect(() => {
     dispatch(getUsersPermanentsDetail()).then((response) => {
-      if (response) {
+      if (response && response?.meta?.status !== 404) {
+        console.log(response);
+
         console.log("all resumes fetched successfully..");
         setMyResumes(response.payload.data);
       } else {
         // write code if there are note any resume for current user
+        setMyResumes(null);
         console.log("no resumes found");
       }
     });
   }, []);
 
-  console.log(myResumes);
-  
+  console.log(userDetail);
 
-  return ( myResumes && 
+  return !myResumes ? (
+    <div className="h-[70vh]">
+      <div className="relative flex flex-col mt-10 mx-10 flex-auto min-w-0 p-4 overflow-hidden break-words border-0 shadow-sm rounded-2xl bg-white/80 bg-clip-border mb-4">
+        <div className="flex flex-wrap -mx-3">
+          <div className="flex-none w-auto max-w-full px-3">
+            <div className="text-base ease-soft-in-out h-16 w-16 relative inline-flex items-center justify-center rounded-xl text-white transition-all duration-200">
+              <img
+                src={
+                  userDetail?.image ||
+                  "https://cdn.icon-icons.com/icons2/2643/PNG/512/male_man_boy_black_tone_avatar_people_person_icon_159369.png"
+                }
+                alt="profile_image"
+                className="w-full shadow-md rounded-xl"
+              />
+            </div>
+          </div>
+          <div className="flex-none w-auto max-w-full px-3 my-auto">
+            <div className="h-full">
+              <div className="flex">
+                <h5 className="mb-1">{userDetail?.fullName}</h5>&nbsp;|&nbsp;
+                <h5 className="mb-1">{userDetail?.email}</h5>
+              </div>
+              <p className="mb-0 font-semibold leading-normal text-sm">
+                Account Owener
+              </p>
+            </div>
+          </div>
+          <div className="w-full max-w-full px-3 mx-auto mt-4 sm:my-auto sm:mr-0 md:w-1/2 md:flex-none lg:w-4/12"></div>
+        </div>
+      </div>
+    </div>
+  ) : (
     <div className="max-w-4xl mx-auto p-6 bg-[#f8f9fe] rounded-lg shadow-md">
       <div className="relative flex flex-col flex-auto min-w-0 p-4 overflow-hidden break-words border-0 shadow-sm rounded-2xl bg-white/80 bg-clip-border mb-4">
         <div className="flex flex-wrap -mx-3">
@@ -186,10 +220,13 @@ const UserProfile = () => {
             return null;
           } else if (typeof value === "object" && value !== null) {
             return (
-              <div key={key} className="mb-6 mx-3 py-3 rounded-lg shadow-md bg-white">
+              <div
+                key={key}
+                className="mb-6 mx-3 py-3 rounded-lg shadow-md bg-white"
+              >
                 <h1 className="font-bold mb-3 text-xl px-3">{key}</h1>
                 {Object.entries(value).map(([subKey, subValue]) => (
-                  <div className="px-3"key={subKey}>
+                  <div className="px-3" key={subKey}>
                     <UserDetailListItem
                       key={subKey}
                       lable={subKey.charAt(0).toUpperCase() + subKey.slice(1)}

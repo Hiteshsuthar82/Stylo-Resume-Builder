@@ -246,7 +246,7 @@ const UserProfile = () => {
       </div>
 
       <div className="w-full pb-6 mx-auto removable">
-        <div className="grid grid-cols-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3">
           {Object.entries(myResumes).map(([key, value]) => {
             if (Array.isArray(value)) {
               // Render arrays using UserDetailCard

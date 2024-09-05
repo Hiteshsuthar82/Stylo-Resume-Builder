@@ -14,7 +14,7 @@ function Template({ templateData, isSelected, onClick, onSearchClick, resumeId=n
       }`}
     >
       <img
-        className="w-[300px] h-[400px] object-cover rounded-lg shadow-lg focus:outline-none"
+        className="w-[300px] h-[400px] object-contain rounded-lg shadow-lg focus:outline-none"
         src={templateData.src}
         alt={`template ${templateData.id}`}
         tabIndex={0}

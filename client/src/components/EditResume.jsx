@@ -9,7 +9,11 @@ import linkedin from "../assets/linkedin.svg";
 import git from "../assets/github.svg";
 import dgt from "../assets/doubleRight.png";
 import { useDispatch } from "react-redux";
-import { getResumeData, editResume, uploadImage } from "../features/resumeSlice";
+import {
+  getResumeData,
+  editResume,
+  updateImage,
+} from "../features/resumeSlice";
 import { useNavigate, useParams } from "react-router-dom";
 
 function EditResume() {
@@ -18,6 +22,7 @@ function EditResume() {
   const { resumeId } = useParams();
 
   const [loading, setLoading] = useState(true);
+  const [submiting, setSubmiting] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [imagePreview, setImagePreview] = React.useState(null);
   const [resumeData, setResumeData] = useState(null);
@@ -89,26 +94,28 @@ function EditResume() {
   };
 
   const onSubmit = async (formData) => {
+    setSubmiting(true);
     if (selectedImage) {
       const data = new FormData();
       data.append("image", selectedImage);
-
+      data.append("resumeId", resumeId)
       try {
-        const image = await dispatch(uploadImage(data));
+        const image = await dispatch(updateImage(data));
         if (image) {
           try {
             const imageUrl = image.payload.imageUrl;
-            formData.image = imageUrl;
+            console.log(imageUrl);
 
             const response = await dispatch(editResume({ formData, resumeId }));
-      
+
             if (response && response.payload && response.payload.data) {
               const data = response.payload.data;
-              alert("redirect to edited temlpate view page");
               navigate(`/resumeView/${data.templateId}/${resumeId}`);
               // navigate('/allTemplates')
             } else {
-              console.log("No data in response or response structure is different");
+              console.log(
+                "No data in response or response structure is different"
+              );
             }
           } catch (error) {
             console.log("Error occurred:", error.message || error);
@@ -121,7 +128,7 @@ function EditResume() {
       console.log("No image selected");
       try {
         const response = await dispatch(editResume({ formData, resumeId }));
-  
+
         if (response && response.payload && response.payload.data) {
           const data = response.payload.data;
           alert("redirect to edited temlpate view page");
@@ -134,7 +141,7 @@ function EditResume() {
         console.log("Error occurred:", error.message || error);
       }
     }
-    
+    setSubmiting(false);
   };
 
   useEffect(() => {
@@ -143,7 +150,7 @@ function EditResume() {
         if (response) {
           const data = response.payload.data;
           console.log(data);
-          
+
           setImagePreview(data.image);
           setResumeData(response.payload.data);
           reset({
@@ -153,7 +160,7 @@ function EditResume() {
             projects: data.projects,
             education: data.education,
             skills: data.skills,
-            permanentdata: data.permanentdata
+            permanentdata: data.permanentdata,
           });
           setLoading(false);
         } else {
@@ -572,7 +579,11 @@ function EditResume() {
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="px-12 lg:px-16 my-9 py-3 bg-purple-600 text-white font-bold text-base rounded-full hover:bg-purple-700"
+                className={`px-12 lg:px-16 my-9 py-3 text-white font-bold text-base rounded-full ${
+                  submiting
+                    ? "bg-gray-500 cursor-not-allowed"
+                    : "bg-purple-600 hover:bg-purple-700"
+                }`}
               >
                 Save
               </button>

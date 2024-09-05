@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Container } from "./index";
 import person from "../assets/person.svg";
@@ -16,8 +16,9 @@ function CreateResume() {
   const navigate = useNavigate();
   const { templateId } = useParams();
 
-  const [selectedImage, setSelectedImage] = React.useState(null);
-  const [imagePreview, setImagePreview] = React.useState(null);
+  const [submiting, setSubmiting] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const { register, handleSubmit, control } = useForm({
     defaultValues: {
       name: "",
@@ -82,6 +83,7 @@ function CreateResume() {
   };
 
   const onSubmit = async (formData) => {
+    setSubmiting(true);
     if (selectedImage) {
       const data = new FormData();
       data.append("image", selectedImage);
@@ -98,7 +100,6 @@ function CreateResume() {
 
             if (response && response.payload && response.payload.data) {
               const data = response.payload.data;
-              alert("redirecting to temlpate view page");
               navigate(`/resumeView/${templateId}/${data._id}`);
             } else {
               console.log(
@@ -116,7 +117,22 @@ function CreateResume() {
       }
     } else {
       console.log("No image selected");
+      try {
+        formData.templateId = templateId;
+
+        const response = await dispatch(createResume(formData));
+
+        if (response && response.payload && response.payload.data) {
+          const data = response.payload.data;
+          navigate(`/resumeView/${templateId}/${data._id}`);
+        } else {
+          console.log("No data in response or response structure is different");
+        }
+      } catch (error) {
+        console.log("Error occurred:", error.message || error);
+      }
     }
+    setSubmiting(false);
   };
 
   return (
@@ -521,7 +537,11 @@ function CreateResume() {
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="px-12 lg:px-16 my-9 py-3 bg-purple-600 text-white font-bold text-base rounded-full hover:bg-purple-700"
+                className={`px-12 lg:px-16 my-9 py-3 text-white font-bold text-base rounded-full  ${
+                  submiting
+                    ? "bg-gray-500 cursor-not-allowed"
+                    : "bg-purple-600 hover:bg-purple-700"
+                }`}
               >
                 Create
               </button>

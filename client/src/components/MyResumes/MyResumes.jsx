@@ -110,7 +110,7 @@ function MyResumes() {
       {selectedResumeId && (
         <button
           onClick={openResumeView}
-          className="mt-5 px-10 py-3 fixed bottom-5 right-[50%] sm:bottom-8 lg:bottom-9 bg-purple-600 text-white font-semibold rounded-full hover:bg-purple-700 transition-all"
+          className="mt-5 w-[70%] md:w-[50%] lg:w-[20%] py-3 fixed bottom-5 right-[15%] md:right-[25%] lg:right-[40%] sm:bottom-8 lg:bottom-9 bg-purple-600 text-white font-semibold rounded-full hover:bg-purple-700 transition-all"
         >
           Open
         </button>

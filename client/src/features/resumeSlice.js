@@ -7,15 +7,15 @@ const initialState = {
   data: null,
   allTemplates: [
     {
-      src: "https://d.novoresume.com/images/doc/skill-based-resume-template.png",
+      src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725464897/Resume_Builder/photos/lououzxvetz7nbgvjkuw.png",
       id: "t1",
     },
     {
-      src: "https://cdn.create.microsoft.com/catalog-assets/en-us/ce343500-4aff-4dfa-b337-57c78459c6ee/thumbnails/616/modern-nursing-resume-orange-modern-geometric-1-1-1dc2d11a00d6.webp",
+      src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725472579/Resume_Builder/photos/ztnwxjryefv5niwdew2i.png",
       id: "t2",
     },
     {
-      src: "https://d25zcttzf44i59.cloudfront.net/official-resume-template.png",
+      src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725476937/Resume_Builder/photos/oqonbptsset7airbekqs.png",
       id: "t3",
     },
     {
@@ -49,6 +49,33 @@ export const uploadImage = createAsyncThunk(
     } catch (error) {
       console.log("error in uploading image.", error.payload);
       return rejectWithValue("uploadImage :: error ", error.payload);
+    }
+  }
+);
+
+export const updateImage = createAsyncThunk(
+  "resume/updateImage",
+  async (credentials, { rejectWithValue }) => {
+    const resumeId = credentials.get('resumeId');
+    console.log(resumeId);
+    
+    try {
+      const response = await axios.patch(
+        `http://localhost:8000/api/v1/temp/image/${resumeId}`,
+        credentials,
+        {
+          withCredentials: true ,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log("image updated successfully.");
+      return response.data;
+    } catch (error) {
+      console.log("error in updating image.", error.payload);
+      return rejectWithValue("updateImage :: error ", error.payload);
     }
   }
 );
@@ -169,10 +196,10 @@ export const editResume = createAsyncThunk(
 );
 
 export const resumeSlice = createSlice({
-  name: "resume/uploadImage",
+  name: "resume",
   initialState,
   extraReducers: (builder) => {
-    // create resume
+    // upload image
     builder
       .addCase(uploadImage.pending, (state) => {
         state.loading = true;
@@ -185,6 +212,23 @@ export const resumeSlice = createSlice({
         state.data = actions.payload;
       })
       .addCase(uploadImage.rejected, (state) => {
+        state.loading = false;
+        state.status = false;
+      });
+
+    // update image
+    builder
+      .addCase(updateImage.pending, (state) => {
+        state.loading = true;
+        state.status = false;
+        state.data = null;
+      })
+      .addCase(updateImage.fulfilled, (state, actions) => {
+        state.loading = false;
+        state.status = true;
+        state.data = actions.payload;
+      })
+      .addCase(updateImage.rejected, (state) => {
         state.loading = false;
         state.status = false;
       });

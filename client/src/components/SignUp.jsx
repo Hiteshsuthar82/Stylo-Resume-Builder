@@ -12,7 +12,7 @@ function SignUp() {
     register,
     handleSubmit,
     watch,
-    formState: { errors, isSubmitted },
+    formState: { errors },
   } = useForm();
   const { loading, error } = useSelector((state) => state.auth);
 
@@ -37,7 +37,7 @@ function SignUp() {
   return (
     <div className="w-full min-h-screen flex justify-center items-center">
       <div className="border-2 rounded-lg bg-white flex flex-col w-full max-w-md min-h-[440px] shadow-2xl max-sm:w-[312px]">
-        <form onSubmit={handleSubmit(handleSignup)}>
+        <form onSubmit={handleSubmit(handleSignup)} autoComplete="off">
           <div className="flex flex-col items-center mt-10 mx-auto my-6">
             <h2 className="font-poppins text-[35px] font-semibold text-purple-700 max-sm:text-3xl ">
               Registration
@@ -48,69 +48,94 @@ function SignUp() {
             <p className="text-red-600 mt-8 text-center">{error.message}</p>
           )}
           <div className="flex flex-col items-center">
-            <div className="w-[70%] flex items-center p-2 pl-3 border-2 rounded-full border-gray-400 my-2 ">
+            <div className="relative w-[70%] flex items-center p-2 pl-3 border-2 rounded-full border-gray-400 my-2 ">
               <input
                 type="text"
                 placeholder="Username"
                 name="username"
                 {...register("username", {
-                  required: true,
+                  required: "*required",
                 })}
                 className="w-full text-base font-semibold outline-none bg-transparent"
               />
+              {errors?.username && (
+                <span className="text-red-500 absolute left-4 bottom-[32px] bg-white">
+                  {errors.username.message}
+                </span>
+              )}
             </div>
-            <div className="w-[70%] flex items-center p-2 pl-3 border-2 rounded-full border-gray-400 my-2 ">
+            <div className="relative w-[70%] flex items-center p-2 pl-3 border-2 rounded-full border-gray-400 my-2 ">
               <input
                 type="text"
                 placeholder="Full Name"
                 name="fullName"
                 {...register("fullName", {
-                  required: true,
+                  required: "*required",
                 })}
                 className="w-full text-base font-semibold outline-none bg-transparent"
               />
+              {errors?.fullName && (
+                <span className="text-red-500 absolute left-4 bottom-[32px] bg-white">
+                  {errors.fullName.message}
+                </span>
+              )}
             </div>
-            <div className="w-[70%] flex items-center p-2 pl-3 border-2 rounded-full border-gray-400 my-2 ">
+            <div className="relative w-[70%] flex items-center p-2 pl-3 border-2 rounded-full border-gray-400 my-2 ">
               <input
                 type="email"
                 placeholder="Email"
                 name="email"
                 {...register("email", {
-                  required: true,
+                  required: "*required",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "Invalid email address",
+                  },
                 })}
                 className="w-full text-base font-semibold outline-none bg-transparent"
               />
+              {errors?.email && (
+                <span className="text-red-500 absolute left-4 bottom-[32px] bg-white">
+                  {errors.email.message}
+                </span>
+              )}
             </div>
-            <div className="w-[70%] flex items-center p-2 pl-3 border-2 rounded-full border-gray-400 my-2 ">
+            <div className="relative w-[70%] flex items-center p-2 pl-3 border-2 rounded-full border-gray-400 my-2 ">
               <input
                 type="password"
                 placeholder="Password"
                 name="password"
+                autoComplete="new-password"
                 {...register("password", {
-                  required: true,
+                  required: "*required",
                 })}
                 className="w-full text-base font-semibold outline-none bg-transparent"
               />
+              {errors?.password && (
+                <span className="text-red-500 absolute left-4 bottom-[32px] bg-white">
+                  {errors.password.message}
+                </span>
+              )}
             </div>
-            <div className="w-[70%] flex items-center p-2 pl-3 border-2 rounded-full border-gray-400 my-2 ">
+            <div className="relative w-[70%] flex items-center p-2 pl-3 border-2 rounded-full border-gray-400 my-2 ">
               <input
                 type="password"
                 placeholder="Confirm Password"
                 name="confirmpass"
                 {...register("confirmPassword", {
-                  required: true,
+                  required: "*required",
                   validate: (value) =>
                     value === password ||
-                    "Passwords and confirm password not match",
+                    "not matching",
                 })}
                 className="w-full text-base font-semibold outline-none bg-transparent"
               />
+              {errors?.confirmPassword && (
+                <span className="text-red-500 absolute left-4 bottom-[32px] bg-white">
+                  {errors.confirmPassword.message}
+                </span>
+              )}
             </div>
-            {isSubmitted && errors.confirmPassword && (
-              <p className="text-red-600 text-center">
-                {errors.confirmPassword.message}
-              </p>
-            )}
           </div>
           <div className="flex justify-center mt-4">
             <button

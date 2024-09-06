@@ -51,7 +51,7 @@ function Home() {
           <div className="mt-5">
             <button
               type="submit"
-              onClick={() => handleBtn("/signup")}
+              onClick={() => handleBtn("/steps")}
               className="px-16 lg:px-24 my-4 py-3 bg-purple-600 text-white font-bold text-base rounded-full hover:bg-purple-700"
             >
               Get Started

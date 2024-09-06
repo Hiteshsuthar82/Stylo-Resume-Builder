@@ -8,7 +8,7 @@ import buttonLoader from "./../assets/button-loader.gif";
 function Login() {
   const [rememberMe, setRememberMe] = useState(false);
   const dispatch = useDispatch();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, formState:{errors} } = useForm();
   const { loading, error } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
@@ -37,7 +37,7 @@ function Login() {
   return (
     <div className="w-full min-h-screen flex justify-center items-center">
       <div className="bg-white border-2 rounded-lg flex flex-col w-full max-w-md min-h-[440px] shadow-2xl max-sm:w-[312px]">
-        <form onSubmit={handleSubmit(handleLogin)}>
+        <form onSubmit={handleSubmit(handleLogin)} autoComplete="off">
           <div className="flex flex-col items-center mt-10 mx-auto my-6">
             <h2 className="font-poppins text-[35px] font-semibold text-purple-700 max-sm:text-3xl">
               Login
@@ -48,24 +48,35 @@ function Login() {
             <p className="text-red-600 mt-8 text-center">{error.message}</p>
           )}
           <div className="flex flex-col items-center">
-            <div className="flex items-center w-[70%] border-2 border-gray-400 rounded-full my-2 px-2">
+            <div className="relative flex items-center w-[70%] border-2 border-gray-400 rounded-full my-2 px-2">
               <img src="src/assets/mail1.svg" alt="" />
               <input
                 placeholder="Username"
                 {...register("username", {
-                  required: true,
+                  required: "*required",
                 })}
                 className="w-full pl-2 py-2 text-base font-semibold outline-none bg-transparent"
               />
+              {errors?.username && (
+                <span className="text-red-500 absolute left-4 bottom-[32px] bg-white">
+                  {errors.username.message}
+                </span>
+              )}
             </div>
-            <div className="flex items-center w-[70%] border-2 border-gray-400 rounded-full my-2 px-2">
+            <div className="relative flex items-center w-[70%] border-2 border-gray-400 rounded-full my-2 px-2">
               <img src="src/assets/password.svg" alt="" />
               <input
                 type="password"
                 placeholder="Password"
-                {...register("password", { required: true })}
+                autoComplete="new-password"
+                {...register("password", { required: "*required" })}
                 className="w-full p-2 text-base font-semibold outline-none bg-transparent"
               />
+              {errors?.password && (
+                <span className="text-red-500 absolute left-4 bottom-[32px] bg-white">
+                  {errors.password.message}
+                </span>
+              )}
             </div>
           </div>
           <div className=" flex items-center gap-2 m-3 pl-16 max-sm:pl-12">

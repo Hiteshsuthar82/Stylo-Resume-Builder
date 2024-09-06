@@ -30,11 +30,6 @@ function Header() {
       slug: "/steps",
       active: authstatus,
     },
-    {
-      name: "My Details",
-      slug: "/myDetails",
-      active: authstatus,
-    },
   ];
 
   return (

@@ -309,15 +309,22 @@ function CreateResume() {
               </div>
 
               {/* Form Fields */}
-              <div className="flex lg:items-center gap-6 flex-row my-7">
+              <div className="relative flex lg:items-center gap-6 flex-row my-7">
                 {/* <label className="font-medium"> Name: </label> */}
                 <img src={person} alt="phone-icon" className="mb-2 h-9" />
                 <input
                   type="text"
-                  {...register("name")}
-                  placeholder="Kamlesh Suthar"
+                  {...register("name", {
+                    required: "*name is required",
+                  })}
+                  placeholder="John Doe"
                   className="border border-gray-400 rounded-sm w-2/4 max-sm:w-[80%] md:w-2/5 h-8 px-3 py-1"
                 />
+                {errors.name && (
+                  <span className="text-red-500 absolute left-16 bottom-[-15px]">
+                    {errors.name.message}
+                  </span>
+                )}
               </div>
               <div className="flex max-sm:flex-col">
                 <div className="relative flex items-center my-2 mr-5">
@@ -325,11 +332,16 @@ function CreateResume() {
                   <input
                     type="text"
                     {...register("contact.phone", {
-                      required: "Phone number is required",
+                      required: "*contact number is required",
+                      pattern: {
+                        value: /^\+?[0-9]{10,14}$/,
+                        message: "Invalid phone number",
+                      },
                     })}
+                    minLength={10}
                     maxLength={10}
                     onInput={handleInput}
-                    placeholder="12345 67890"
+                    placeholder="1234567890"
                     className="border border-gray-400 rounded-sm w-[270px] mb-2 mx-8 mt-1 h-8 px-3 py-1"
                   />
                   {errors.contact?.phone && (
@@ -338,14 +350,25 @@ function CreateResume() {
                     </span>
                   )}
                 </div>
-                <div className="flex my-2 mr-5">
+                <div className="relative flex my-2 mr-5">
                   <img src={mail} alt="mail-icon" className="mb-2" />
                   <input
                     type="text"
-                    {...register("contact.email")}
-                    placeholder="kamleshsuthar12@example.com"
+                    {...register("contact.email", {
+                      required: "*email is required",
+                      pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                        message: "Invalid email address",
+                      },
+                    })}
+                    placeholder="johndoe12@example.com"
                     className="border border-gray-400 rounded-sm w-[270px] mb-2 mx-8 mt-1 h-8 px-3 py-1"
                   />
+                  {errors.contact?.email && (
+                    <span className="text-red-500 absolute left-16 bottom-[-12px]">
+                      {errors.contact.email.message}
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="flex max-sm:flex-col">
@@ -394,40 +417,68 @@ function CreateResume() {
                       ""
                     )}
                   </div>
-                  <div className="flex flex-col lg:items-center lg:gap-10 lg:flex-row mb-7 ">
+                  <div className="relative flex flex-col lg:items-center lg:gap-10 lg:flex-row mb-7 ">
                     <label className="font-medium w-[20%]">
                       {" "}
                       Institution:{" "}
                     </label>
                     <input
                       type="text"
-                      {...register(`education.${index}.institution`)}
+                      {...register(`education.${index}.institution`, {
+                        required: "*institution is required",
+                      })}
                       className="border border-gray-400 rounded-sm w-2/4 max-sm:w-[80%] md:w-2/5 h-8 px-3 py-1"
                     />
+                    {errors.education?.[index]?.institution && (
+                      <span className="text-red-500 absolute sm:relative left-0 bottom-[-20px] sm:bottom-1">
+                        {errors.education[index].institution.message}
+                      </span>
+                    )}
                   </div>
-                  <div className="flex flex-col lg:items-center lg:gap-10 lg:flex-row mb-7 ">
+                  <div className="relative flex flex-col lg:items-center lg:gap-10 lg:flex-row mb-7 ">
                     <label className="font-medium w-[20%]"> Degree: </label>
                     <input
                       type="text"
-                      {...register(`education.${index}.degree`)}
+                      {...register(`education.${index}.degree`, {
+                        required: "*degree is required",
+                      })}
                       className="border border-gray-400 rounded-sm w-2/4 max-sm:w-[80%] md:w-2/5 h-8 px-3 py-1"
                     />
+                    {errors.education?.[index]?.degree && (
+                      <span className="text-red-500 absolute sm:relative left-0 bottom-[-20px] sm:bottom-1">
+                        {errors.education[index].degree.message}
+                      </span>
+                    )}
                   </div>
-                  <div className="flex flex-col lg:items-center lg:gap-10 lg:flex-row mb-7 ">
+                  <div className="relative flex flex-col lg:items-center lg:gap-10 lg:flex-row mb-7 ">
                     <label className="font-medium w-[20%]"> Location: </label>
                     <input
                       type="text"
-                      {...register(`education.${index}.location`)}
+                      {...register(`education.${index}.location`, {
+                        required: "*location is required",
+                      })}
                       className="border border-gray-400 rounded-sm w-2/4 max-sm:w-[80%] md:w-2/5 h-8 px-3 py-1"
                     />
+                    {errors.education?.[index]?.location && (
+                      <span className="text-red-500 absolute sm:relative left-0 bottom-[-20px] sm:bottom-1">
+                        {errors.education[index].location.message}
+                      </span>
+                    )}
                   </div>
-                  <div className="flex flex-col lg:items-center lg:gap-10 lg:flex-row mb-7 ">
+                  <div className="relative flex flex-col lg:items-center lg:gap-10 lg:flex-row mb-7 ">
                     <label className="font-medium w-[20%]"> Duration: </label>
                     <input
                       type="text"
-                      {...register(`education.${index}.duration`)}
+                      {...register(`education.${index}.duration`, {
+                        required: "*duration is required",
+                      })}
                       className="border border-gray-400 rounded-sm w-2/4 max-sm:w-[80%] md:w-2/5 h-8 px-3 py-1"
                     />
+                    {errors.education?.[index]?.duration && (
+                      <span className="text-red-500 absolute sm:relative left-0 bottom-[-20px] sm:bottom-1">
+                        {errors.education[index].duration.message}
+                      </span>
+                    )}
                   </div>
                 </div>
               ))}
@@ -467,32 +518,53 @@ function CreateResume() {
                       remove
                     </button>
                   </div>
-                  <div className="flex flex-col lg:items-center lg:gap-10 lg:flex-row mb-7 ">
+                  <div className="relative flex flex-col lg:items-center lg:gap-10 lg:flex-row mb-7 ">
                     <label className="font-medium w-[20%]"> Title: </label>
                     <input
                       type="text"
-                      {...register(`projects.${index}.title`)}
+                      {...register(`projects.${index}.title`, {
+                        required: "*title is required",
+                      })}
                       className="border border-gray-400 rounded-sm w-2/4 max-sm:w-[80%] md:w-2/5 h-8 px-3 py-1"
                     />
+                    {errors.projects?.[index]?.title && (
+                      <span className="text-red-500 absolute sm:relative left-0 bottom-[-20px] sm:bottom-1">
+                        {errors.projects[index].title.message}
+                      </span>
+                    )}
                   </div>
-                  <div className="flex flex-col lg:items-center lg:gap-10 lg:flex-row mb-7 ">
+                  <div className="relative flex flex-col lg:items-center lg:gap-10 lg:flex-row mb-7 ">
                     <label className="font-medium w-[20%]">
                       {" "}
                       Technologies:{" "}
                     </label>
                     <input
                       type="text"
-                      {...register(`projects.${index}.technologies`)}
+                      {...register(`projects.${index}.technologies`, {
+                        required: "*technologies is required",
+                      })}
                       className="border border-gray-400 rounded-sm w-2/4 max-sm:w-[80%] md:w-2/5 h-8 px-3 py-1"
                     />
+                    {errors.projects?.[index]?.technologies && (
+                      <span className="text-red-500 absolute sm:relative left-0 bottom-[-20px] sm:bottom-1">
+                        {errors.projects[index].technologies.message}
+                      </span>
+                    )}
                   </div>
-                  <div className="flex flex-col lg:items-center lg:gap-10 lg:flex-row mb-7 ">
+                  <div className="relative flex flex-col lg:items-center lg:gap-10 lg:flex-row mb-7 ">
                     <label className="font-medium w-[20%]"> Duration: </label>
                     <input
                       type="text"
-                      {...register(`projects.${index}.duration`)}
+                      {...register(`projects.${index}.duration`, {
+                        required: "*duration is required",
+                      })}
                       className="border border-gray-400 rounded-sm w-2/4 max-sm:w-[80%] md:w-2/5 h-8 px-3 py-1"
                     />
+                    {errors.projects?.[index]?.duration && (
+                      <span className="text-red-500 absolute sm:relative left-0 bottom-[-20px] sm:bottom-1">
+                        {errors.projects[index].duration.message}
+                      </span>
+                    )}
                   </div>
                   <div className="flex flex-col lg:items-center lg:gap-10 lg:flex-row mb-7 ">
                     <label className="font-medium w-[20%]">
@@ -543,37 +615,65 @@ function CreateResume() {
                       remove
                     </button>
                   </div>
-                  <div className="flex flex-col lg:items-center lg:gap-10 lg:flex-row mb-7 ">
+                  <div className="relative flex flex-col lg:items-center lg:gap-10 lg:flex-row mb-7 ">
                     <label className="font-medium w-[20%]"> Title: </label>
                     <input
                       type="text"
-                      {...register(`experience.${index}.title`)}
+                      {...register(`experience.${index}.title`, {
+                        required: "*title is required",
+                      })}
                       className="border border-gray-400 rounded-sm w-2/4 max-sm:w-[80%] md:w-2/5 h-8 px-3 py-1"
                     />
+                    {errors.experience?.[index]?.title && (
+                      <span className="text-red-500 absolute sm:relative left-0 bottom-[-20px] sm:bottom-1">
+                        {errors.experience[index].title.message}
+                      </span>
+                    )}
                   </div>
-                  <div className="flex flex-col lg:items-center lg:gap-10 lg:flex-row mb-7 ">
+                  <div className="relative flex flex-col lg:items-center lg:gap-10 lg:flex-row mb-7 ">
                     <label className="font-medium w-[20%]"> Company: </label>
                     <input
                       type="text"
-                      {...register(`experience.${index}.company`)}
+                      {...register(`experience.${index}.company`, {
+                        required: "*company is required",
+                      })}
                       className="border border-gray-400 rounded-sm w-2/4 max-sm:w-[80%] md:w-2/5 h-8 px-3 py-1"
                     />
+                    {errors.experience?.[index]?.company && (
+                      <span className="text-red-500 absolute sm:relative left-0 bottom-[-20px] sm:bottom-1">
+                        {errors.experience[index].company.message}
+                      </span>
+                    )}
                   </div>
-                  <div className="flex flex-col lg:items-center lg:gap-10 lg:flex-row mb-7 ">
+                  <div className="relative flex flex-col lg:items-center lg:gap-10 lg:flex-row mb-7 ">
                     <label className="font-medium w-[20%]"> Location: </label>
                     <input
                       type="text"
-                      {...register(`experience.${index}.location`)}
+                      {...register(`experience.${index}.location`, {
+                        required: "*location is required",
+                      })}
                       className="border border-gray-400 rounded-sm w-2/4 max-sm:w-[80%] md:w-2/5 h-8 px-3 py-1"
                     />
+                    {errors.experience?.[index]?.location && (
+                      <span className="text-red-500 absolute sm:relative left-0 bottom-[-20px] sm:bottom-1">
+                        {errors.experience[index].location.message}
+                      </span>
+                    )}
                   </div>
-                  <div className="flex flex-col lg:items-center lg:gap-10 lg:flex-row mb-7 ">
+                  <div className="relative flex flex-col lg:items-center lg:gap-10 lg:flex-row mb-7 ">
                     <label className="font-medium w-[20%]"> Duration: </label>
                     <input
                       type="text"
-                      {...register(`experience.${index}.duration`)}
+                      {...register(`experience.${index}.duration`, {
+                        required: "*duration is required",
+                      })}
                       className="border border-gray-400 rounded-sm w-2/4 max-sm:w-[80%] md:w-2/5 h-8 px-3 py-1"
                     />
+                    {errors.experience?.[index]?.duration && (
+                      <span className="text-red-500 absolute sm:relative left-0 bottom-[-20px] sm:bottom-1">
+                        {errors.experience[index].duration.message}
+                      </span>
+                    )}
                   </div>
                   <div className="flex flex-col lg:items-center lg:gap-10 lg:flex-row mb-7 ">
                     <label className="font-medium w-[20%]">

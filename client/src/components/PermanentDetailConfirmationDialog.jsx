@@ -4,6 +4,8 @@ function PermanentDetailConfirmationDialog({
   onCancelClick,
   onConfirmClick,
   deleting,
+  message,
+  description
 }) {
   return (
     <div
@@ -76,11 +78,11 @@ function PermanentDetailConfirmationDialog({
                 className="text-lg leading-6 font-medium text-gray-900"
                 id="modal-headline"
               >
-                Do you want to use your Permanent Detail
+                {message ? message : 'Do you want to use your Permanent Detail'}
               </h3>
               <div className="mt-2">
                 <p className="text-sm text-gray-500">
-                  If you click on confirm then your permanent details will fill automatically in the form
+                {description ? description : 'If you click on confirm then your permanent details will fill automatically in the form'}
                 </p>
               </div>
             </div>
@@ -94,7 +96,7 @@ function PermanentDetailConfirmationDialog({
                 deleting ? "bg-gray-500 cursor-not-allowed" : "bg-purple-600 hover:bg-purple-700"
               } text-base font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm`}
             >
-              Yes
+              {message ? 'Confirm' : 'Yes'}
             </button>
             <button
               type="button"
@@ -102,7 +104,7 @@ function PermanentDetailConfirmationDialog({
               onClick={onCancelClick}
               className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:w-auto sm:text-sm"
             >
-              No
+              {message ? 'Cancel' : 'No'}
             </button>
           </div>
         </div>

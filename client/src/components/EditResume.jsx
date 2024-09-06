@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
-import { Container } from "./index";
+import { Container, PermanentDetailConfirmationDialog } from "./index";
 import person from "../assets/person.svg";
 import mail from "../assets/envelop.svg";
 import phone from "../assets/phone.svg";
@@ -22,11 +22,14 @@ function EditResume() {
   const { resumeId } = useParams();
 
   const [loading, setLoading] = useState(true);
+  const [deleting, setDeleting] = useState(false);
+  const [allData, setAllData] = useState(true);
+  const [isPermanentDialogOpened, setIsPermanentDialogOpened] = useState(false);
   const [submiting, setSubmiting] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [imagePreview, setImagePreview] = React.useState(null);
   const [resumeData, setResumeData] = useState(null);
-  const { register, handleSubmit, control, reset } = useForm({
+  const { register, handleSubmit, control, reset, watch } = useForm({
     defaultValues: {
       name: resumeData?.name,
       contact: {
@@ -94,11 +97,35 @@ function EditResume() {
   };
 
   const onSubmit = async (formData) => {
+    const permanentdata = watch("permanentdata");
+    console.log(resumeData?.permanentdata);
+
+    if (!permanentdata || resumeData?.permanentdata == permanentdata) {
+      submitForm(formData);
+    } else {
+      setAllData(formData);
+      setIsPermanentDialogOpened(true);
+    }
+  };
+
+  const handleCloseDialogClick = () => {
+    setIsPermanentDialogOpened(false);
+  };
+
+  const handleConfirmPermanentClick = async () => {
+    setDeleting(true);
+    console.log("detail confirmed");
+    submitForm(allData);
+    setDeleting(false);
+    setIsPermanentDialogOpened(false);
+  };
+
+  const submitForm = async (formData) => {
     setSubmiting(true);
     if (selectedImage) {
       const data = new FormData();
       data.append("image", selectedImage);
-      data.append("resumeId", resumeId)
+      data.append("resumeId", resumeId);
       try {
         const image = await dispatch(updateImage(data));
         if (image) {
@@ -131,7 +158,6 @@ function EditResume() {
 
         if (response && response.payload && response.payload.data) {
           const data = response.payload.data;
-          alert("redirect to edited temlpate view page");
           navigate(`/resumeView/${data.templateId}/${resumeId}`);
           // navigate('/allTemplates')
         } else {
@@ -179,6 +205,17 @@ function EditResume() {
     </div>
   ) : (
     <Container>
+      {/* permanent detail is true info confirmation dialog */}
+      {isPermanentDialogOpened && (
+        <PermanentDetailConfirmationDialog
+          deleting={deleting}
+          onCancelClick={handleCloseDialogClick}
+          onConfirmClick={handleConfirmPermanentClick}
+          message="You are selected Permanent Detail True"
+          description="If you have any previous permanent details, Then your previous permanent detals will be override"
+        />
+      )}
+
       <div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <h2 className="text-center text-3xl lg:text-5xl my-8 font-bold">

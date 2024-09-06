@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { getResumeData } from "../features/resumeSlice";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+import loader from "../assets/page-loader.gif";
 import ResumeTemplate1 from "./Templates/ResumeTemplate1";
 import ResumeTemplate2 from "./Templates/ResumeTemplate2";
 import ResumeTemplate3 from "./Templates/ResumeTemplate3";
-import loader from "../assets/page-loader.gif";
+import ResumeTemplate4 from "./Templates/ResumeTemplate4";
 
 function ResumeView() {
   const { templateId } = useParams();
@@ -47,6 +48,8 @@ function ResumeView() {
       return <ResumeTemplate2 data={resumeData} />;
     case 't3':
       return <ResumeTemplate3 data={resumeData} />;
+    case 't4':
+      return <ResumeTemplate4 data={resumeData} />;
     default:
       break;
   }

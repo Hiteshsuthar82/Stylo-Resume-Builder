@@ -27,11 +27,20 @@ function CreateResume() {
   const [submiting, setSubmiting] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [allData, setAllData] = useState(true);
   const [showError, setShowError] = useState(false);
   const [isPermanentConfirmation, setIsPermanentConfirmation] = useState(true);
+  const [isPermanentDialogOpened, setIsPermanentDialogOpened] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
-  const { register, handleSubmit, control, reset } = useForm({
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       name: "",
       contact: { phone: "", email: "", github: "", linkedin: "" },
@@ -93,6 +102,11 @@ function CreateResume() {
     fetchPermanentDetails();
   };
 
+  const handleInput = (e) => {
+    // Allow only digits and limit to 10 characters
+    e.target.value = e.target.value.replace(/\D/g, "").slice(0, 10);
+  };
+
   const fetchPermanentDetails = () => {
     try {
       dispatch(getUsersPermanentsDetail()).then((response) => {
@@ -138,6 +152,28 @@ function CreateResume() {
   };
 
   const onSubmit = async (formData) => {
+    const permanentdata = watch("permanentdata");
+    if (!permanentdata) {
+      submitForm(formData);
+    } else {
+      setAllData(formData);
+      setIsPermanentDialogOpened(true);
+    }
+  };
+
+  const handleCloseDialogClick = () => {
+    setIsPermanentDialogOpened(false);
+  };
+
+  const handleConfirmPermanentClick = async () => {
+    setDeleting(true);
+    console.log("detail confirmed");
+    submitForm(allData);
+    setDeleting(false);
+    setIsPermanentDialogOpened(false);
+  };
+
+  const submitForm = async (formData) => {
     setSubmiting(true);
     if (selectedImage) {
       const data = new FormData();
@@ -148,6 +184,7 @@ function CreateResume() {
         if (image) {
           try {
             const imageUrl = image.payload.imageUrl;
+            console.log(formData);
             formData.templateId = templateId;
             formData.image = imageUrl;
 
@@ -174,13 +211,12 @@ function CreateResume() {
       console.log("No image selected");
       try {
         formData.templateId = templateId;
+
         if (imagePreview) {
           formData.image = imagePreview;
-          console.log('image is set');
-          
+          console.log("image is set");
         }
         console.log(formData);
-        
 
         const response = await dispatch(createResume(formData));
 
@@ -196,16 +232,26 @@ function CreateResume() {
     }
     setSubmiting(false);
   };
-  console.log(imagePreview);
 
   return (
     <Container>
-      {/* delete confirmation dialog */}
+      {/* permanent detaill adding confirmation dialog */}
       {isPermanentConfirmation && (
         <PermanentDetailConfirmationDialog
           deleting={deleting}
           onCancelClick={handleCancelDeleteClick}
           onConfirmClick={handleConfirmClick}
+        />
+      )}
+
+      {/* permanent detail is true info confirmation dialog */}
+      {isPermanentDialogOpened && (
+        <PermanentDetailConfirmationDialog
+          deleting={deleting}
+          onCancelClick={handleCloseDialogClick}
+          onConfirmClick={handleConfirmPermanentClick}
+          message="You are selected Permanent Detail True"
+          description="If you have any previous permanent details, Then your previous permanent detals will be override"
         />
       )}
 
@@ -274,14 +320,23 @@ function CreateResume() {
                 />
               </div>
               <div className="flex max-sm:flex-col">
-                <div className="flex items-center my-2 mr-5">
+                <div className="relative flex items-center my-2 mr-5">
                   <img src={phone} alt="phone-icon" className="mb-2" />
                   <input
                     type="text"
-                    {...register("contact.phone")}
-                    placeholder="+91 12345 67890"
+                    {...register("contact.phone", {
+                      required: "Phone number is required",
+                    })}
+                    maxLength={10}
+                    onInput={handleInput}
+                    placeholder="12345 67890"
                     className="border border-gray-400 rounded-sm w-[270px] mb-2 mx-8 mt-1 h-8 px-3 py-1"
                   />
+                  {errors.contact?.phone && (
+                    <span className="text-red-500 absolute left-16 bottom-[-12px]">
+                      {errors.contact.phone.message}
+                    </span>
+                  )}
                 </div>
                 <div className="flex my-2 mr-5">
                   <img src={mail} alt="mail-icon" className="mb-2" />

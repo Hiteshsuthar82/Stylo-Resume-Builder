@@ -160,7 +160,7 @@ function Home() {
           What people are saying about our Resume Maker
         </h2>
         <div className="flex flex-col lg:flex-row flex-wrap max-sm:items-center justify-center max-sm:flex-col">
-          <div className="m-6 lg:m-10 h-[280px] w-full lg:w-[340px] rounded-t-xl bg-purple-100 shadow-xl">
+          <div className="mb-5 md:m-6 lg:m-10 h-[280px] w-full lg:w-[340px] rounded-t-xl bg-purple-100 shadow-xl">
             <div className="rounded-t-xl bg-purple-700 h-4"></div>
             <div>
               <div className="flex items-center">
@@ -182,7 +182,7 @@ function Home() {
               </p>
             </div>
           </div>
-          <div className="m-6 lg:m-10 h-[280px] w-full lg:w-[340px] rounded-t-xl bg-purple-100 shadow-xl">
+          <div className="mb-5 md:m-6 lg:m-10 h-[280px] w-full lg:w-[340px] rounded-t-xl bg-purple-100 shadow-xl">
             <div className="rounded-t-xl bg-purple-700 h-4"></div>
             <div>
               <div className="flex items-center">
@@ -205,7 +205,7 @@ function Home() {
               </p>
             </div>
           </div>
-          <div className="m-6 lg:m-10 h-[280px] w-full lg:w-[340px] rounded-t-xl bg-purple-100 shadow-xl">
+          <div className="mb-5 md:m-6 lg:m-10 h-[280px] w-full lg:w-[340px] rounded-t-xl bg-purple-100 shadow-xl">
             <div className="rounded-t-xl bg-purple-700 h-4"></div>
             <div>
               <div className="flex items-center">

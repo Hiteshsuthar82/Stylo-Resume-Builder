@@ -5,7 +5,7 @@ import Login from "./Login";
 import Home from "./Home";
 import Profile from "./Header/Profile";
 import Container from "./container/Container";
-import Logo from "./logo";
+import Logo from "./Logo";
 import AuthLayout from "./AuthLayout";
 import Template from "./Template";
 import AllTemplates from "./AllTemplates/AllTemplates";

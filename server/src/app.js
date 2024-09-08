@@ -7,7 +7,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["https://stylo-resume-builder.vercel.app/",],
+    origin: ["https://stylo-resume-builder.vercel.app",],
     credentials: true,
   })
 );

@@ -13,7 +13,7 @@ export const login = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {     
       const response = await axios.post(
-        "http://localhost:8000/api/v1/user/login",
+        "https://stylo-resume-builder.onrender.com/api/v1/user/login",
         credentials,
         { withCredentials: true }
       );
@@ -31,7 +31,7 @@ export const signup = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/v1/user/register",
+        "https://stylo-resume-builder.onrender.com/api/v1/user/register",
         credentials
       );
       return response.data;
@@ -46,7 +46,7 @@ export const logout = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       await axios.post(
-        "http://localhost:8000/api/v1/user/logout",
+        "https://stylo-resume-builder.onrender.com/api/v1/user/logout",
         {},
         { withCredentials: true }
       );
@@ -63,7 +63,7 @@ export const getCurrentUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/v1/user/get-current-user",
+        "https://stylo-resume-builder.onrender.com/api/v1/user/get-current-user",
         { withCredentials: true }
       );
       
@@ -79,7 +79,7 @@ export const changePassword = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/v1/user/get-current-user",
+        "https://stylo-resume-builder.onrender.com/api/v1/user/get-current-user",
         credentials
       );
       console.log("password changed successfully");

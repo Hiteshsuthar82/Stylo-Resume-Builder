@@ -34,7 +34,7 @@ export const uploadImage = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/v1/temp/upload-image`,
+        `https://stylo-resume-builder.onrender.com/api/v1/temp/upload-image`,
         credentials,
         {
           withCredentials: true ,
@@ -61,7 +61,7 @@ export const updateImage = createAsyncThunk(
     
     try {
       const response = await axios.patch(
-        `http://localhost:8000/api/v1/temp/image/${resumeId}`,
+        `https://stylo-resume-builder.onrender.com/api/v1/temp/image/${resumeId}`,
         credentials,
         {
           withCredentials: true ,
@@ -87,7 +87,7 @@ export const createResume = createAsyncThunk(
     
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/v1/temp/edit-resume",
+        "https://stylo-resume-builder.onrender.com/api/v1/temp/edit-resume",
         credentials,
         { withCredentials: true }
       );
@@ -105,7 +105,7 @@ export const getAllResumes = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/temp/Allresume`,
+        `https://stylo-resume-builder.onrender.com/api/v1/temp/Allresume`,
         { withCredentials: true }
       );
 
@@ -123,7 +123,7 @@ export const getUsersPermanentsDetail = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/temp/usersPermanentDetais`,
+        `https://stylo-resume-builder.onrender.com/api/v1/temp/usersPermanentDetais`,
         { withCredentials: true }
       );
 
@@ -145,7 +145,7 @@ export const getResumeData = createAsyncThunk(
     console.log(credentials);
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/temp/resume-data/${credentials?.resumeId}`,
+        `https://stylo-resume-builder.onrender.com/api/v1/temp/resume-data/${credentials?.resumeId}`,
         { withCredentials: true }
       );
 
@@ -167,7 +167,7 @@ export const deleteResume = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axios.delete(
-        `http://localhost:8000/api/v1/temp/delete/resume/${credentials?.resumeId}`,
+        `https://stylo-resume-builder.onrender.com/api/v1/temp/delete/resume/${credentials?.resumeId}`,
         { withCredentials: true }
       );
       console.log(response.data);
@@ -185,7 +185,7 @@ export const editResume = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axios.patch(
-        `http://localhost:8000/api/v1/temp/resume-edit/${credentials?.resumeId}`,
+        `https://stylo-resume-builder.onrender.com/api/v1/temp/resume-edit/${credentials?.resumeId}`,
         credentials?.formData,
         { withCredentials: true }
       );

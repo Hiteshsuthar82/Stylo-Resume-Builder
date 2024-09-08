@@ -35,6 +35,8 @@ import templete2Router from './routes/templete2.routes.js'
 
 app.use("/api/v1/user", userRouter)
 app.use("/api/v1/temp", templete2Router)
-
+app.get('/run-cronjob', (req, res) => {
+  res.send('Cron job manually triggered and server is running..');
+});
 
 export { app }

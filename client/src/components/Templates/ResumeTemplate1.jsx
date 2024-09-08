@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import downloadIcon from "./../../assets/download-icon.svg";
+import backIcon from "./../../assets/back-icon.svg";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
@@ -370,6 +371,12 @@ const ResumeTemplate1 = ({ data }) => {
           onClick={generatePDF}
         >
           <img src={downloadIcon} alt="Download" />
+        </button>
+        <button
+          className={`hidden md:block fixed top-10 left-2 p-3 my-9 text-white font-bold text-base rounded-full bg-gray-400 hover:bg-purple-700`}
+          onClick={() => window.history.back()}
+        >
+          <img src={backIcon} alt="Download" />
         </button>
       </>
     )

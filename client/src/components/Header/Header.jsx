@@ -68,12 +68,12 @@ function Header() {
           <div>
             {authstatus ? (
               <div className="flex flex-row-reverse gap-2">
-                <nav class=" md:hidden border-gray-200 dark:bg-gray-900">
-                  <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
+                <nav className=" md:hidden border-gray-200 dark:bg-gray-900">
+                  <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
                     <button
                       onClick={toggleMenu}
                       type="button"
-                      class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-lg md:hidden focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                      className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-lg md:hidden focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                       aria-controls="navbar-default"
                       aria-expanded={isMenuOpen}
                     >
@@ -114,7 +114,7 @@ function Header() {
                     </button>
 
                     <div
-                      class={`${
+                      className={`${
                         isMenuOpen ? "" : "hidden"
                       }  shadow-2xl md:w-auto absolute top-14 right-0 w-48`}
                       id="navbar-default"
@@ -123,7 +123,7 @@ function Header() {
                         className="h-screen w-screen fixed top-0 left-0 z-10"
                         onClick={toggleMenu}
                       ></div>
-                      <ul class="drop-shadow-xl absolute font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 z-20 rounded-lg bg-black md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                      <ul className="drop-shadow-xl absolute font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 z-20 rounded-lg bg-black md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                         {navitems.map((item) =>
                           item.active ? (
                             <li key={item.name} className="">
@@ -151,12 +151,12 @@ function Header() {
               </div>
             ) : (
               <div className="flex flex-row-reverse gap-2">
-                <nav class=" md:hidden border-gray-200 dark:bg-gray-900">
-                  <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
+                <nav className=" md:hidden border-gray-200 dark:bg-gray-900">
+                  <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
                     <button
                       onClick={toggleMenu}
                       type="button"
-                      class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-lg md:hidden focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                      className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-lg md:hidden focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                       aria-controls="navbar-default"
                       aria-expanded={isMenuOpen}
                     >
@@ -197,7 +197,7 @@ function Header() {
                     </button>
 
                     <div
-                      class={`${
+                      className={`${
                         isMenuOpen ? "" : "hidden"
                       }  shadow-2xl md:w-auto absolute top-14 right-[-10PX] w-48`}
                       id="navbar-default"
@@ -206,7 +206,7 @@ function Header() {
                         className="h-screen w-screen fixed top-0 left-0 z-10"
                         onClick={toggleMenu}
                       ></div>
-                      <ul class="drop-shadow-xl w-40 absolute font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 z-20 rounded-lg bg-black md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                      <ul className="drop-shadow-xl w-40 absolute font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 z-20 rounded-lg bg-black md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                         {navitems.map((item) =>
                           item.active ? (
                             <li key={item.name} className="">

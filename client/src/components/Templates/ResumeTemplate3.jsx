@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import downloadIcon from "./../../assets/download-icon.svg";
+import backIcon from "./../../assets/back-icon.svg";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
@@ -77,7 +78,7 @@ function Resume({ data }) {
           >
             <div>
               <h1
-              className="text-purple-700 border-b-2 border-purple-700"
+                className="text-purple-700 border-b-2 border-purple-700"
                 style={{
                   fontSize: "4vw",
                   fontWeight: "bold",
@@ -124,7 +125,7 @@ function Resume({ data }) {
           <main>
             <section style={{ marginBottom: "3vw" }}>
               <h2
-              className="text-purple-700 border-b-2 border-purple-700"
+                className="text-purple-700 border-b-2 border-purple-700"
                 style={{
                   fontSize: "2.5vw",
                   fontWeight: "600",
@@ -139,7 +140,7 @@ function Resume({ data }) {
             </section>
             <section style={{ marginBottom: "3vw" }}>
               <h2
-              className="text-purple-700 border-b-2 border-purple-700"
+                className="text-purple-700 border-b-2 border-purple-700"
                 style={{
                   fontSize: "2.5vw",
                   fontWeight: "600",
@@ -169,7 +170,7 @@ function Resume({ data }) {
             </section>
             <section style={{ marginBottom: "3vw" }}>
               <h2
-              className="text-purple-700 border-b-2 border-purple-700"
+                className="text-purple-700 border-b-2 border-purple-700"
                 style={{
                   fontSize: "2.5vw",
                   fontWeight: "600",
@@ -191,7 +192,7 @@ function Resume({ data }) {
             </section>
             <section style={{ marginBottom: "3vw" }}>
               <h2
-              className="text-purple-700 border-b-2 border-purple-700"
+                className="text-purple-700 border-b-2 border-purple-700"
                 style={{
                   fontSize: "2.5vw",
                   fontWeight: "600",
@@ -221,7 +222,7 @@ function Resume({ data }) {
             </section>
             <section>
               <h2
-              className="text-purple-700 border-b-2 border-purple-700"
+                className="text-purple-700 border-b-2 border-purple-700"
                 style={{
                   fontSize: "2.5vw",
                   fontWeight: "600",
@@ -357,6 +358,12 @@ function Resume({ data }) {
         onClick={generatePDF}
       >
         <img src={downloadIcon} alt="Download" />
+      </button>
+      <button
+        className={`hidden md:block fixed top-10 left-2 p-3 my-9 text-white font-bold text-base rounded-full bg-gray-400 hover:bg-purple-700`}
+        onClick={() => window.history.back()}
+      >
+        <img src={backIcon} alt="Download" />
       </button>
     </>
   );

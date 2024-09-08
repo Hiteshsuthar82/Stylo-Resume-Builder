@@ -7,7 +7,7 @@ const Alert = ({showAlert, setShowAlert}) => {
       {showAlert && (
         <div
           id="alert-2"
-          className={`flex items-center fixed bottom-5 right-3 p-4 w-[90%] lg:w-[70%] xl:w-[60%] mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 transition-transform duration-500 ease-in-out transform ${
+          className={`z-50 flex items-center fixed bottom-5 right-3 p-4 w-[90%] lg:w-[70%] xl:w-[60%] mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 transition-transform duration-500 ease-in-out transform ${
             showAlert ? "translate-x-0" : "-translate-x-full"
           }`}
           role="alert"

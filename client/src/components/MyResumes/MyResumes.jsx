@@ -4,7 +4,6 @@ import {
   Container,
   Template,
   DeleteConfirmationDialog,
-  StepsPage,
 } from "./../index";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -122,6 +121,7 @@ function MyResumes() {
                 <Template
                   key={index}
                   templateData={template}
+                  name={resume.name}
                   onClick={onTemplateSelect}
                   isSelected={selectedResumeId === resume._id}
                   resumeId={resume._id}

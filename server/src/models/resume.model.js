@@ -82,6 +82,9 @@ const resumeSchema = new mongoose.Schema({
     image: {
         type: String // cloudinary url
     },
+    profileSummary: { 
+        type: String,
+    },
     contact: {
         phone: {
             type: String

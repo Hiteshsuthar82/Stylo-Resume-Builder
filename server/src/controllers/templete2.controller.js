@@ -14,6 +14,7 @@ const insertDummyData = asyncHandler(async (req, res, next) => {
   try {
     const dummyResume = {
       name: "Jake Ryan",
+      profileSummary:"A highly skilled software engineer with over 5 years of experience in full-stack development",
       templateId: 101,
       permanentdata: false,
       image:
@@ -259,6 +260,20 @@ const updateResumeByResumeId = asyncHandler(async (req, res, next) => {
     }
 
     const updateData = req.body;
+
+    // Check if there's any existing resume with permanentdata set to true
+    if (updateData?.permanentdata) {
+      const existingResume = await Resume.findOne({
+        owner: userId,
+        permanentdata: true,
+      });
+
+      if (existingResume) {
+        // Update the permanentdata field to false for the existing resume
+        existingResume.permanentdata = false;
+        await existingResume.save();
+      }
+    }
 
     // Find the existing resume
     const resume = await Resume.findOne({ _id: resumeId, owner: userId });

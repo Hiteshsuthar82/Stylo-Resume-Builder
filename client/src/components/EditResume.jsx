@@ -5,6 +5,7 @@ import person from "../assets/person.svg";
 import mail from "../assets/envelop.svg";
 import phone from "../assets/phone.svg";
 import formLoader from "../assets/form-loader.gif";
+import descriptionIcon from "../assets/description-icon.svg";
 import linkedin from "../assets/linkedin.svg";
 import git from "../assets/github.svg";
 import dgt from "../assets/doubleRight.png";
@@ -39,6 +40,7 @@ function EditResume() {
   } = useForm({
     defaultValues: {
       name: resumeData?.name,
+      profileSummary:resumeData?.profileSummary,
       contact: {
         phone: resumeData?.phone,
         email: resumeData?.email,
@@ -193,6 +195,7 @@ function EditResume() {
           setResumeData(response.payload.data);
           reset({
             name: data.name,
+            profileSummary:data.profileSummary,
             contact: data.contact,
             experience: data.experience,
             projects: data.projects,
@@ -336,7 +339,7 @@ function EditResume() {
                   <input
                     type="text"
                     {...register("contact.linkedin")}
-                    placeholder="linkedin.com/in/kamlesh"
+                    placeholder="linkedin.com/in/john"
                     className="border border-gray-400 rounded-sm w-[270px] mb-2 mx-8 mt-1 h-8 px-3 py-1"
                   />
                 </div>
@@ -345,10 +348,26 @@ function EditResume() {
                   <input
                     type="text"
                     {...register("contact.github")}
-                    placeholder="github.com/kamlesh"
+                    placeholder="github.com/john"
                     className="border border-gray-400 rounded-sm w-[270px] mb-2 mx-8 mt-1 h-8 px-3 py-1"
                   />
                 </div>
+              </div>
+              <div className="relative flex lg:items-center gap-6 flex-row my-7">
+                {/* <label className="font-medium"> Name: </label> */}
+                <img src={descriptionIcon} alt="phone-icon" className="mb-2 h-9" />
+                <textarea
+                  {...register("profileSummary", {
+                    required: "*summary is required",
+                  })}
+                  placeholder="A highly skilled software engineer with over 5 years of experience..."
+                  className="border border-gray-400 rounded-sm w-2/4 max-sm:w-[80%] md:w-2/5 h-24 px-3 py-1"
+                />
+                {errors.profileSummary && (
+                  <span className="text-red-500 absolute left-16 bottom-[-17px]">
+                    {errors.profileSummary.message}
+                  </span>
+                )}
               </div>
             </div>
 

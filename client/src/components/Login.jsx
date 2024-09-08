@@ -8,7 +8,11 @@ import buttonLoader from "./../assets/button-loader.gif";
 function Login() {
   const [rememberMe, setRememberMe] = useState(false);
   const dispatch = useDispatch();
-  const { register, handleSubmit, formState:{errors} } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const { loading, error } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
@@ -35,8 +39,8 @@ function Login() {
   };
 
   return (
-    <div className="w-full min-h-screen flex justify-center items-center">
-      <div className="bg-white border-2 rounded-lg flex flex-col w-full max-w-md min-h-[440px] shadow-2xl max-sm:w-[312px]">
+    <div className="w-full min-h-[70vh] lg:min-h-[78vh] flex justify-center items-center">
+      <div className="bg-white border-2 mt-10 rounded-lg flex flex-col w-full max-w-md min-h-[440px] shadow-2xl max-sm:w-[90%]">
         <form onSubmit={handleSubmit(handleLogin)} autoComplete="off">
           <div className="flex flex-col items-center mt-10 mx-auto my-6">
             <h2 className="font-poppins text-[35px] font-semibold text-purple-700 max-sm:text-3xl">
@@ -48,7 +52,7 @@ function Login() {
             <p className="text-red-600 mt-8 text-center">{error.message}</p>
           )}
           <div className="flex flex-col items-center">
-            <div className="relative flex items-center w-[70%] border-2 border-gray-400 rounded-full my-2 px-2">
+            <div className="relative flex items-center w-[80%] sm:w-[70%] border-2 border-gray-400 rounded-full my-2 px-2">
               <img src="src/assets/mail1.svg" alt="" />
               <input
                 placeholder="Username"
@@ -63,7 +67,7 @@ function Login() {
                 </span>
               )}
             </div>
-            <div className="relative flex items-center w-[70%] border-2 border-gray-400 rounded-full my-2 px-2">
+            <div className="relative flex items-center w-[80%] sm:w-[70%] border-2 border-gray-400 rounded-full my-2 px-2">
               <img src="src/assets/password.svg" alt="" />
               <input
                 type="password"

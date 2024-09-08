@@ -3,9 +3,11 @@ import UserDetailCard from "./UserDetailCard";
 import UserDetailListItem from "./UserDetailListItem";
 import { getUsersPermanentsDetail } from "../../features/resumeSlice";
 import { useDispatch, useSelector } from "react-redux";
+import loader from "../../assets/page-loader.gif";
 
 const UserProfile = () => {
   const [myResumes, setMyResumes] = useState([]);
+  const [loading, setLoading] = useState(true);
   const userDetail = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
 
@@ -141,18 +143,23 @@ const UserProfile = () => {
   useEffect(() => {
     dispatch(getUsersPermanentsDetail()).then((response) => {
       if (response && response?.meta?.status !== 404) {
-
         console.log("all resumes fetched successfully..");
         setMyResumes(response.payload.data);
+        setLoading(false);
       } else {
         // write code if there are note any resume for current user
         setMyResumes(null);
         console.log("no resumes found");
+        setLoading(false);
       }
     });
   }, []);
 
-  return !myResumes ? (
+  return loading ? (
+    <div className="h-[75vh] w-full flex items-center justify-center">
+      <img src={loader} alt="Loading.." className="h-40" />
+    </div>
+  ) : !myResumes ? (
     <div className="h-[70vh]">
       <div className="relative flex flex-col mt-10 mx-10 flex-auto min-w-0 p-4 overflow-hidden break-words border-0 shadow-sm rounded-2xl bg-white/80 bg-clip-border mb-4">
         <div className="flex flex-wrap -mx-3">
@@ -179,13 +186,12 @@ const UserProfile = () => {
               </p>
             </div>
           </div>
-          <div className="w-full max-w-full px-3 mx-auto mt-4 sm:my-auto sm:mr-0 md:w-1/2 md:flex-none lg:w-4/12"></div>
         </div>
       </div>
     </div>
   ) : (
     <div className="max-w-4xl mx-auto p-6 bg-[#f8f9fe] rounded-lg shadow-md">
-      <div className="relative flex flex-col flex-auto min-w-0 p-4 overflow-hidden break-words border-0 shadow-sm rounded-2xl bg-white/80 bg-clip-border mb-4">
+      <div className="relative flex flex-col flex-auto min-w-0 m-3 py-2 px-4 overflow-hidden break-words border-0 shadow-sm shadow-purple-600 rounded-lg bg-white/80 bg-clip-border mb-4" >
         <div className="flex flex-wrap -mx-3">
           <div className="flex-none w-auto max-w-full px-3">
             <div className="text-base ease-soft-in-out h-16 w-16 relative inline-flex items-center justify-center rounded-xl text-white transition-all duration-200">
@@ -207,12 +213,18 @@ const UserProfile = () => {
               </p>
             </div>
           </div>
-          <div className="w-full max-w-full px-3 mx-auto mt-4 sm:my-auto sm:mr-0 md:w-1/2 md:flex-none lg:w-4/12"></div>
         </div>
       </div>
-
+      <div className="mb-6 mx-3 py-3 rounded-lg shadow-md bg-white px-3">
+        <h1 className="font-bold mb-3 text-xl">Profile</h1>
+        <div className="relative block px-4 py-2 pt-0 pl-0 leading-normal bg-white border-0 rounded-t-lg text-sm text-inherit">
+          {myResumes.profileSummary}
+        </div>
+      </div>
       <div>
         {Object.entries(myResumes).map(([key, value]) => {
+          if (typeof value === String) {
+          }
           if (Array.isArray(value)) {
             return null;
           } else if (typeof value === "object" && value !== null) {

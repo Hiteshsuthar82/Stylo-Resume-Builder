@@ -36,7 +36,7 @@ function SignUp() {
 
   return (
     <div className="w-full min-h-screen flex justify-center items-center">
-      <div className="border-2 rounded-lg bg-white flex flex-col w-full max-w-md min-h-[440px] shadow-2xl max-sm:w-[312px]">
+      <div className="border-2 rounded-lg bg-white flex flex-col w-full max-w-md min-h-[440px] shadow-2xl max-sm:w-[90%]">
         <form onSubmit={handleSubmit(handleSignup)} autoComplete="off">
           <div className="flex flex-col items-center mt-10 mx-auto my-6">
             <h2 className="font-poppins text-[35px] font-semibold text-purple-700 max-sm:text-3xl ">
@@ -48,7 +48,7 @@ function SignUp() {
             <p className="text-red-600 mt-8 text-center">{error.message}</p>
           )}
           <div className="flex flex-col items-center">
-            <div className="relative w-[70%] flex items-center p-2 pl-3 border-2 rounded-full border-gray-400 my-2 ">
+            <div className="relative w-[80%] sm:w-[70%] flex items-center p-2 pl-3 border-2 rounded-full border-gray-400 my-2 ">
               <input
                 type="text"
                 placeholder="Username"
@@ -64,7 +64,7 @@ function SignUp() {
                 </span>
               )}
             </div>
-            <div className="relative w-[70%] flex items-center p-2 pl-3 border-2 rounded-full border-gray-400 my-2 ">
+            <div className="relative w-[80%] sm:w-[70%] flex items-center p-2 pl-3 border-2 rounded-full border-gray-400 my-2 ">
               <input
                 type="text"
                 placeholder="Full Name"
@@ -80,7 +80,7 @@ function SignUp() {
                 </span>
               )}
             </div>
-            <div className="relative w-[70%] flex items-center p-2 pl-3 border-2 rounded-full border-gray-400 my-2 ">
+            <div className="relative w-[80%] sm:w-[70%] flex items-center p-2 pl-3 border-2 rounded-full border-gray-400 my-2 ">
               <input
                 type="email"
                 placeholder="Email"
@@ -100,7 +100,7 @@ function SignUp() {
                 </span>
               )}
             </div>
-            <div className="relative w-[70%] flex items-center p-2 pl-3 border-2 rounded-full border-gray-400 my-2 ">
+            <div className="relative w-[80%] sm:w-[70%] flex items-center p-2 pl-3 border-2 rounded-full border-gray-400 my-2 ">
               <input
                 type="password"
                 placeholder="Password"
@@ -117,16 +117,14 @@ function SignUp() {
                 </span>
               )}
             </div>
-            <div className="relative w-[70%] flex items-center p-2 pl-3 border-2 rounded-full border-gray-400 my-2 ">
+            <div className="relative w-[80%] sm:w-[70%] flex items-center p-2 pl-3 border-2 rounded-full border-gray-400 my-2 ">
               <input
                 type="password"
                 placeholder="Confirm Password"
                 name="confirmpass"
                 {...register("confirmPassword", {
                   required: "*required",
-                  validate: (value) =>
-                    value === password ||
-                    "not matching",
+                  validate: (value) => value === password || "not matching",
                 })}
                 className="w-full text-base font-semibold outline-none bg-transparent"
               />

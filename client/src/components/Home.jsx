@@ -22,7 +22,7 @@ function Home() {
   return (
     <div className="p-4">
       {/* Hero Section */}
-      <div className="flex flex-col lg:flex-row items-center lg:items-start lg:justify-center m-6">
+      <div className="flex flex-col-reverse lg:flex-row items-center lg:gap-10 lg:items-start lg:justify-center m-6">
         <div className="w-full lg:w-[35%]">
           <img
             src={myImg}
@@ -30,7 +30,7 @@ function Home() {
             className="my-12 mx-auto rounded-2xl border border-gray-400 h-[450px] shadow-2xl max-w-full"
           />
         </div>
-        <div className="mt-16 w-full lg:w-[65%] flex flex-col text-center lg:text-left">
+        <div className="mt-0 lg:mt-16 w-full lg:w-[65%] flex flex-col text-center lg:text-left">
           <h1 className="text-4xl lg:text-5xl my-6 font-bold">
             "Craft Your Career with Style"
           </h1>
@@ -107,7 +107,7 @@ function Home() {
             </div>
           </div>
         </div>
-        <div className="flex flex-col lg:flex-row items-center m-6">
+        <div className="flex flex-col lg:flex-row items-center m-6 lg:gao-10">
           <div className="w-full lg:w-[40%]">
             <img
               src={myImg2}
@@ -159,7 +159,7 @@ function Home() {
         <h2 className="text-3xl lg:text-4xl font-bold mb-10 text-center">
           What people are saying about our Resume Maker
         </h2>
-        <div className="flex flex-col lg:flex-row max-sm:items-center justify-center max-sm:flex-col">
+        <div className="flex flex-col lg:flex-row flex-wrap max-sm:items-center justify-center max-sm:flex-col">
           <div className="m-6 lg:m-10 h-[280px] w-full lg:w-[340px] rounded-t-xl bg-purple-100 shadow-xl">
             <div className="rounded-t-xl bg-purple-700 h-4"></div>
             <div>

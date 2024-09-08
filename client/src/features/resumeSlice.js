@@ -7,23 +7,23 @@ const initialState = {
   data: null,
   allTemplates: [
     {
-      src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725464897/Resume_Builder/photos/lououzxvetz7nbgvjkuw.png",
+      src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788112/Resume_Builder/photos/zbdutp7pkd1pwxbqkwdk.png",
       id: "t1",
     },
     {
-      src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725472579/Resume_Builder/photos/ztnwxjryefv5niwdew2i.png",
+      src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788143/Resume_Builder/photos/xvt9zuuvb7chnv385k4c.png",
       id: "t2",
     },
     {
-      src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725476937/Resume_Builder/photos/oqonbptsset7airbekqs.png",
+      src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788174/Resume_Builder/photos/ghcknv3eczccie7ray0j.png",
       id: "t3",
     },
     {
-      src: "https://d.novoresume.com/images/doc/general-resume-template.png",
+      src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788204/Resume_Builder/photos/rpxi2jwwzyqlgxqjohqu.png",
       id: "t4",
     },
     {
-      src: "https://marketplace.canva.com/EAFBL8KRmSA/1/0/1131w/canva-white-simple-student-cv-resume-NXs7xSf0K8I.jpg",
+      src: "https://res.cloudinary.com/dno70sflf/image/upload/v1725788233/Resume_Builder/photos/q450lvnatfptcan8lhr1.png",
       id: "t5",
     },
   ],

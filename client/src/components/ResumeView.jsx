@@ -7,6 +7,7 @@ import ResumeTemplate1 from "./Templates/ResumeTemplate1";
 import ResumeTemplate2 from "./Templates/ResumeTemplate2";
 import ResumeTemplate3 from "./Templates/ResumeTemplate3";
 import ResumeTemplate4 from "./Templates/ResumeTemplate4";
+import ResumeTemplate5 from "./Templates/ResumeTemplate5";
 
 function ResumeView() {
   const { templateId } = useParams();
@@ -50,6 +51,8 @@ function ResumeView() {
       return <ResumeTemplate3 data={resumeData} />;
     case 't4':
       return <ResumeTemplate4 data={resumeData} />;
+    case 't5':
+      return <ResumeTemplate5 data={resumeData} />;
     default:
       break;
   }

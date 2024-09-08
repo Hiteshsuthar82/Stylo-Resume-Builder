@@ -3,7 +3,7 @@ import searchIcon from "./../assets/search.svg";
 import editIcon from "./../assets/edit-icon.svg";
 import deleteIcon from "./../assets/delete-icon.svg";
 
-function Template({ templateData, isSelected, onClick, onSearchClick, resumeId=null, onEditClick, onDeleteClick }) {  
+function Template({ templateData, isSelected,name, onClick, onSearchClick, resumeId=null, onEditClick, onDeleteClick }) {  
   return (
     <div
       onClick={() => onClick && onClick(templateData.id, resumeId)}
@@ -13,12 +13,14 @@ function Template({ templateData, isSelected, onClick, onSearchClick, resumeId=n
           : "border-2 border-transparent"
       }`}
     >
+      {name && <div className="text-center border-2 rounded-t-xl border-purple-600">{name}</div>}
       <img
         className="w-[300px] h-[400px] object-contain rounded-lg shadow-lg focus:outline-none"
         src={templateData.src}
         alt={`template ${templateData.id}`}
         tabIndex={0}
       />
+      
 
       {/* Icon to be displayed on hover/focus */}
       {onSearchClick && (

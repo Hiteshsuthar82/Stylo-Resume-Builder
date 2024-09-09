@@ -760,7 +760,7 @@ function EditResume() {
                     : "bg-purple-600 hover:bg-purple-700"
                 }`}
               >
-                {loading ? (
+                {submiting ? (
                   <img src={buttonLoader} alt="Loading.." className="w-7 h-5" />
                 ) : (
                   "Save"

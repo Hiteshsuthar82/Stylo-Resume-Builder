@@ -9,6 +9,8 @@ import descriptionIcon from "../assets/description-icon.svg";
 import linkedin from "../assets/linkedin.svg";
 import git from "../assets/github.svg";
 import dgt from "../assets/doubleRight.png";
+import buttonLoader from "./../assets/button-loader.gif";
+
 import { useDispatch } from "react-redux";
 import {
   getResumeData,
@@ -40,7 +42,7 @@ function EditResume() {
   } = useForm({
     defaultValues: {
       name: resumeData?.name,
-      profileSummary:resumeData?.profileSummary,
+      profileSummary: resumeData?.profileSummary,
       contact: {
         phone: resumeData?.phone,
         email: resumeData?.email,
@@ -195,7 +197,7 @@ function EditResume() {
           setResumeData(response.payload.data);
           reset({
             name: data.name,
-            profileSummary:data.profileSummary,
+            profileSummary: data.profileSummary,
             contact: data.contact,
             experience: data.experience,
             projects: data.projects,
@@ -355,7 +357,11 @@ function EditResume() {
               </div>
               <div className="relative flex lg:items-center gap-6 flex-row my-7">
                 {/* <label className="font-medium"> Name: </label> */}
-                <img src={descriptionIcon} alt="phone-icon" className="mb-2 h-9" />
+                <img
+                  src={descriptionIcon}
+                  alt="phone-icon"
+                  className="mb-2 h-9"
+                />
                 <textarea
                   {...register("profileSummary", {
                     required: "*summary is required",
@@ -748,13 +754,17 @@ function EditResume() {
             <div className="flex justify-center">
               <button
                 type="submit"
-                className={`px-12 lg:px-16 my-9 py-3 text-white font-bold text-base rounded-full ${
+                className={`h-10 px-12 lg:px-16 my-9 py-3 text-white font-bold text-base rounded-full ${
                   submiting
                     ? "bg-gray-500 cursor-not-allowed"
                     : "bg-purple-600 hover:bg-purple-700"
                 }`}
               >
-                Save
+                {loading ? (
+                  <img src={buttonLoader} alt="Loading.." className="w-7 h-5" />
+                ) : (
+                  "Save"
+                )}
               </button>
             </div>
           </div>

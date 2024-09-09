@@ -754,7 +754,7 @@ function EditResume() {
             <div className="flex justify-center">
               <button
                 type="submit"
-                className={`h-10 px-12 lg:px-16 my-9 py-3 text-white font-bold text-base rounded-full ${
+                className={`h-12 flex items-centet justify-center px-12 lg:px-16 my-9 py-3 text-white font-bold text-base rounded-full ${
                   submiting
                     ? "bg-gray-500 cursor-not-allowed"
                     : "bg-purple-600 hover:bg-purple-700"

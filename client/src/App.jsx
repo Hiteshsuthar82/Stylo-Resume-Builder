@@ -35,7 +35,7 @@ function App() {
     </>
   ) : (
     <div className="h-screen w-full flex justify-center items-center bg-purple-400 text-center">
-      <img className="size-[200px]" src={loadingimg} alt="" />
+      <img className="h-screen w-screen" src={loadingimg} alt="" />
     </div>
   );
 }

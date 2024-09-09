@@ -34,8 +34,8 @@ function App() {
       <Footer />
     </>
   ) : (
-    <div className="h-screen w-full flex justify-center items-center bg-purple-400 text-center">
-      <img className="h-screen w-screen" src={loadingimg} alt="" />
+    <div className="h-screen w-screen flex justify-center items-center bg-[linear-gradient(0deg,_rgba(113,50,229,1)_0%,_rgba(163,75,246,1)_100%)] text-center">
+      <img className="md:h-screen w-screen" src={loadingimg} alt="" />
     </div>
   );
 }

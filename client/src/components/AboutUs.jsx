@@ -28,27 +28,27 @@ const users = [
     image:
       "https://res.cloudinary.com/dno70sflf/image/upload/v1725797995/Resume_Builder/photos/xltqwg7sj2cgnmx2dh2t.jpg",
     // 'https://res.cloudinary.com/dno70sflf/image/upload/v1725797033/Resume_Builder/photos/pbacuqkk1pjkkn29bcwm.jpg',
-    position: "Fullstack Developer",
+    position: "Group Leader",
   },
   {
     name: "Kamlesh Suthar",
     image:
       "https://res.cloudinary.com/dno70sflf/image/upload/v1725798194/Resume_Builder/photos/s81w73ac0qgoejtye6uw.png",
     // 'https://res.cloudinary.com/dno70sflf/image/upload/v1725797915/Resume_Builder/photos/qv6h1exx3p6fn02v4cof.png',
-    position: "React Developer",
+    position: "Group Member",
   },
   {
     name: "Chandan Polai",
     image:
       "https://res.cloudinary.com/dno70sflf/image/upload/v1725797170/Resume_Builder/photos/v8uw9faq3ezl4hkfo0dt.png",
-    position: "Backend Developer",
+    position: "Group Member",
   },
   {
     name: "Vivek Paradva",
     image:
       "https://res.cloudinary.com/dno70sflf/image/upload/v1725797771/Resume_Builder/photos/tvkkuieqvbmqzmdoixud.png",
     // 'https://res.cloudinary.com/dno70sflf/image/upload/v1725797660/Resume_Builder/photos/hw27smyp4wtfke1cohwi.png',
-    position: "Team Meamber",
+    position: "Group Member",
   },
 ];
 

@@ -182,7 +182,7 @@ const UserProfile = () => {
                 <h5 className="mb-1">{userDetail?.email}</h5>
               </div>
               <p className="mb-0 font-semibold leading-normal text-sm">
-                Account Owener
+                Account Owner
               </p>
             </div>
           </div>
@@ -209,7 +209,7 @@ const UserProfile = () => {
             <div className="h-full">
               <h5 className="mb-1">{myResumes.name}</h5>
               <p className="mb-0 font-semibold leading-normal text-sm">
-                Account Owener
+                Account Owner
               </p>
             </div>
           </div>

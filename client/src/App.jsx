@@ -18,7 +18,7 @@ function App() {
         console.error("Failed to fetch user:", error);
         dispatch(logout());
       } finally {
-        setLoading(false);
+        setTimeout(() => setLoading(false), 8500);
       }
     };
 

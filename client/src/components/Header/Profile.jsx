@@ -42,13 +42,13 @@ function Profile() {
                   <div className="py-3">
                     <Link
                       className="block rounded-lg py-2 px-3 transition hover:bg-white/10"
-                      to="/userProfile"
+                      to="/user-profile"
                     >
                       <p className="font-semibold text-white">Profile</p>
                     </Link>
                     <Link
                       className="block rounded-lg py-2 px-3 transition hover:bg-white/10"
-                      to="/myResumes"
+                      to="/my-resumes"
                     >
                       <p className="font-semibold text-white">My Resumes</p>
                     </Link>

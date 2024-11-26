@@ -278,7 +278,7 @@ function CreateResume() {
             <div className="ml-3 mb-10">
               {/* Personal Information */}
               <div className="flex items-center">
-                <img src={dgt} alt="" height="25" width="25" />
+                <img src={dgt} alt="selected person image" height="25" width="25" />
                 <h1 className="m-6 ml-3 font-bold text-xl">
                   PERSONAL INFORMATION :
                 </h1>
@@ -419,7 +419,7 @@ function CreateResume() {
                 <div key={education.id} className="ml-3">
                   <div className="flex items-center">
                     <div className="flex items-center">
-                      <img src={dgt} alt="" height="25" width="25" />
+                      <img src={dgt} alt="education" height="25" width="25" />
                       <h1 className="m-6 ml-3 font-bold text-xl">
                         EDUCATION {educationFields.length > 1 ? index + 1 : ""}{" "}
                         :
@@ -525,7 +525,7 @@ function CreateResume() {
                 <div key={project.id} className="ml-3">
                   <div className="flex items-center">
                     <div className="flex items-center">
-                      <img src={dgt} alt="" height="25" width="25" />
+                      <img src={dgt} alt="projects" height="25" width="25" />
                       <h1 className="m-6 ml-3 font-bold text-xl">
                         PROJECT {projectFields.length > 1 ? index + 1 : ""} :
                       </h1>
@@ -621,7 +621,7 @@ function CreateResume() {
                 <div key={experience.id} className="ml-3">
                   <div className="flex items-center">
                     <div className="flex items-center">
-                      <img src={dgt} alt="" height="25" width="25" />
+                      <img src={dgt} alt="experiance" height="25" width="25" />
                       <h1 className="m-6 ml-3 font-bold text-xl">
                         EXPERIENCE{" "}
                         {experienceFields.length > 1 ? index + 1 : ""} :
@@ -729,7 +729,7 @@ function CreateResume() {
             <div className="ml-3 mb-10">
               {/* skills */}
               <div className="flex items-center">
-                <img src={dgt} alt="" height="25" width="25" />
+                <img src={dgt} alt="skills" height="25" width="25" />
                 <h1 className="m-6 ml-3 font-bold text-xl">SKILLS : </h1>
               </div>
               <div className="flex flex-col lg:items-center lg:gap-10 lg:flex-row mb-7 ">

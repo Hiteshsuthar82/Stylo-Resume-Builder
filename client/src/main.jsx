@@ -20,6 +20,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import EditResume from "./components/EditResume.jsx";
 import About from "./pages/About.jsx";
+import { HelmetProvider } from "react-helmet-async";
 
 const router = createBrowserRouter([
   {
@@ -51,7 +52,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/userProfile",
+        path: "/user-profile",
         element: (
           <AuthLayout authentication>
             <UserProfile />
@@ -67,7 +68,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/allTemplates",
+        path: "/all-templates",
         element: (
           <AuthLayout authentication>
             <AllTemplates />
@@ -91,7 +92,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/myResumes",
+        path: "/my-resumes",
         element: (
           <AuthLayout authentication>
             <MyResumes />
@@ -110,18 +111,12 @@ const router = createBrowserRouter([
   },
 ]);
 
-// createRoutesFromElements(
-//   <Route path="/" element={<Layout />}>
-//     <Route path="/" element={<App />} />
-//     <Route path="/signup" element={<SignUp />} />
-//     <Route path="/login" element={<Login />} />
-//   </Route>
-// )
-
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <HelmetProvider> {/* Add HelmetProvider here */}
+        <RouterProvider router={router} />
+      </HelmetProvider>
     </Provider>
   </React.StrictMode>
 );

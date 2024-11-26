@@ -230,7 +230,7 @@ function Header() {
                   </div>
                 </nav>
                 <Link
-                  to="/allTemplates"
+                  to="/all-templates"
                   className="animate-pulse px-4 py-2 bg-purple-800 text-white rounded-lg font-semibold"
                   onClick={() => navigate("getStarted")}
                 >

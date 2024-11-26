@@ -4,6 +4,7 @@ import UserDetailListItem from "./UserDetailListItem";
 import { getUsersPermanentsDetail } from "../../features/resumeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import loader from "../../assets/page-loader.gif";
+import { Helmet } from "react-helmet";
 
 const UserProfile = () => {
   const [myResumes, setMyResumes] = useState([]);
@@ -155,124 +156,162 @@ const UserProfile = () => {
     });
   }, []);
 
-  return loading ? (
-    <div className="h-[75vh] w-full flex items-center justify-center">
-      <img src={loader} alt="Loading.." className="h-40" />
-    </div>
-  ) : !myResumes ? (
-    <div className="h-[70vh]">
-      <div className="relative flex flex-col mt-10 mx-10 flex-auto min-w-0 p-4 overflow-hidden break-words border-0 shadow-sm rounded-2xl bg-white/80 bg-clip-border mb-4">
-        <div className="flex flex-wrap -mx-3">
-          <div className="flex-none w-auto max-w-full px-3">
-            <div className="text-base ease-soft-in-out h-16 w-16 relative inline-flex items-center justify-center rounded-xl text-white transition-all duration-200">
-              <img
-                src={
-                  userDetail?.image ||
-                  "https://cdn.icon-icons.com/icons2/2643/PNG/512/male_man_boy_black_tone_avatar_people_person_icon_159369.png"
-                }
-                alt="profile_image"
-                className="w-full shadow-md rounded-xl"
-              />
-            </div>
-          </div>
-          <div className="flex-none w-auto max-w-full px-3 my-auto">
-            <div className="h-full">
-              <div className="flex">
-                <h5 className="mb-1">{userDetail?.fullName}</h5>&nbsp;|&nbsp;
-                <h5 className="mb-1">{userDetail?.email}</h5>
-              </div>
-              <p className="mb-0 font-semibold leading-normal text-sm">
-                Account Owner
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  ) : (
-    <div className="max-w-4xl mx-auto p-6 bg-[#f8f9fe] rounded-lg shadow-md">
-      <div className="relative flex flex-col flex-auto min-w-0 m-3 py-2 px-4 overflow-hidden break-words border-0 shadow-sm shadow-purple-600 rounded-lg bg-white/80 bg-clip-border mb-4" >
-        <div className="flex flex-wrap -mx-3">
-          <div className="flex-none w-auto max-w-full px-3">
-            <div className="text-base ease-soft-in-out h-16 w-16 relative inline-flex items-center justify-center rounded-xl text-white transition-all duration-200">
-              <img
-                src={
-                  myResumes.image ||
-                  "https://demos.creative-tim.com/soft-ui-dashboard-tailwind/assets/img/bruce-mars.jpg"
-                }
-                alt="profile_image"
-                className="w-full shadow-md rounded-xl"
-              />
-            </div>
-          </div>
-          <div className="flex-none w-auto max-w-full px-3 my-auto">
-            <div className="h-full">
-              <h5 className="mb-1">{myResumes.name}</h5>
-              <p className="mb-0 font-semibold leading-normal text-sm">
-                Account Owner
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="mb-6 mx-3 py-3 rounded-lg shadow-md bg-white px-3">
-        <h1 className="font-bold mb-3 text-xl">Profile</h1>
-        <div className="relative block px-4 py-2 pt-0 pl-0 leading-normal bg-white border-0 rounded-t-lg text-sm text-inherit">
-          {myResumes.profileSummary}
-        </div>
-      </div>
-      <div>
-        {Object.entries(myResumes).map(([key, value]) => {
-          if (typeof value === String) {
+  return (
+    <>
+      <Helmet>
+        <title>User Profile | Resume Builder</title>
+        <meta
+          name="description"
+          content={`View the profile of ${
+            userDetail?.fullName || "the user"
+          }. Explore their resume, skills, education, and professional experience.`}
+        />
+        <meta
+          name="keywords"
+          content="User Profile, Resume, Skills, Education, Experience, Portfolio"
+        />
+        <meta name="author" content={userDetail?.fullName || "Unknown User"} />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta property="og:title" content="User Profile | Resume Builder" />
+        <meta
+          property="og:description"
+          content={`Explore ${
+            userDetail?.fullName || "the user's"
+          } resume, skills, education, and experience.`}
+        />
+        <meta
+          property="og:image"
+          content={
+            userDetail?.image ||
+            "https://cdn.icon-icons.com/icons2/2643/PNG/512/male_man_boy_black_tone_avatar_people_person_icon_159369.png"
           }
-          if (Array.isArray(value)) {
-            return null;
-          } else if (typeof value === "object" && value !== null) {
-            return (
-              <div
-                key={key}
-                className="mb-6 mx-3 py-3 rounded-lg shadow-md bg-white"
-              >
-                <h1 className="font-bold mb-3 text-xl px-3">{key}</h1>
-                {Object.entries(value).map(([subKey, subValue]) => (
-                  <div className="px-3" key={subKey}>
-                    <UserDetailListItem
-                      key={subKey}
-                      lable={subKey.charAt(0).toUpperCase() + subKey.slice(1)}
-                      value={
-                        typeof subValue === "object"
-                          ? JSON.stringify(subValue)
-                          : subValue
-                      }
-                    />
-                  </div>
-                ))}
-              </div>
-            );
-          }
-          return null; // Return null for non-array and non-object values
-        })}
-      </div>
-
-      <div className="w-full pb-6 mx-auto removable">
-        <div className="grid grid-cols-1 sm:grid-cols-3">
-          {Object.entries(myResumes).map(([key, value]) => {
-            if (Array.isArray(value)) {
-              // Render arrays using UserDetailCard
-              return (
-                <div key={key} className="mb-6">
-                  <UserDetailCard
-                    heading={key.charAt(0).toUpperCase() + key.slice(1)}
-                    data={value}
+        />
+        <meta property="og:type" content="profile" />
+        <meta property="og:url" content={window.location.href} />
+      </Helmet>
+      {loading ? (
+        <div className="h-[75vh] w-full flex items-center justify-center">
+          <img src={loader} alt="Loading.." className="h-40" />
+        </div>
+      ) : !myResumes ? (
+        <div className="h-[70vh]">
+          <div className="relative flex flex-col mt-10 mx-10 flex-auto min-w-0 p-4 overflow-hidden break-words border-0 shadow-sm rounded-2xl bg-white/80 bg-clip-border mb-4">
+            <div className="flex flex-wrap -mx-3">
+              <div className="flex-none w-auto max-w-full px-3">
+                <div className="text-base ease-soft-in-out h-16 w-16 relative inline-flex items-center justify-center rounded-xl text-white transition-all duration-200">
+                  <img
+                    src={
+                      userDetail?.image ||
+                      "https://cdn.icon-icons.com/icons2/2643/PNG/512/male_man_boy_black_tone_avatar_people_person_icon_159369.png"
+                    }
+                    alt="profile_image"
+                    className="w-full shadow-md rounded-xl"
                   />
                 </div>
-              );
-            }
-            return null; // Return null for non-array and non-object values
-          })}
+              </div>
+              <div className="flex-none w-auto max-w-full px-3 my-auto">
+                <div className="h-full">
+                  <div className="flex">
+                    <h5 className="mb-1">{userDetail?.fullName}</h5>
+                    &nbsp;|&nbsp;
+                    <h5 className="mb-1">{userDetail?.email}</h5>
+                  </div>
+                  <p className="mb-0 font-semibold leading-normal text-sm">
+                    Account Owner
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      ) : (
+        <div className="max-w-4xl mx-auto p-6 bg-[#f8f9fe] rounded-lg shadow-md">
+          <div className="relative flex flex-col flex-auto min-w-0 m-3 py-2 px-4 overflow-hidden break-words border-0 shadow-sm shadow-purple-600 rounded-lg bg-white/80 bg-clip-border mb-4">
+            <div className="flex flex-wrap -mx-3">
+              <div className="flex-none w-auto max-w-full px-3">
+                <div className="text-base ease-soft-in-out h-16 w-16 relative inline-flex items-center justify-center rounded-xl text-white transition-all duration-200">
+                  <img
+                    src={
+                      myResumes.image ||
+                      "https://demos.creative-tim.com/soft-ui-dashboard-tailwind/assets/img/bruce-mars.jpg"
+                    }
+                    alt="profile_image"
+                    className="w-full shadow-md rounded-xl"
+                  />
+                </div>
+              </div>
+              <div className="flex-none w-auto max-w-full px-3 my-auto">
+                <div className="h-full">
+                  <h5 className="mb-1">{myResumes.name}</h5>
+                  <p className="mb-0 font-semibold leading-normal text-sm">
+                    Account Owner
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="mb-6 mx-3 py-3 rounded-lg shadow-md bg-white px-3">
+            <h1 className="font-bold mb-3 text-xl">Profile</h1>
+            <div className="relative block px-4 py-2 pt-0 pl-0 leading-normal bg-white border-0 rounded-t-lg text-sm text-inherit">
+              {myResumes.profileSummary}
+            </div>
+          </div>
+          <div>
+            {Object.entries(myResumes).map(([key, value]) => {
+              if (typeof value === String) {
+              }
+              if (Array.isArray(value)) {
+                return null;
+              } else if (typeof value === "object" && value !== null) {
+                return (
+                  <div
+                    key={key}
+                    className="mb-6 mx-3 py-3 rounded-lg shadow-md bg-white"
+                  >
+                    <h1 className="font-bold mb-3 text-xl px-3">{key}</h1>
+                    {Object.entries(value).map(([subKey, subValue]) => (
+                      <div className="px-3" key={subKey}>
+                        <UserDetailListItem
+                          key={subKey}
+                          lable={
+                            subKey.charAt(0).toUpperCase() + subKey.slice(1)
+                          }
+                          value={
+                            typeof subValue === "object"
+                              ? JSON.stringify(subValue)
+                              : subValue
+                          }
+                        />
+                      </div>
+                    ))}
+                  </div>
+                );
+              }
+              return null; // Return null for non-array and non-object values
+            })}
+          </div>
+
+          <div className="w-full pb-6 mx-auto removable">
+            <div className="grid grid-cols-1 sm:grid-cols-3">
+              {Object.entries(myResumes).map(([key, value]) => {
+                if (Array.isArray(value)) {
+                  // Render arrays using UserDetailCard
+                  return (
+                    <div key={key} className="mb-6">
+                      <UserDetailCard
+                        heading={key.charAt(0).toUpperCase() + key.slice(1)}
+                        data={value}
+                      />
+                    </div>
+                  );
+                }
+                return null; // Return null for non-array and non-object values
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

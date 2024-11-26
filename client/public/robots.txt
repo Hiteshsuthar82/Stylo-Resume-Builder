@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Allow: /about
+Allow: /all-templates
+Allow: /my-resumes
+Allow: /user-profile
+Allow: /steps
+Sitemap: https://stylo-resume-builder.vercel.app/sitemap.xml

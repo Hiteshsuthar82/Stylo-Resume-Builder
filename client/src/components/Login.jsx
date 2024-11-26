@@ -4,6 +4,7 @@ import { login } from "../features/authslice";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import buttonLoader from "./../assets/button-loader.gif";
+import { Helmet } from "react-helmet";
 
 function Login() {
   const [rememberMe, setRememberMe] = useState(false);
@@ -39,6 +40,18 @@ function Login() {
   };
 
   return (
+    <>
+    <Helmet>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="Login page for Stylo Resume Builder" />
+        <meta name="robots" content="noindex, nofollow" /> {/* Prevent search engines from indexing */}
+        <meta property="og:title" content="Login - Stylo Resume Builder" />
+        <meta property="og:description" content="Login to Stylo Resume Builder to create and manage your resume." />
+        <meta property="og:image" content="path_to_image.jpg" />
+        <title>Login - Stylo Resume Builder</title>
+      </Helmet>
+
     <div className="w-full min-h-[70vh] lg:min-h-[78vh] flex justify-center items-center">
       <div className="bg-white border-2 mt-10 rounded-lg flex flex-col w-full max-w-md min-h-[440px] shadow-2xl max-sm:w-[90%]">
         <form onSubmit={handleSubmit(handleLogin)} autoComplete="off">
@@ -53,7 +66,6 @@ function Login() {
           )}
           <div className="flex flex-col items-center">
             <div className="relative flex items-center w-[80%] sm:w-[70%] border-2 border-gray-400 rounded-full my-2 px-2">
-              <img src="src/assets/mail1.svg" alt="" />
               <input
                 placeholder="Username"
                 {...register("username", {
@@ -68,7 +80,6 @@ function Login() {
               )}
             </div>
             <div className="relative flex items-center w-[80%] sm:w-[70%] border-2 border-gray-400 rounded-full my-2 px-2">
-              <img src="src/assets/password.svg" alt="" />
               <input
                 type="password"
                 placeholder="Password"
@@ -115,6 +126,7 @@ function Login() {
         </form>
       </div>
     </div>
+    </>
   );
 }
 

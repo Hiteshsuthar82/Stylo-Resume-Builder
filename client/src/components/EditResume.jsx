@@ -154,7 +154,7 @@ function EditResume() {
             if (response && response.payload && response.payload.data) {
               const data = response.payload.data;
               navigate(`/resumeView/${data.templateId}/${resumeId}`);
-              // navigate('/allTemplates')
+              // navigate('/all-templates')
             } else {
               console.log(
                 "No data in response or response structure is different"
@@ -175,7 +175,7 @@ function EditResume() {
         if (response && response.payload && response.payload.data) {
           const data = response.payload.data;
           navigate(`/resumeView/${data.templateId}/${resumeId}`);
-          // navigate('/allTemplates')
+          // navigate('/all-templates')
         } else {
           console.log("No data in response or response structure is different");
         }

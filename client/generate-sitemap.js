@@ -5,11 +5,7 @@ import path from 'path';
 // Define the pages of your site
 const pages = [
   { url: '/', changefreq: 'daily', priority: 1.0 },
-  { url: '/steps', changefreq: 'monthly', priority: 0.9 },
-  { url: '/about', changefreq: 'monthly', priority: 0.8 },
-  { url: '/all-templates', changefreq: 'monthly', priority: 0.7 },
-  { url: '/my-resumes', changefreq: 'monthly', priority: 0.6 },
-  { url: '/user-profile', changefreq: 'monthly', priority: 0.5 },
+  { url: '/about', changefreq: 'daily', priority: 0.8 },
   // Add any other pages of your website here
 ];
 

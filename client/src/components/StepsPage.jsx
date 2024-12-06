@@ -29,7 +29,6 @@ function StepsPage() {
         />
         <meta property="og:url" content="https://stylo-resume-builder.vercel.app/steps" />
         <meta property="og:type" content="website" />
-        <link rel="canonical" href="https://stylo-resume-builder.vercel.app/steps" />
       </Helmet>
 
       <div className="contain mx-20">

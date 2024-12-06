@@ -27,6 +27,8 @@ function About() {
         />
         <meta property="og:url" content="https://stylo-resume-builder.vercel.app/about" />
         <meta property="og:type" content="website" />
+
+        <link rel="canonical" href="https://stylo-resume-builder.vercel.app/about" />
       </Helmet>
 
       {/* Main Content */}
